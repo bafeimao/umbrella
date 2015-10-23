@@ -70,7 +70,7 @@ subprojects {
         configurations.compile.each { File file -> println '    ' + file.name }
     }
 
-    task createDefaultDirs(description: 'Generates default java project structures') << {
+    task genDefaultDirs(description: 'Generates default java project structures') << {
         sourceSets*.java.srcDirs*.each { it.mkdirs() }
         sourceSets*.resources.srcDirs*.each { it.mkdirs() }
     }
