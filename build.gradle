@@ -76,8 +76,6 @@ subprojects {
     }
 }
 
-
-
 project(":umbrella-core") {
     dependencies {
         compile(
@@ -89,8 +87,6 @@ project(":umbrella-core") {
                 'org.apache.mina:mina-core:2.0.7',
                 'org.zeromq:jeromq:0.3.5',
                 'org.quartz-scheduler:quartz:2.2.2'
-
-
         )
     }
 }
@@ -111,20 +107,12 @@ project(":umbrella-server") {
                 'com.fasterxml.jackson.core:jackson-core:2.4.2',
                 'com.fasterxml.jackson.core:jackson-annotations:2.4.2',
                 'com.fasterxml.jackson.core:jackson-databind:2.4.2',
+
                 'org.mybatis:mybatis:3.3.0'
         )
 
         testCompile(
                 "org.springframework:spring-test:$springVersion",
-        )
-    }
-}
-
-project(":umbrella-rpc") {
-    dependencies {
-        compile(
-                'org.mybatis:mybatis:3.3.0'
-
         )
     }
 }
@@ -153,13 +141,11 @@ project(":umbrella-web") {
                 'com.fasterxml.jackson.core:jackson-core:2.4.2',
                 'com.fasterxml.jackson.core:jackson-annotations:2.4.2',
                 'com.fasterxml.jackson.core:jackson-databind:2.4.2',
-
         )
 
         testCompile(
                 "org.springframework:spring-test:$springVersion",
                 'org.hamcrest:hamcrest-all:1.3'
-
         )
     }
 }
