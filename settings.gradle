@@ -20,5 +20,5 @@ rootProject.name = 'umbrella'
 
 include 'umbrella-core'
 include 'umbrella-gateway'
-include 'umbrella-server'
+include 'umbrella-servers'
 include 'umbrella-web'
