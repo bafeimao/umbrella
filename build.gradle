@@ -15,8 +15,8 @@ subprojects {
 
     //定义版本号
     ext {
-        springVersion           = '4.1.6.RELEASE'
-        hibernateVersion        = '4.3.5.Final'
+        springVersion = '4.2.2.RELEASE'
+        hibernateVersion = '4.3.11.Final'
     }
 
     repositories {
@@ -24,8 +24,8 @@ subprojects {
         maven { url 'http://maven.oschina.net/content/groups/public/' }
         maven { url 'http://maven.oschina.net/content/groups/thirdparty/' }
 
-        maven { url 'https://oss.sonatype.org/content/repositories/public/'}
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/'}
+        maven { url 'https://oss.sonatype.org/content/repositories/public/' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 
         mavenLocal()
         jcenter()
@@ -48,8 +48,9 @@ subprojects {
     dependencies {
         // 通用依赖
         compile(
-                "ch.qos.logback:logback-classic:1.1.2",
-                "org.slf4j:slf4j-api:1.7.7",
+                "ch.qos.logback:logback-classic:1.1.3",
+                "ch.qos.logback:logback-core:1.1.3",
+                "org.slf4j:slf4j-api:1.7.12",
         )
 
         // 依赖maven中不存在的jar
@@ -76,17 +77,28 @@ subprojects {
     }
 }
 
-project(":umbrella-core") {
+project(":umbrella-support") {
     dependencies {
         compile(
                 "org.springframework:spring-context:$springVersion",
+
+                "org.hibernate:hibernate-core:$hibernateVersion",
+
                 "com.google.guava:guava:18.0",
                 'com.google.protobuf:protobuf-java:2.6.1',
                 "io.grpc:grpc-all:0.9.0",
                 'commons-io:commons-io:2.4',
                 'org.apache.mina:mina-core:2.0.7',
                 'org.zeromq:jeromq:0.3.5',
-                'org.quartz-scheduler:quartz:2.2.2'
+                'org.quartz-scheduler:quartz:2.2.2',
+                'javax.persistence:persistence-api:1.0.2',
+
+                'com.fasterxml.jackson.core:jackson-core:2.4.2',
+                'com.fasterxml.jackson.core:jackson-annotations:2.4.2',
+                'com.fasterxml.jackson.core:jackson-databind:2.4.2',
+
+                'org.mongodb.morphia:morphia:1.0.1',
+                'com.esotericsoftware.reflectasm:reflectasm:1.09'
         )
     }
 }
@@ -94,7 +106,9 @@ project(":umbrella-core") {
 project(":umbrella-gateway") {
     dependencies {
         compile(
+                'io.netty:netty-all:4.0.32.Final',
                 'org.zeromq:jeromq:0.3.5',
+                'com.google.protobuf:protobuf-java:2.6.1',
         )
     }
 }
@@ -121,22 +135,32 @@ project(":umbrella-web") {
     dependencies {
         compile(
                 "org.springframework:spring-context:$springVersion",
-                "org.springframework:spring-oxm:$springVersion",
+                "org.springframework:spring-tx:$springVersion",
+                "org.springframework:spring-orm:$springVersion",
                 "org.springframework:spring-webmvc:$springVersion",
+                "org.springframework:spring-jdbc:$springVersion",
                 'org.springframework:spring-support:2.0.8',
 
                 "org.hibernate:hibernate-core:$hibernateVersion",
                 'org.hibernate:hibernate-validator:5.2.2.Final',
+                'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final',
 
                 'javax.servlet:javax.servlet-api:3.1.0',
-                'javax.persistence:persistence-api:1.0.2',
+                'javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.1',
+
                 'javax.validation:validation-api:1.1.0.Final',
                 "com.google.guava:guava:18.0",
                 "com.google.code:kaptcha:2.3.2",
                 'javax.mail:mail:1.4.7',
                 'org.apache.velocity:velocity:1.7',
+                'org.aspectj:aspectjweaver:1.8.7',
 
                 'commons-codec:commons-codec:1.10',
+                'log4j:log4j:1.2.17',
+                'mysql:mysql-connector-java:5.1.37',
+
+                'com.cloudhopper.proxool:proxool:0.9.1',
+                'com.cloudhopper.proxool:proxool-cglib:0.9.1',
 
                 'com.fasterxml.jackson.core:jackson-core:2.4.2',
                 'com.fasterxml.jackson.core:jackson-annotations:2.4.2',

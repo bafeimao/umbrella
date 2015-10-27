@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/mvc
+	    http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+	">
+
+    <import resource="context-hibernate.xml"/>
+
+    <!-- 启用组件扫描 -->
+    <context:component-scan base-package="net.bafeimao.umbrella.web">
+        <context:exclude-filter type="regex" expression="ktgu.lab.coconut.web.test.*"/>
+    </context:component-scan>
+
+    <!-- 启用注解驱动 -->
+    <mvc:annotation-driven/>
+    <!--<mvc:annotation-driven conversion-service="conversionServiceFactory"/>-->
+
+    <!-- 配置处理器(Handler)拦截器 -->
+    <mvc:interceptors>
+
+        <!--性能监控拦截器，也可以换成Spring内置的PerformanceMonitorInterceptor -->
+        <bean class="net.bafeimao.umbrella.web.interceptor.PerformanceMonitorInterceptor" />
+
+        <!-- 对某些需要登录验证的页面进行拦截 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/profile"/>
+            <bean class="net.bafeimao.umbrella.web.interceptor.SecurityCheckingHandlerInterceptor"/>
+        </mvc:interceptor>
+
+        <!--		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />-->
+
+
+        <!--		<mvc:interceptor>-->
+        <!--			<mvc:mapping path="/" />-->
+        <!--			<mvc:exclude-mapping path="/admin/" />-->
+        <!--			<bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor" />-->
+        <!--		</mvc:interceptor>-->
+        <!--		<mvc:interceptor>-->
+        <!--			<mvc:mapping path="/secure/*" />-->
+        <!--			<bean class="org.example.SecurityInterceptor" />-->
+        <!--		</mvc:interceptor>-->
+    </mvc:interceptors>
+
+    <!-- 静态资源设置 -->
+    <mvc:resources mapping="/assets/**" location="/assets/"/>
+
+    <!-- BeanNameUrlHandlerMapping -->
+    <!--<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>-->
+
+    <!-- SimpleControllerHandlerAdapter -->
+    <!--<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>-->
+
+    <!-- 定义ViewResolver，用于支持Servlet、JSP视图解析 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!-- conversionServiceFactory -->
+    <!--<bean id="conversionServiceFactory" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">-->
+    <!--<property name="converters">-->
+    <!--<set>-->
+    <!--<bean class="StringToPhoneNumberConverter" />-->
+    <!--<bean class="StringToDateConverter">-->
+    <!--<constructor-arg value="yyyy-MM-dd" />-->
+    <!--</bean>-->
+    <!--</set>-->
+    <!--</property>-->
+    <!--<property name="formatters">-->
+    <!--<set>-->
+    <!--<bean class="PhoneNumberFormatAnnotationFormatterFactory" />-->
+    <!--</set>-->
+    <!--</property>-->
+    <!--</bean>-->
+
+    <!-- HandlerMapping and HandlerAdapter -->
+    <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />-->
+    <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" />-->
+
+    <!-- 验证码生产者 -->
+    <bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+        <property name="config">
+            <bean class="com.google.code.kaptcha.util.Config">
+                <constructor-arg>
+                    <props>
+                        <prop key="kaptcha.border">yes</prop>
+                        <prop key="kaptcha.border.color">105,179,90</prop>
+                        <prop key="kaptcha.textproducer.font.color">blue</prop>
+                        <prop key="kaptcha.image.width">125</prop>
+                        <prop key="kaptcha.image.height">45</prop>
+                        <prop key="kaptcha.textproducer.font.size">45</prop>
+                        <prop key="kaptcha.session.key">code</prop>
+                        <prop key="kaptcha.textproducer.char.length">4</prop>
+                        <prop key="kaptcha.textproducer.font.names">宋体,楷体,微软雅黑</prop>
+                    </props>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
+
+    <!--邮件发送者-->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.qq.com"/>
+        <property name="username" value="29283212"/>
+        <property name="password" value="QQ*!!***32"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.timeout">25000</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="mailTemplate" class="org.springframework.mail.SimpleMailMessage">
+        <property name="from" value="29283212@qq.com"/>
+        <property name="subject" value="the subject"/>
+    </bean>
+
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="velocityProperties">
+            <value>
+                resource.loader=class
+                class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+            </value>
+        </property>
+    </bean>
+
+</beans>
