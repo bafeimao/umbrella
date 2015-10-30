@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support.data;
+package net.bafeimao.umbrella.servers.battle.entity;
+
+import net.bafeimao.umbrella.support.data.DataEntity;
+import net.bafeimao.umbrella.support.data.SheetMeta;
 
 /**
  * Created by bafeimao on 2015/10/28.

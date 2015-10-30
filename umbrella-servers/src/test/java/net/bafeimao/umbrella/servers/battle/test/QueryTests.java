@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support.test;
+package net.bafeimao.umbrella.servers.battle.test;
+
 
 import com.esotericsoftware.reflectasm.FieldAccess;
 import com.esotericsoftware.reflectasm.MethodAccess;
+import net.bafeimao.umbrella.servers.battle.entity.HeroEntity;
 import net.bafeimao.umbrella.support.data.FilterOperator;
-import net.bafeimao.umbrella.support.data.HeroEntity;
 import net.bafeimao.umbrella.support.data.Query;
 import org.junit.Assert;
 import org.junit.Test;
@@ -69,10 +70,10 @@ public class QueryTests {
 
     @Test
     public void test3() {
-        String str="name='xxx' && age=12";
-        Pattern pattern = Pattern.compile(".*=*",Pattern.CASE_INSENSITIVE);
+        String str = "name='xxx' && age=12";
+        Pattern pattern = Pattern.compile(".*=*", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(str);
-        while(matcher.find()) {
+        while (matcher.find()) {
             System.out.println();
         }
         System.out.println(matcher.matches());
@@ -83,7 +84,7 @@ public class QueryTests {
         Pattern pattern = Pattern.compile("(http://|https://){1}[//w//.//-/:]+");
         Matcher matcher = pattern.matcher("dsdsds<http://dsds//gfgffdfd>fdf");
         StringBuffer buffer = new StringBuffer();
-        while(matcher.find()){
+        while (matcher.find()) {
             buffer.append(matcher.group());
             buffer.append("/r/n");
             System.out.println(buffer.toString());
@@ -137,15 +138,8 @@ public class QueryTests {
         System.out.println("total = " + (System.nanoTime() - startTime));
     }
 
-    @Test
-    public void test11() {
-        int id = 1;
-        int level =2;
-
-    }
 
     class Person {
-
         public Person(String name) {
             this.name = name;
         }

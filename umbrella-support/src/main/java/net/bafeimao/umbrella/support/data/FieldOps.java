@@ -28,11 +28,9 @@ public class FieldOps {
         this.name = name;
     }
 
-    /**
-     * ==================
-     * 可应用于所有对象的操作
-     * ==================
-     */
+    /** ====================
+     * 可应用于'所有对象'的操作
+     * ================== */
 
     public Query<?> eq(Object value) {
         query.getCriteriaChain().add(new Criteria(this.name, FilterOperator.EQ, value));
@@ -44,11 +42,9 @@ public class FieldOps {
         return query;
     }
 
-    /**
-     * ==================
-     * 数值操作
-     * ==================
-     */
+    /** ====================
+     * 可应用于'数值'的操作
+     * ================== */
 
     public Query<?> gt(Object value) {
         query.getCriteriaChain().add(new Criteria(this.name, FilterOperator.GT, value));
@@ -70,11 +66,9 @@ public class FieldOps {
         return query;
     }
 
-    /**
-     * ==================
-     * 字符串操作
-     * ==================
-     */
+    /** ====================
+     * 可应用于'字符串'的操作
+     * ================== */
 
     public Query<?> contains(Object value) {
         query.getCriteriaChain().add(new Criteria(this.name, FilterOperator.CONTAINS, value));

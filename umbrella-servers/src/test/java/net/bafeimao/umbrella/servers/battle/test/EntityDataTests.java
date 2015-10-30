@@ -14,26 +14,26 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support.test;
+package net.bafeimao.umbrella.servers.battle.test;
 
+import net.bafeimao.umbrella.servers.battle.entity.SelectEvent;
 import net.bafeimao.umbrella.support.data.ExcelEntityParser;
-import net.bafeimao.umbrella.support.data.SelectEvent;
 import org.junit.Test;
 
 import java.util.List;
 
 /**
- * Created by Administrator on 2015/10/30.
+ * Created by bafeimao on 2015/10/30.
+ *
+ * @author bafeimao
+ * @since 1.0
  */
-public class ExcelEntityParserTests {
+public class EntityDataTests {
 
     @Test
     public void test1() {
-//        ExcelDataReader reader = new ExcelDataReader("D:\\workspace\\ScriptData");
-//        reader.read();
-
         ExcelEntityParser entityParser = new ExcelEntityParser();
-        List<SelectEvent> list = entityParser.parse(SelectEvent.class, "D:\\workspace\\ScriptData\\鍥涢瓊涔嬫梾浜嬩欢閰嶇疆.xls", "閫夋嫨浜嬩欢");
+        List<SelectEvent> list = entityParser.parse(SelectEvent.class, "D:\\workspace\\ScriptData\\四魂之旅事件配置.xls", "选择事件");
         System.out.println(list);
     }
 }
