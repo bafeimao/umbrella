@@ -3,6 +3,7 @@ package net.bafeimao.umbrella.support.data;
 /**
  * Created by Administrator on 2015/10/28.
  */
+@SheetMeta(name="hero_design.xslt#heros")
 public class HeroEntity extends DataEntity<Long> {
     private String name;
     private int age;

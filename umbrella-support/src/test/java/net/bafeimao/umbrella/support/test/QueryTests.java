@@ -12,6 +12,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Administrator on 2015/10/29.
@@ -20,10 +22,9 @@ public class QueryTests {
     @Test
     public void test1() {
         Query<HeroEntity> query = new Query<HeroEntity>();
-        List<?> heros = null;
 
         // name = 'xxx'
-        heros = query.filter("name", "xxx").asList();
+        List<?> heros = query.filter("name", "xxx").asList();
         Assert.assertNotNull(heros);
 
         // name != 'xxx'
@@ -31,9 +32,11 @@ public class QueryTests {
         System.out.println(heros);
 
         // name == 'xxx' and age = 30
-        heros = query.filter("name", "xxx").and("age", FilterOperator.EQ, 30).asList();
+        heros = query.filter("name", "xxx").filter("age", 20).asList();
         System.out.println(heros);
-        heros = query.filter("name", "xxx").and().field("age").eq(30).asList();
+        heros = query.filter("name", "xxx").and("age", FilterOperator.EQ, 20).asList();
+        System.out.println(heros);
+        heros = query.filter("name", "xxx").and().field("age").eq(20).asList();
         System.out.println(heros);
 
         // name == 'xxx' or age > 10
@@ -41,21 +44,34 @@ public class QueryTests {
         System.out.println(heros);
         heros = query.filter("name", "xxx").or().field("age").gte(10).asList();
         System.out.println(heros);
-    }
 
-    @Test
-    public void test2() {
-        Query<HeroEntity> query = new Query<HeroEntity>();
-
-        List<?> heros = query.filter("name", "xxx").or().field("age").gt(10).asList();
-        System.out.println(heros);
+        // offset:1, limit:1
+        heros = query.offset(1).limit(2).asList();
+        heros = query.offset(5).limit(5).asList();
+        heros = query.offset(3).filter("gender", 1).limit(5).asList();
     }
 
     @Test
     public void test3() {
-        String condition = "name='xxx' && age > 10 and gender=1";
-        String[] arr = condition.split("(and)|(&&)");
-        System.out.println(arr);
+        String str="name='xxx' && age=12";
+        Pattern pattern = Pattern.compile(".*=*",Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(str);
+        while(matcher.find()) {
+            System.out.println();
+        }
+        System.out.println(matcher.matches());
+    }
+
+    @Test
+    public void test41() {
+        Pattern pattern = Pattern.compile("(http://|https://){1}[//w//.//-/:]+");
+        Matcher matcher = pattern.matcher("dsdsds<http://dsds//gfgffdfd>fdf");
+        StringBuffer buffer = new StringBuffer();
+        while(matcher.find()){
+            buffer.append(matcher.group());
+            buffer.append("/r/n");
+            System.out.println(buffer.toString());
+        }
     }
 
     @Test
@@ -103,6 +119,13 @@ public class QueryTests {
             name = (String) access.invoke(person, "getName");
         }
         System.out.println("total = " + (System.nanoTime() - startTime));
+    }
+
+    @Test
+    public void test11() {
+        int id = 1;
+        int level =2;
+
     }
 
     class Person {

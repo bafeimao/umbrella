@@ -22,10 +22,18 @@ public class Query<T extends DataEntity> {
     public List<T> asList() {
         List<T> entities = cache.load(entityClass);
         List<T> retList = new ArrayList<T>();
-
+        int index = 0;
         for (T entity : entities) {
+            if (offset > 0 && index < offset) {
+                index++;
+                continue;
+            }
+
+            if (limit > 0 && limit <= retList.size())
+                break;
+
             try {
-                if (checkValid(entity)) {
+                if (isSatisfied(entity)) {
                     retList.add(entity);
                 }
             } catch (IllegalAccessException e) {
@@ -37,22 +45,36 @@ public class Query<T extends DataEntity> {
         return retList;
     }
 
-    private boolean checkValid(DataEntity entity) throws IllegalAccessException, NoSuchFieldException {
+    public T get() {
+        List<T> entities = cache.load(entityClass);
+        int index = 0;
+        for (T entity : entities) {
+            if (offset > 0 && index < offset) {
+                index++;
+                continue;
+            }
+
+            try {
+                if (isSatisfied(entity)) {
+                    return entity;
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
+
+    private boolean isSatisfied(DataEntity entity) throws IllegalAccessException, NoSuchFieldException {
         boolean valid = true;
-        for (Criteria criteria : this.criteriaChain.getCriterias()) {
+        for (Criteria criteria : getCriteriaChain().getCriterias()) {
             if (!valid && !criteria.isOr()) continue;
             valid = criteria.checkValid(entity);
         }
         return valid;
-    }
-
-
-    public T get() {
-        List<T> entities = this.asList();
-        if (entities != null && entities.size() > 0) {
-            return entities.get(0);
-        }
-        return null;
     }
 
     public T getById(long id) {
@@ -98,41 +120,44 @@ public class Query<T extends DataEntity> {
         return criteriaChain;
     }
 
-    public Query<T> offset(int n) {
+    private int offset = 0;
+
+    public Query<T> offset(int offset) {
+        if (offset < 0) {
+            throw new IllegalArgumentException("Negative offset.");
+        }
+        this.offset = offset;
         return this;
     }
 
-    public Query<T> limit(int n) {
+    public int getOffset() {
+        return offset;
+    }
+
+    private int limit = -1;
+
+    public Query<T> limit(int limit) {
+        if (limit < 0) {
+            throw new IllegalArgumentException("Negative limit.");
+        }
+        this.limit = limit;
         return this;
+    }
+
+    public int getLimit() {
+        return limit;
     }
 
     public FieldOps field(String name) {
         return new FieldOps(this, name);
     }
 
-    public static void main(String[] args) {
-        Query<HeroEntity> query = new Query<HeroEntity>();
-
-        List<?> heros = query.filter("name", "xxx").and().field("age").gt(10).asList();
-
-//        query.filter("name", "foo").filter("age", 30);
-//
-//        query.field("name").contains("xxx").get();
-//
-//        query.field("name").endsWith("yyy")
-//                .and()
-//                .field("age").greaterThan(30)
-//                .or()
-//                .field("gender").eq(1)
-//                .asList();
-//
-//        query.field("age").greaterThan(1).asList();
-//
-//        query.field("name").contains("aaa").and().field("age").greaterThan(30).asList();
-    }
-
     public CriteriaChain getCriteriaChain() {
         this.ensureCriteriaChain();
         return criteriaChain;
+    }
+
+    public Query<T> where(String condition) {
+        throw new UnsupportedOperationException("where");
     }
 }

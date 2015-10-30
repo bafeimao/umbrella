@@ -24,4 +24,14 @@ public class ComposedCriteria extends Criteria {
     public void add(String property, FilterOperator operator, Object value, boolean or) {
         criterias.add(new Criteria(property, operator, value, or));
     }
+
+    @Override
+    public boolean checkValid(Object entity) throws NoSuchFieldException, IllegalAccessException {
+        boolean valid = true;
+        for (Criteria criteria : this.criterias) {
+            if (!valid && !criteria.isOr()) continue;
+            valid = criteria.checkValid(entity);
+        }
+        return valid;
+    }
 }

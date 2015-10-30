@@ -68,7 +68,7 @@ public class Criteria {
                     case EQ:
                         return Objects.equal(value, fieldValue);
                     case NEQ:
-                        return Objects.equal(value, fieldValue);
+                        return !Objects.equal(value, fieldValue);
                     case GT:
                     case GTE:
                     case LT:

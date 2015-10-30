@@ -1,10 +1,14 @@
 package net.bafeimao.umbrella.support.util;
 
+import javax.print.DocFlavor;
+
 /**
  * Created by ktgu on 15/6/28.
  */
 public class StringUtils {
     private static final char[] HEX_CHARS = "0123456789abcdef".toCharArray();
+
+    public static final String EMPTY = "";
 
     /**
      * 二进制字节流转十六进制字符串（每4位二进制换算得到1位16进制，该16进制用大写字符表示：0-f）
@@ -43,5 +47,58 @@ public class StringUtils {
     public static void main(String[] args) {
         String s1 = StringUtils.bytes2Hex("aaa".getBytes());
         System.out.print(s1);
+    }
+
+    public static boolean hasLength(CharSequence str) {
+        return (str != null && str.length() > 0);
+    }
+
+    /**
+     * 裁剪头部和尾部空格
+     */
+    public static String trim(String str) {
+        if (!hasLength(str)) {
+            return str;
+        }
+        StringBuilder sb = new StringBuilder(str);
+        while (sb.length() > 0 && Character.isWhitespace(sb.charAt(0))) {
+            sb.deleteCharAt(0);
+        }
+        while (sb.length() > 0 && Character.isWhitespace(sb.charAt(sb.length() - 1))) {
+            sb.deleteCharAt(sb.length() - 1);
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 裁剪头部空格
+     */
+    public static String ltrim(String str) {
+        if (!hasLength(str)) {
+            return str;
+        }
+        StringBuilder sb = new StringBuilder(str);
+        while (sb.length() > 0 && Character.isWhitespace(sb.charAt(0))) {
+            sb.deleteCharAt(0);
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 裁剪尾部空格
+     */
+    public static String rtrim(String str) {
+        if (!hasLength(str)) {
+            return str;
+        }
+        StringBuilder sb = new StringBuilder(str);
+        while (sb.length() > 0 && Character.isWhitespace(sb.charAt(sb.length() - 1))) {
+            sb.deleteCharAt(sb.length() - 1);
+        }
+        return sb.toString();
+    }
+
+    public static boolean isEmpty(String str) {
+        return (str == null || "".equals(str));
     }
 }
