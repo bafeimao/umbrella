@@ -1,3 +1,19 @@
+/*
+ * Copyright 2002-2015 by bafeimao.net
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package net.bafeimao.umbrella.support.data;
 
 
@@ -11,18 +27,18 @@ import org.slf4j.LoggerFactory;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.*;
 
 /**
  * 从Excel中逐行读取数据并将每行都转化为相应的对象
  *
- * @author ktgu
+ * @author bafeimao
  */
 public class ExcelEntityParser implements EntityParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelEntityParser.class);
     private Map<Class<?>, List<Field>> entityFieldsMap = new HashMap<Class<?>, List<Field>>();
-
     private Map<String, Map<String, Integer>> sheetColumnIndexesMap = new HashMap<String, Map<String, Integer>>();
 
     /**
@@ -183,7 +199,6 @@ public class ExcelEntityParser implements EntityParser {
 
         if (columnIndexesMap == null) {
             columnIndexesMap = new HashMap<String, Integer>();
-
             Row titleRow = sheet.getRow(1);
             int colNum = titleRow.getLastCellNum();
             for (int i = titleRow.getFirstCellNum(); i < colNum; i++) {
@@ -191,7 +206,6 @@ public class ExcelEntityParser implements EntityParser {
                     columnIndexesMap.put(titleRow.getCell(i).getStringCellValue(), i);
                 }
             }
-
             sheetColumnIndexesMap.put(sheet.getSheetName(), columnIndexesMap);
         }
 

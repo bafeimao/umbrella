@@ -14,8 +14,13 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.web.util;
+package net.bafeimao.umbrella.support.data;
 
-public enum ErrorCode {
-	UNKONWN_URL_PATTERN, USER_NAME_REQUIRED, USER_PASSWORD_REQUIRED, USER_EMAIL_REQUIRED
+/**
+ * Created by bafeimao on 2015/10/30.
+ *
+ * @author bafeimao
+ * @since 1.0
+ */
+public class aaa {
 }
