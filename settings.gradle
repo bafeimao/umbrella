@@ -35,6 +35,5 @@ include 'services:webservice'
 rootProject.name = 'umbrella'
 
 include 'umbrella-support'
-include 'umbrella-gateway'
 include 'umbrella-servers'
 include 'umbrella-web'

@@ -32,7 +32,7 @@ subprojects {
     //定义版本号
     ext {
         springVersion = '4.2.2.RELEASE'
-        hibernateVersion = '4.3.11.Final'
+        hibernateVersion = '5.0.2.Final'
     }
 
     repositories {
@@ -67,6 +67,7 @@ subprojects {
                 "ch.qos.logback:logback-classic:1.1.3",
                 "ch.qos.logback:logback-core:1.1.3",
                 "org.slf4j:slf4j-api:1.7.12",
+                'log4j:log4j:1.2.17',
         )
 
         // 依赖maven中不存在的jar
@@ -97,8 +98,11 @@ project(":umbrella-support") {
     dependencies {
         compile(
                 "org.springframework:spring-context:$springVersion",
+                "org.springframework:spring-orm:$springVersion",
 
                 "org.hibernate:hibernate-core:$hibernateVersion",
+                'org.hibernate:hibernate-validator:5.2.2.Final',
+                'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final',
 
                 "com.google.guava:guava:18.0",
                 'com.google.protobuf:protobuf-java:2.6.1',
@@ -118,17 +122,10 @@ project(":umbrella-support") {
                 'com.esotericsoftware.kryo:kryo:2.24.0',
                 'org.apache.poi:poi:3.13',
                 'org.apache.poi:poi-ooxml:3.13',
-                'joda-time:joda-time:2.9'
-        )
-    }
-}
-
-project(":umbrella-gateway") {
-    dependencies {
-        compile(
-                'io.netty:netty-all:4.0.32.Final',
-                'org.zeromq:jeromq:0.3.5',
-                'com.google.protobuf:protobuf-java:2.6.1',
+                'joda-time:joda-time:2.9',
+                'commons-configuration:commons-configuration:1.10',
+                'redis.clients:jedis:2.7.3',
+                'org.aspectj:aspectjweaver:1.8.7',
         )
     }
 }
@@ -137,13 +134,23 @@ project(":umbrella-servers") {
     dependencies {
         compile(
                 "org.springframework:spring-context:$springVersion",
+                "org.springframework:spring-expression:$springVersion",
+
+                "org.hibernate:hibernate-c3p0:$hibernateVersion",
 
                 'com.fasterxml.jackson.core:jackson-core:2.4.2',
                 'com.fasterxml.jackson.core:jackson-annotations:2.4.2',
                 'com.fasterxml.jackson.core:jackson-databind:2.4.2',
 
+                'com.cloudhopper.proxool:proxool:0.9.1',
+                'com.cloudhopper.proxool:proxool-cglib:0.9.1',
+
                 'org.mybatis:mybatis:3.3.0',
                 'com.esotericsoftware.reflectasm:reflectasm:1.09',
+                'redis.clients:jedis:2.7.3',
+                'org.springframework.data:spring-data-redis:1.6.0.RELEASE',
+
+                'org.aspectj:aspectjweaver:1.8.7',
         )
 
         testCompile(
@@ -177,7 +184,6 @@ project(":umbrella-web") {
                 'org.aspectj:aspectjweaver:1.8.7',
 
                 'commons-codec:commons-codec:1.10',
-                'log4j:log4j:1.2.17',
                 'mysql:mysql-connector-java:5.1.37',
 
                 'com.cloudhopper.proxool:proxool:0.9.1',

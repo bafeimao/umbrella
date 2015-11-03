@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context 
+    	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:component-scan base-package="net.bafeimao.umbrella.servers.world"/>
+
+    <import resource="../context-common.xml"/>
+    <import resource="../context-hibernate.xml"/>
+
+    <bean id="app" class="net.bafeimao.umbrella.support.Application" init-method="start" destroy-method="stop">
+        <property name="configPath" value=""/>
+    </bean>
+
+    <!-- 默认的Socket消息接收者,用于接收进入的消息请求(Incoming Message)-->
+    <bean id="defaultSocketAcceptor" class="org.apache.mina.transport.socket.nio.NioSocketAcceptor" init-method="bind"
+          destroy-method="unbind">
+        <property name="defaultLocalAddress" value=":#{application.config.getInt('server.port')}"/>
+        <property name="handler" ref="worldServerSocketHandler"/>
+        <property name="reuseAddress" value="true"/>
+        <property name="filterChainBuilder" ref="defaultFilterChainBuilder"/>
+        <!-- <property name="backlog" value="100" /> -->
+    </bean>
+
+    <!-- 默认客户端连接器,用于连接其他服务器 -->
+    <bean id="socketConnector" class="org.apache.mina.transport.socket.nio.NioSocketConnector">
+        <property name="handler">
+            <bean class="org.apache.mina.core.service.IoHandlerAdapter"></bean>
+        </property>
+        <property name="filterChainBuilder" ref="defaultFilterChainBuilder"/>
+    </bean>
+
+    <bean id="sessionConfig" factory-bean="defaultSocketAcceptor" factory-method="getSessionConfig">
+        <property name="bothIdleTime" value="100"/>
+        <!-- S  -->
+        <!-- <property name="receiveBufferSize" value="1024000" />byte  -->
+    </bean>
+
+    <bean id="worldHttpSocketAcceptor" class="org.apache.mina.transport.socket.nio.NioSocketAcceptor" init-method="bind"
+          destroy-method="unbind">
+        <property name="defaultLocalAddress" value=":#{application.config.getInt('server.http.port')}"/>
+        <property name="handler" ref="httpHandlerAdapter"/>
+        <property name="reuseAddress" value="true"/>
+        <property name="filterChainBuilder" ref="httpFilterChainBuilder"/>
+    </bean>
+
+
+    <!-- 消息监听器容器 -->
+    <bean id="redisMessageListenerContainer" parent="abstractRedisMessageListenerContainer"
+          class="org.springframework.data.redis.listener.RedisMessageListenerContainer">
+        <property name="messageListeners">
+            <map>
+                <!-- 添加关卡日志消息监听器  -->
+                <entry key-ref="roundScoreMessageListener">
+                    <bean class="org.springframework.data.redis.listener.ChannelTopic">
+                        <constructor-arg value="round.score@server##{application.config.getInt('server.id')}"/>
+                    </bean>
+                </entry>
+                <!-- 更多... -->
+            </map>
+        </property>
+    </bean>
+
+</beans>
