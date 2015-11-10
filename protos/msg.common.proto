@@ -1,0 +1,12 @@
+package net.bafeimao.umbrella.support.generated;
+
+option java_package = "net.bafeimao.umbrella.support.generated";
+
+option java_outer_classname = "CommonProto";
+
+option optimize_for = SPEED;
+
+message Packet {
+	required uint64 id = 1;
+	required uint32 type = 2;
+}
