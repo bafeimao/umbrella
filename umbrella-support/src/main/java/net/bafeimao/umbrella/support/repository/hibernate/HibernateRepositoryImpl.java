@@ -16,10 +16,6 @@
 
 package net.bafeimao.umbrella.support.repository.hibernate;
 
-import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
-import java.util.List;
-
 import net.bafeimao.umbrella.support.domain.BaseEntity;
 import net.bafeimao.umbrella.support.repository.GenericRepository;
 import org.hibernate.Query;
@@ -28,6 +24,10 @@ import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 public class HibernateRepositoryImpl<T extends BaseEntity<K>, K extends Serializable> implements
 		GenericRepository<T, K> {

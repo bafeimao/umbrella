@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support;
+package net.bafeimao.umbrella.support.server;
 
- import org.slf4j.Logger;
- import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by bafeimao on 2015/11/2.
@@ -27,6 +27,17 @@ package net.bafeimao.umbrella.support;
  */
 public class ServerManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerManager.class);
+    private static ServerManager instance;
+
+    private ServerManager() {
+    }
+
+    public static ServerManager getInstance() {
+        if (instance == null) {
+            instance = new ServerManager();
+        }
+        return instance;
+    }
 
     /**
      * 向中心服务器上注册服务器
@@ -34,7 +45,7 @@ public class ServerManager {
      * @param server 服务器信息
      */
     public void register(ServerInfo server) {
-        LOGGER.info("Registering server: {}", server);
+        LOGGER.info("Registering server: {} on central", server);
 
     }
 

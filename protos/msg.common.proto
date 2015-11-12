@@ -2,11 +2,49 @@ package net.bafeimao.umbrella.support.generated;
 
 option java_package = "net.bafeimao.umbrella.support.generated";
 
-option java_outer_classname = "CommonProto";
+option java_outer_classname = "CommonProtocol";
 
 option optimize_for = SPEED;
 
 message Packet {
-	required uint64 id = 1;
-	required uint32 type = 2;
+	required MessageType type = 1;
+	required uint64 sequence = 2;
+	optional bytes message = 3;
+}
+
+message Test1 {
+	required int32 a = 1;
+	required string b = 2;
+	optional bytes c = 3;
+	optional Test2 d = 4;
+	repeated int32 e = 5 [packed = false];
+	optional int32 f = 6;
+
+	message Test2 {
+		optional int32 a = 1;
+	}
+}
+
+message Test11 {
+	//	optional map<string, int32> projects = 3;
+}
+
+enum MessageType {
+	KEEP_ALIVE = 0x00000000;
+	LOGIN_REQUEST = 0x00001001;
+}
+
+message KeepAlive {
+}
+
+message Request {
+	optional bytes data = 1;
+}
+
+message Response {
+	optional bytes data = 1;
+}
+
+message Notification {
+	optional bytes data = 1;
 }

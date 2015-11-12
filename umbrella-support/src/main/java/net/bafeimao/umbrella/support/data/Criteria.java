@@ -16,7 +16,7 @@
 
 package net.bafeimao.umbrella.support.data;
 
-import com.google.api.client.util.Objects;
+import com.google.common.base.Objects;
 import net.bafeimao.umbrella.support.util.Numbers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

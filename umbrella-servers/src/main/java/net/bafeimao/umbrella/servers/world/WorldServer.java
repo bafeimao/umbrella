@@ -28,8 +28,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class WorldServer {
 
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("world/context-world.xml");
-
-
+        ApplicationContext context = new ClassPathXmlApplicationContext("world/context.xml");
     }
 }

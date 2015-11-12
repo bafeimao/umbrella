@@ -16,8 +16,6 @@
 
 package net.bafeimao.umbrella.support.server;
 
-import net.bafeimao.umbrella.support.generated.CommonProto.*;
-
 import java.lang.reflect.Method;
 
 /**
@@ -29,13 +27,7 @@ import java.lang.reflect.Method;
 public class MessageHandler {
     private Method delegate;
 
-    public void handle(Packet packet) {
-        packet.getType();
-        packet.getId();
-        packet.newBuilderForType().setId(111);
-        Packet.Builder builder = packet.newBuilderForType();
-        builder.setId(111);
-        builder.setType(1);
-        Packet packet1 = builder.build();
+    public void handle() {
+
     }
 }

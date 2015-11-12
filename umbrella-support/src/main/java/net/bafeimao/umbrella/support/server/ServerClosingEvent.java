@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
+package net.bafeimao.umbrella.support.server;
+
 /**
- * Created by bafeimao on 2015/10/30.
+ * Created by bafeimao on 2015/11/3.
  *
  * @author bafeimao
  * @since 1.0
  */
-package net.bafeimao.umbrella.support.test;
+public class ServerClosingEvent {
+}

@@ -16,8 +16,6 @@
 
 package net.bafeimao.umbrella.support.util;
 
-import javax.print.DocFlavor;
-
 /**
  * Created by ktgu on 15/6/28.
  */

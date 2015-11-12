@@ -17,8 +17,6 @@
 package net.bafeimao.umbrella.support.server;
 
 
-import net.bafeimao.umbrella.support.generated.CommonProto;
-
 import java.lang.reflect.Method;
 
 /**
@@ -28,13 +26,6 @@ import java.lang.reflect.Method;
  * @since 1.0
  */
 public class MessageDispatcher {
-    public void dispatch(CommonProto.Packet packet) {
-        long id = packet.getId();
-        int type = packet.getType();
-
-
-        Method handler = getDispatcher(1);
-    }
 
     public Method getDispatcher(int type) {
         try {

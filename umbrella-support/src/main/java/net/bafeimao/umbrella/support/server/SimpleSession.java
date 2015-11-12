@@ -16,8 +16,6 @@
 
 package net.bafeimao.umbrella.support.server;
 
-import org.apache.mina.core.session.IoSession;
-
 /**
  * Created by gukaitong(29283212@qq.com) on 2015/11/10.
  *

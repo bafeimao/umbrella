@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support;
+package net.bafeimao.umbrella.support.server;
 
 /**
  * Created by gukaitong(29283212@qq.com) on 2015/11/3.

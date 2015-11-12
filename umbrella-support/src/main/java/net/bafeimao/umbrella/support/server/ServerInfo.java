@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support;
+package net.bafeimao.umbrella.support.server;
+
+import com.google.common.base.MoreObjects;
 
 /**
  * Created by bafeimao on 2015/11/2.
@@ -30,6 +32,16 @@ public class ServerInfo {
     private int port;
     private int innerPort;
     private int rpcPort;
+
+    public ServerInfo(ApplicationConfig config) {
+        id = config.getInt("server.id");
+        type = config.getInt("server.type", -1);
+        host = config.getString("server.host");
+        port = config.getInt("server.port");
+        innerHost = config.getString("server.innerHost");
+        innerPort = config.getInt("server.innerPort");
+        rpcPort = config.getInt("server.rpcPort", -1);
+    }
 
     public String getHost() {
         return host;
@@ -85,5 +97,14 @@ public class ServerInfo {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("host", host)
+                .add("port", port)
+                .toString();
     }
 }

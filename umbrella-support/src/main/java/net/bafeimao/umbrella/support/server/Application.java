@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support;
+package net.bafeimao.umbrella.support.server;
 
-import com.google.api.client.repackaged.com.google.common.base.Preconditions;
+import com.google.common.base.Preconditions;
 import com.google.common.eventbus.EventBus;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
@@ -31,9 +28,7 @@ import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
-import io.netty.handler.ssl.SslContext;
-import io.netty.handler.ssl.SslContextBuilder;
-import io.netty.handler.ssl.util.SelfSignedCertificate;
+import net.bafeimao.umbrella.support.generated.CommonProtocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -52,16 +47,15 @@ public class Application {
     private ServerInfo serverInfo;
     private String configPath;
     private volatile Integer state = 0;
-    private ServerManager serverManager;
+    private ServerManager serverManager = ServerManager.getInstance();
     private EventBus syncEventBus;
 
     public void setConfigPath(String configPath) {
         this.configPath = configPath;
     }
 
-
     public void start() {
-        LOGGER.info("Application is starting...");
+        LOGGER.info("Starting application");
 
         try {
             this.loadConfig();
@@ -74,12 +68,51 @@ public class Application {
                 this.startRpcServer();
             }
         } catch (Exception e) {
-            LOGGER.error("启动应用程序出错，系统终止！ {}", e);
+            LOGGER.error("{}", e);
             System.exit(0);
         }
     }
 
-    private void startSocketServer() throws InterruptedException {
+
+    private void printConfig() {
+        LOGGER.info("Application configurations:\n{}", config);
+    }
+
+    public ApplicationConfig getConfig() {
+        return config;
+    }
+
+    private void loadConfig() {
+        Preconditions.checkNotNull(configPath, "configPath is null");
+
+        LOGGER.info("Loading application configurations");
+
+        try {
+            config = new ApplicationConfig(configPath);
+        } catch (Exception e) {
+            LOGGER.error("{}", e);
+            System.exit(0);
+        }
+    }
+
+    public void stop() {
+        LOGGER.info("Stopping application ...");
+
+        // Post ServerClosingEvent
+        this.syncEventBus.post(new ServerClosingEvent());
+
+        serverManager.unregister(getServerInfo());
+    }
+
+    private void startRpcServer() {
+        LOGGER.info("Starting RPC server ...");
+
+        LOGGER.info("The rpc server was started successfully!");
+    }
+
+    public void startSocketServer() throws InterruptedException {
+        LOGGER.info("Starting socket server");
+
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -92,83 +125,45 @@ public class Application {
                         protected void initChannel(Channel ch) throws Exception {
                             ChannelPipeline p = ch.pipeline();
 
-//                            if (sslCtx != null) {
-//                                p.addLast(sslCtx.newHandler(ch.alloc()));
-//                            }
-
                             p.addLast(new ProtobufVarint32FrameDecoder());
-                            p.addLast(new ProtobufDecoder(WorldClockProtocol.Locations.getDefaultInstance()));
+                            p.addLast(new ProtobufDecoder(CommonProtocol.Packet.getDefaultInstance()));
 
                             p.addLast(new ProtobufVarint32LengthFieldPrepender());
                             p.addLast(new ProtobufEncoder());
 
-                            p.addLast(new WorldClockServerHandler());
+                            p.addLast(new DefaultServerHandler());
                         }
                     });
 
+            int port = getServerInfo().getPort();
+            ChannelFuture future = b.bind(port);
 
-            b.bind(getConfig().getInt("server.port")).sync().channel().closeFuture().sync();
+            LOGGER.info("Socket server was started successfully, Listening on :{}", port);
+
+//            future.sync().channel().closeFuture().sync();
+            future.sync().channel().closeFuture();
         } finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
-    }
 
-    private void printConfig() {
-        LOGGER.info("Configurations:\n {}", config);
-    }
-
-    public ApplicationConfig getConfig() {
-        return config;
-    }
-
-    private void loadConfig() {
-        Preconditions.checkNotNull(configPath, "configPath is null");
-
-        try {
-            config = new ApplicationConfig(configPath);
-        } catch (Exception e) {
-            LOGGER.error("加载系统配置文件出错，系统终止!");
-            System.exit(0);
-        }
-    }
-
-    public void stop() {
-        LOGGER.info("Application is stopping...");
-
-        // Post ServerClosingEvent
-        this.syncEventBus.post(new ServerClosingEvent());
-
-        serverManager.unregister(getServerInfo());
-    }
-
-    private void startRpcServer() {
-        LOGGER.info("The rpc server is starting...");
-
-        LOGGER.info("The rpc server was started successfully!");
-    }
-
-
-    public void startServer() {
-        // 向网络上注册本服务器实例
         serverManager.register(this.getServerInfo());
 
-        // Post event
-        this.syncEventBus.post(new ServerClosingEvent());
-
-        LOGGER.info("添加JVM关闭hook!");
+        LOGGER.info("Adding shutdown hook");
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                serverManager.register(Application.this.getServerInfo());
+                serverManager.unregister(Application.this.getServerInfo());
             }
         });
     }
 
     public ServerInfo getServerInfo() {
+        if (serverInfo == null) {
+            serverInfo = new ServerInfo(this.config);
+        }
         return serverInfo;
     }
-
 
     public ApplicationContext getContext() {
         return context;
