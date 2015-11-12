@@ -1,0 +1,12 @@
+package net.bafeimao.umbrella.support.generated;
+
+option java_package = "net.bafeimao.umbrella.support.generated";
+
+option java_outer_classname = "AccountProtocol";
+
+option optimize_for = SPEED;
+
+message LoginRequest {
+	required uint64 uid = 1;
+	required uint32 server_id = 2;
+}
