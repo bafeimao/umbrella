@@ -16,14 +16,18 @@
 
 package net.bafeimao.umbrella.support.test;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import net.bafeimao.umbrella.support.generated.CommonProtocol.KeepAlive;
 import net.bafeimao.umbrella.support.generated.CommonProtocol.MessageType;
 import net.bafeimao.umbrella.support.generated.CommonProtocol.Packet;
 import net.bafeimao.umbrella.support.generated.CommonProtocol.Test1;
+import net.bafeimao.umbrella.support.util.JsonUtil;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -72,9 +76,27 @@ public class MiscTests {
 
         ByteString data = packetBuilder.build().getMessage();
         packetBuilder.setMessage(data);
-         Packet packet = packetBuilder.build();
+        Packet packet = packetBuilder.build();
         System.out.println(packet);
 
 //        Notification.Builder builder2 = Notification.newBuilder().setData(builder1);
+    }
+
+    @Test
+    public void test12() {
+        String json = "[[1000002,500,100],[1000003,10,101],[1000004,100,-1]]";
+
+        List<List<Integer>> elements = JsonUtil.toBean(json, new TypeReference<List<List<Integer>>>() {
+        });
+        for (List<Integer> element : elements) {
+            System.out.println(element);
+        }
+
+        List<List<Integer>> elements1 = JsonUtil.toBean(json, ArrayList.class);
+        for (List<Integer> element : elements1) {
+            System.out.println(element);
+        }
+
+        System.out.println(elements);
     }
 }
