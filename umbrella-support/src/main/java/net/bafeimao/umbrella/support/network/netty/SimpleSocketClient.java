@@ -26,7 +26,7 @@ import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
-import net.bafeimao.umbrella.support.generated.CommonProtocol.Packet;
+import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
 
 /**
  * Created by gukaitong(29283212@qq.com) on 2015/11/12.

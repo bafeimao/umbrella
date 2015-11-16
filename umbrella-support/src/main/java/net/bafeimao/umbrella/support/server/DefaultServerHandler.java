@@ -17,7 +17,7 @@ package net.bafeimao.umbrella.support.server;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import net.bafeimao.umbrella.support.generated.CommonProtocol.Packet;
+import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
 
 public class DefaultServerHandler extends SimpleChannelInboundHandler<Packet> {
 

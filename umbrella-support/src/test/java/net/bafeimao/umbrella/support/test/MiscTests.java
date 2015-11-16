@@ -19,15 +19,18 @@ package net.bafeimao.umbrella.support.test;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
-import net.bafeimao.umbrella.support.generated.CommonProtocol.KeepAlive;
-import net.bafeimao.umbrella.support.generated.CommonProtocol.MessageType;
-import net.bafeimao.umbrella.support.generated.CommonProtocol.Packet;
-import net.bafeimao.umbrella.support.generated.CommonProtocol.Test1;
+import net.bafeimao.umbrella.support.generated.CommonProto;
+import net.bafeimao.umbrella.support.generated.CommonProto.KeepAlive;
+import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
+import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
+import net.bafeimao.umbrella.support.generated.CommonProto.Test1;
 import net.bafeimao.umbrella.support.util.JsonUtil;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -61,6 +64,21 @@ public class MiscTests {
 //        ByteString byteString = builder.build().toByteString();
 //        byte[] bytes = builder.build().toByteArray();
 //        System.out.println(builder.build().toByteString());
+    }
+
+    @Test
+    public void testProtobufMapField() {
+        Map<String, Integer> map1 = new HashMap<>();
+        map1.put("project1", 2015);
+        CommonProto.Test3 test3 = CommonProto.Test3.newBuilder().putAllProjects(map1).build();
+        Map<String, Integer> map2 = test3.getProjects();
+        System.out.println(map2);
+    }
+
+    @Test
+    public void test33() {
+//        Any.Builder builder = Any.newBuilder().setValue(Test1.newBuilder().setA(1).build().getBBytes());
+//        CommonProto.ErrorStatus.newBuilder().addDetails(builder);
     }
 
     private AtomicLong initialSequence = new AtomicLong(0);

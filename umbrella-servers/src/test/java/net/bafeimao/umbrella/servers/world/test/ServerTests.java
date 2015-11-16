@@ -16,9 +16,9 @@
 
 package net.bafeimao.umbrella.servers.world.test;
 
-import net.bafeimao.umbrella.support.generated.CommonProtocol.KeepAlive;
-import net.bafeimao.umbrella.support.generated.CommonProtocol.MessageType;
-import net.bafeimao.umbrella.support.generated.CommonProtocol.Packet;
+import net.bafeimao.umbrella.support.generated.CommonProto.KeepAlive;
+import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
+import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
 import net.bafeimao.umbrella.support.network.netty.SimpleSocketClient;
 import org.junit.Before;
 import org.junit.Test;

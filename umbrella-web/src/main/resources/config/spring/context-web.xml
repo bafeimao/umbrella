@@ -35,7 +35,7 @@
 
     <!-- 启用注解驱动 -->
     <mvc:annotation-driven/>
-    <!--<mvc:annotation-driven conversion-service="conversionServiceFactory"/>-->
+    <!--<mvc:annotation-driven conversion-services="conversionServiceFactory"/>-->
 
     <!-- 配置处理器(Handler)拦截器 -->
     <mvc:interceptors>

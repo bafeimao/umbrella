@@ -28,7 +28,7 @@ import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
-import net.bafeimao.umbrella.support.generated.CommonProtocol;
+import net.bafeimao.umbrella.support.generated.CommonProto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -126,7 +126,7 @@ public class Application {
                             ChannelPipeline p = ch.pipeline();
 
                             p.addLast(new ProtobufVarint32FrameDecoder());
-                            p.addLast(new ProtobufDecoder(CommonProtocol.Packet.getDefaultInstance()));
+                            p.addLast(new ProtobufDecoder(CommonProto.Packet.getDefaultInstance()));
 
                             p.addLast(new ProtobufVarint32LengthFieldPrepender());
                             p.addLast(new ProtobufEncoder());

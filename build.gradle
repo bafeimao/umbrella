@@ -14,11 +14,22 @@
  * limitations under the License.
  */
 
+buildscript {
+    repositories {
+        maven { url 'http://maven.oschina.net/content/groups/public/' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.7.1'
+    }
+}
+
 // 所有子项目的通用配置
 subprojects {
     apply plugin: 'java'
     // apply plugin: 'eclipse'
     apply plugin: 'idea'
+    apply plugin: 'com.google.protobuf'
 
     version '1.0-SNAPSHOT'
 
@@ -48,6 +59,25 @@ subprojects {
         mavenCentral()
     }
 
+    protobuf {
+        protoc {
+            // The version of protoc must match protobuf-java. If you don't depend on
+            // protobuf-java directly, you will be transitively depending on the
+            // protobuf-java version that grpc depends on.
+            artifact = "com.google.protobuf:protoc:3.0.0-beta-1"
+        }
+        plugins {
+            grpc {
+                artifact = 'io.grpc:protoc-gen-grpc-java:0.9.0'
+            }
+        }
+        generateProtoTasks {
+            all()*.plugins {
+                grpc {}
+            }
+        }
+    }
+
     jar {
         manifest {
             attributes("Implementation-Title": "Gradle")
@@ -71,7 +101,7 @@ subprojects {
                 'log4j:log4j:1.2.17',
 
                 "com.google.guava:guava:18.0",
-                'com.google.protobuf:protobuf-java:2.6.1',
+                'com.google.protobuf:protobuf-java:3.0.0-beta-1',
 
                 'joda-time:joda-time:2.9',
                 'org.quartz-scheduler:quartz:2.2.2',
@@ -121,17 +151,21 @@ project(":umbrella-support") {
 
                 'io.netty:netty-all:4.0.33.Final',
 
+                'io.grpc:grpc-all:0.9.0',
+
                 // poi
                 'org.apache.poi:poi:3.13',
                 'org.apache.poi:poi-ooxml:3.13',
 
                 // kryo
                 'com.esotericsoftware.reflectasm:reflectasm:1.09',
-                'com.esotericsoftware.kryo:kryo:2.24.0',
+//                'com.esotericsoftware.kryo:kryo:2.24.0',
 
                 'redis.clients:jedis:2.7.3',
                 'commons-configuration:commons-configuration:1.10',
                 'org.aspectj:aspectjweaver:1.8.7',
+
+                'com.googlecode.cqengine:cqengine:1.0.3'
         )
     }
 }
@@ -158,6 +192,8 @@ project(":umbrella-servers") {
                 'commons-configuration:commons-configuration:1.10',
                 'org.aspectj:aspectjweaver:1.8.7',
                 'com.esotericsoftware.reflectasm:reflectasm:1.09',
+
+                'com.googlecode.cqengine:cqengine:1.0.3'
         )
 
         testCompile(
@@ -184,7 +220,6 @@ project(":umbrella-web") {
                 'javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.1',
 
                 'javax.validation:validation-api:1.1.0.Final',
-                "com.google.guava:guava:18.0",
                 "com.google.code:kaptcha:2.3.2",
                 'javax.mail:mail:1.4.7',
                 'org.apache.velocity:velocity:1.7',
@@ -195,10 +230,6 @@ project(":umbrella-web") {
 
                 'com.cloudhopper.proxool:proxool:0.9.1',
                 'com.cloudhopper.proxool:proxool-cglib:0.9.1',
-
-                'com.fasterxml.jackson.core:jackson-core:2.4.2',
-                'com.fasterxml.jackson.core:jackson-annotations:2.4.2',
-                'com.fasterxml.jackson.core:jackson-databind:2.4.2',
         )
 
         testCompile(
