@@ -232,16 +232,11 @@ project(":umbrella-servers") {
 project(":umbrella-web") {
     dependencies {
         compile(
-                "org.springframework:spring-context:$springVersion",
-                "org.springframework:spring-tx:$springVersion",
-                "org.springframework:spring-orm:$springVersion",
+                project(':umbrella-support'),
+
                 "org.springframework:spring-webmvc:$springVersion",
                 "org.springframework:spring-jdbc:$springVersion",
                 'org.springframework:spring-support:2.0.8',
-
-                "org.hibernate:hibernate-core:$hibernateVersion",
-                'org.hibernate:hibernate-validator:5.2.2.Final',
-                'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final',
 
                 'javax.servlet:javax.servlet-api:3.1.0',
                 'javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.1',
@@ -250,7 +245,6 @@ project(":umbrella-web") {
                 "com.google.code:kaptcha:2.3.2",
                 'javax.mail:mail:1.4.7',
                 'org.apache.velocity:velocity:1.7',
-                'org.aspectj:aspectjweaver:1.8.7',
 
                 'commons-codec:commons-codec:1.10',
                 'mysql:mysql-connector-java:5.1.37',

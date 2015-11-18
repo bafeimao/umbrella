@@ -68,7 +68,7 @@ public class MiscTests {
 
     @Test
     public void testProtobufMapField() {
-        Map<String, Integer> map1 = new HashMap<>();
+        Map<String, Integer> map1 = new HashMap<String,Integer>();
         map1.put("project1", 2015);
         CommonProto.Test3 test3 = CommonProto.Test3.newBuilder().putAllProjects(map1).build();
         Map<String, Integer> map2 = test3.getProjects();
