@@ -16,7 +16,7 @@
 
 package net.bafeimao.umbrella.support.network.netty;
 
-import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.MessageLiteOrBuilder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -35,34 +35,40 @@ import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
  * @since 1.0
  */
 public class SimpleSocketClient {
+    private String host;
+    private int port;
+    private Channel channel;
 
-    public SimpleSocketClient() {
+    public SimpleSocketClient(String host, int port) {
+        this.host = host;
+        this.port = port;
     }
 
-    public void connect(int port) {
-        connect("localhost", port);
+    public SimpleSocketClient(int port) {
+        this("localhost", port);
     }
 
-    public void connect(String host, int port) {
+    public Channel connect() {
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             Bootstrap b = new Bootstrap();
             b.group(group).channel(NioSocketChannel.class).handler(new ClientChannelInitializer());
 
             // Make a new connection.
-            Channel ch = b.connect(host, port).sync().channel();
+            this.channel = b.connect(host, port).sync().channel();
 
-            // Get the handler instance to initiate the request.
-            ClientHandler handler = ch.pipeline().get(ClientHandler.class);
-        } catch (InterruptedException e) {
+            ClientHandler handler = channel.pipeline().get(ClientHandler.class);
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            group.shutdownGracefully();
+            //group.shutdownGracefully();
         }
+
+        return this.channel;
     }
 
-    public void write(MessageOrBuilder message) {
-        // do nothing
+    public void write(MessageLiteOrBuilder message) {
+        channel.writeAndFlush(message);
     }
 
     class ClientChannelInitializer extends ChannelInitializer<SocketChannel> {

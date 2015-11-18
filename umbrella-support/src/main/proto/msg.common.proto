@@ -46,6 +46,10 @@ enum MessageType {
 message KeepAlive {
 }
 
+message LoginRequest {
+	uint64 uid = 1;
+}
+
 message Request {
 	bytes data = 1;
 }

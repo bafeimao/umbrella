@@ -2757,6 +2757,381 @@ public final class CommonProto {
 
   }
 
+  public interface LoginRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:net.bafeimao.umbrella.support.generated.LoginRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>optional uint64 uid = 1;</code>
+     */
+    long getUid();
+  }
+  /**
+   * Protobuf type {@code net.bafeimao.umbrella.support.generated.LoginRequest}
+   */
+  public  static final class LoginRequest extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:net.bafeimao.umbrella.support.generated.LoginRequest)
+      LoginRequestOrBuilder {
+    // Use LoginRequest.newBuilder() to construct.
+    private LoginRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private LoginRequest() {
+      uid_ = 0L;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private LoginRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+
+              uid_ = input.readUInt64();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw new RuntimeException(e.setUnfinishedMessage(this));
+      } catch (java.io.IOException e) {
+        throw new RuntimeException(
+            new com.google.protobuf.InvalidProtocolBufferException(
+                e.getMessage()).setUnfinishedMessage(this));
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return net.bafeimao.umbrella.support.generated.CommonProto.internal_static_net_bafeimao_umbrella_support_generated_LoginRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return net.bafeimao.umbrella.support.generated.CommonProto.internal_static_net_bafeimao_umbrella_support_generated_LoginRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest.class, net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest.Builder.class);
+    }
+
+    public static final int UID_FIELD_NUMBER = 1;
+    private long uid_;
+    /**
+     * <code>optional uint64 uid = 1;</code>
+     */
+    public long getUid() {
+      return uid_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (uid_ != 0L) {
+        output.writeUInt64(1, uid_);
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (uid_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(1, uid_);
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    public static net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code net.bafeimao.umbrella.support.generated.LoginRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:net.bafeimao.umbrella.support.generated.LoginRequest)
+        net.bafeimao.umbrella.support.generated.CommonProto.LoginRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return net.bafeimao.umbrella.support.generated.CommonProto.internal_static_net_bafeimao_umbrella_support_generated_LoginRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return net.bafeimao.umbrella.support.generated.CommonProto.internal_static_net_bafeimao_umbrella_support_generated_LoginRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest.class, net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest.Builder.class);
+      }
+
+      // Construct using net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        uid_ = 0L;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return net.bafeimao.umbrella.support.generated.CommonProto.internal_static_net_bafeimao_umbrella_support_generated_LoginRequest_descriptor;
+      }
+
+      public net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest getDefaultInstanceForType() {
+        return net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest.getDefaultInstance();
+      }
+
+      public net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest build() {
+        net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest buildPartial() {
+        net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest result = new net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest(this);
+        result.uid_ = uid_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest) {
+          return mergeFrom((net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest other) {
+        if (other == net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest.getDefaultInstance()) return this;
+        if (other.getUid() != 0L) {
+          setUid(other.getUid());
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private long uid_ ;
+      /**
+       * <code>optional uint64 uid = 1;</code>
+       */
+      public long getUid() {
+        return uid_;
+      }
+      /**
+       * <code>optional uint64 uid = 1;</code>
+       */
+      public Builder setUid(long value) {
+        
+        uid_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint64 uid = 1;</code>
+       */
+      public Builder clearUid() {
+        
+        uid_ = 0L;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:net.bafeimao.umbrella.support.generated.LoginRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:net.bafeimao.umbrella.support.generated.LoginRequest)
+    private static final net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest();
+    }
+
+    public static net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<LoginRequest>
+        PARSER = new com.google.protobuf.AbstractParser<LoginRequest>() {
+      public LoginRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        try {
+          return new LoginRequest(input, extensionRegistry);
+        } catch (RuntimeException e) {
+          if (e.getCause() instanceof
+              com.google.protobuf.InvalidProtocolBufferException) {
+            throw (com.google.protobuf.InvalidProtocolBufferException)
+                e.getCause();
+          }
+          throw e;
+        }
+      }
+    };
+
+    public static com.google.protobuf.Parser<LoginRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<LoginRequest> getParserForType() {
+      return PARSER;
+    }
+
+    public net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface RequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:net.bafeimao.umbrella.support.generated.Request)
       com.google.protobuf.MessageOrBuilder {
@@ -3922,6 +4297,11 @@ public final class CommonProto {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_net_bafeimao_umbrella_support_generated_KeepAlive_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_net_bafeimao_umbrella_support_generated_LoginRequest_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_net_bafeimao_umbrella_support_generated_LoginRequest_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_net_bafeimao_umbrella_support_generated_Request_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -3956,12 +4336,13 @@ public final class CommonProto {
       "\030\001 \001(\005\"\210\001\n\005Test3\022N\n\010projects\030\003 \003(\0132<.net" +
       ".bafeimao.umbrella.support.generated.Tes",
       "t3.ProjectsEntry\032/\n\rProjectsEntry\022\013\n\003key" +
-      "\030\001 \001(\t\022\r\n\005value\030\002 \001(\005:\0028\001\"\013\n\tKeepAlive\"\027" +
-      "\n\007Request\022\014\n\004data\030\001 \001(\014\"\030\n\010Response\022\014\n\004d" +
-      "ata\030\001 \001(\014\"\034\n\014Notification\022\014\n\004data\030\001 \001(\014*" +
-      "1\n\013MessageType\022\016\n\nKEEP_ALIVE\020\000\022\022\n\rLOGIN_" +
-      "REQUEST\020\201 B8\n\'net.bafeimao.umbrella.supp" +
-      "ort.generatedB\013CommonProtoH\001b\006proto3"
+      "\030\001 \001(\t\022\r\n\005value\030\002 \001(\005:\0028\001\"\013\n\tKeepAlive\"\033" +
+      "\n\014LoginRequest\022\013\n\003uid\030\001 \001(\004\"\027\n\007Request\022\014" +
+      "\n\004data\030\001 \001(\014\"\030\n\010Response\022\014\n\004data\030\001 \001(\014\"\034" +
+      "\n\014Notification\022\014\n\004data\030\001 \001(\014*1\n\013MessageT" +
+      "ype\022\016\n\nKEEP_ALIVE\020\000\022\022\n\rLOGIN_REQUEST\020\201 B" +
+      "8\n\'net.bafeimao.umbrella.support.generat" +
+      "edB\013CommonProtoH\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4011,20 +4392,26 @@ public final class CommonProto {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_net_bafeimao_umbrella_support_generated_KeepAlive_descriptor,
         new java.lang.String[] { });
-    internal_static_net_bafeimao_umbrella_support_generated_Request_descriptor =
+    internal_static_net_bafeimao_umbrella_support_generated_LoginRequest_descriptor =
       getDescriptor().getMessageTypes().get(4);
+    internal_static_net_bafeimao_umbrella_support_generated_LoginRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_net_bafeimao_umbrella_support_generated_LoginRequest_descriptor,
+        new java.lang.String[] { "Uid", });
+    internal_static_net_bafeimao_umbrella_support_generated_Request_descriptor =
+      getDescriptor().getMessageTypes().get(5);
     internal_static_net_bafeimao_umbrella_support_generated_Request_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_net_bafeimao_umbrella_support_generated_Request_descriptor,
         new java.lang.String[] { "Data", });
     internal_static_net_bafeimao_umbrella_support_generated_Response_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_net_bafeimao_umbrella_support_generated_Response_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_net_bafeimao_umbrella_support_generated_Response_descriptor,
         new java.lang.String[] { "Data", });
     internal_static_net_bafeimao_umbrella_support_generated_Notification_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_net_bafeimao_umbrella_support_generated_Notification_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_net_bafeimao_umbrella_support_generated_Notification_descriptor,

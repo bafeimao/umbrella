@@ -40,9 +40,9 @@ public class ServerManager {
     }
 
     /**
-     * ÏòÖĞĞÄ·şÎñÆ÷ÉÏ×¢²á·şÎñÆ÷
+     * å‘ä¸­å¿ƒæœåŠ¡å™¨ä¸Šæ³¨å†ŒæœåŠ¡å™¨
      *
-     * @param server ·şÎñÆ÷ĞÅÏ¢
+     * @param server æœåŠ¡å™¨ä¿¡æ¯
      */
     public void register(ServerInfo server) {
         LOGGER.info("Registering server: {} on central", server);
@@ -50,9 +50,9 @@ public class ServerManager {
     }
 
     /**
-     * ´ÓÖĞĞÄ·şÎñÆ÷ÉÏÈ¡Ïû×¢²á·şÎñÆ÷
+     * ä»ä¸­å¿ƒæœåŠ¡å™¨ä¸Šå–æ¶ˆæ³¨å†ŒæœåŠ¡å™¨
      *
-     * @param server ·şÎñÆ÷ĞÅÏ¢
+     * @param server æœåŠ¡å™¨ä¿¡æ¯
      */
     public void unregister(ServerInfo server) {
         LOGGER.info("Unregistering server: {}", server);

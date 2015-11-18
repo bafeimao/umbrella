@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2015 by bafeimao.net
+ * Copyright 2002-2015 by bafeimao.net, The umbrella Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,13 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.servers.world.test;
-
-import org.junit.Test;
+package net.bafeimao.umbrella.servers.world;
 
 /**
- * Created by gukaitong(29283212@qq.com) on 2015/11/3.
+ * Created by gukaitong(29283212@qq.com) on 2015/11/18.
  *
  * @author gukaitong
  * @since 1.0
  */
-public class NettyTests {
-
-    @Test
-    public void test1() {
-
-    }
+public class WorldServerHandler {
 }

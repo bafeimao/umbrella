@@ -46,49 +46,49 @@ public class JsonUtil {
             return objectMapper.writeValueAsString(object);
 
         } catch (JsonProcessingException e) {
-            throw new JsonSerializeException("½«¶ÔÏóĞòÁĞ»¯³ÉJSON×Ö·û´®Ê±·¢Éú½âÎöÒì³£", e);
+            throw new JsonSerializeException("å°†å¯¹è±¡åºåˆ—åŒ–æˆJSONå­—ç¬¦ä¸²æ—¶å‘ç”Ÿè§£æå¼‚å¸¸", e);
         }
     }
 
     /**
-     * ½«Ö¸¶¨µÄJSON¸ñÊ½µÄ×Ö·û´®½âÎö³ÉÖ¸¶¨ÀàĞÍµÄ¶ÔÏó
+     * å°†æŒ‡å®šçš„JSONæ ¼å¼çš„å­—ç¬¦ä¸²è§£ææˆæŒ‡å®šç±»å‹çš„å¯¹è±¡
      *
-     * @param <T>  ·µ»ØµÄ¶ÔÏóÀàĞÍ
-     * @param json Òª½âÎö³É¶ÔÏóµÄJSON¸ñÊ½×Ö·û´®
-     * @param type Ö¸¶¨Òª½âÎö³É¶ÔÏóµÄÀàĞÍ
-     * @return ·µ»Ø½âÎö¶ÔÏó
-     * @throws JsonDeserializeException ·Ç¼ì²éĞÍÒì³£,±íÊ¾½âÎö¹ı³ÌÖĞ²úÉúµÄ´íÎó
+     * @param <T>  è¿”å›çš„å¯¹è±¡ç±»å‹
+     * @param json è¦è§£ææˆå¯¹è±¡çš„JSONæ ¼å¼å­—ç¬¦ä¸²
+     * @param type æŒ‡å®šè¦è§£ææˆå¯¹è±¡çš„ç±»å‹
+     * @return è¿”å›è§£æå¯¹è±¡
+     * @throws JsonDeserializeException éæ£€æŸ¥å‹å¼‚å¸¸,è¡¨ç¤ºè§£æè¿‡ç¨‹ä¸­äº§ç”Ÿçš„é”™è¯¯
      */
     public static <T> T toBean(String json, Class<T> type) {
         try {
             return objectMapper.readValue(json, type);
         } catch (JsonParseException e) {
-            throw new JsonDeserializeException("½âÎöÒì³£", e);
+            throw new JsonDeserializeException("è§£æå¼‚å¸¸", e);
         } catch (JsonMappingException e) {
-            throw new JsonDeserializeException("×Ö¶ÎÓ³ÉäÒì³£", e);
+            throw new JsonDeserializeException("å­—æ®µæ˜ å°„å¼‚å¸¸", e);
         } catch (IOException e) {
-            throw new JsonDeserializeException("IOÒì³£", e);
+            throw new JsonDeserializeException("IOå¼‚å¸¸", e);
         }
     }
 
     /**
-     * ½«Ö¸¶¨µÄJSON¸ñÊ½µÄ×Ö·û´®½âÎö³ÉÖ¸¶¨ÀàĞÍµÄ¶ÔÏó
+     * å°†æŒ‡å®šçš„JSONæ ¼å¼çš„å­—ç¬¦ä¸²è§£ææˆæŒ‡å®šç±»å‹çš„å¯¹è±¡
      *
-     * @param <T>          ·µ»ØµÄ¶ÔÏóÀàĞÍ
-     * @param json         Òª½âÎö³É¶ÔÏóµÄJSON¸ñÊ½×Ö·û´®
-     * @param valueTypeRef Ö¸¶¨Òª½âÎö³É¶ÔÏóµÄÀàĞÍ
-     * @return ·µ»Ø½âÎö¶ÔÏó
+     * @param <T>          è¿”å›çš„å¯¹è±¡ç±»å‹
+     * @param json         è¦è§£ææˆå¯¹è±¡çš„JSONæ ¼å¼å­—ç¬¦ä¸²
+     * @param valueTypeRef æŒ‡å®šè¦è§£ææˆå¯¹è±¡çš„ç±»å‹
+     * @return è¿”å›è§£æå¯¹è±¡
      */
     @SuppressWarnings("unchecked")
     public static <T> T toBean(String json, TypeReference<?> valueTypeRef) {
         try {
             return (T) objectMapper.readValue(json, valueTypeRef);
         } catch (JsonParseException e) {
-            throw new JsonDeserializeException("½âÎöÒì³£", e);
+            throw new JsonDeserializeException("è§£æå¼‚å¸¸", e);
         } catch (JsonMappingException e) {
-            throw new JsonDeserializeException("×Ö¶ÎÓ³ÉäÒì³£", e);
+            throw new JsonDeserializeException("å­—æ®µæ˜ å°„å¼‚å¸¸", e);
         } catch (IOException e) {
-            throw new JsonDeserializeException("IOÒì³£", e);
+            throw new JsonDeserializeException("IOå¼‚å¸¸", e);
         }
     }
 
@@ -96,7 +96,7 @@ public class JsonUtil {
         try {
             return objectMapper.readValue(json.toString(), JsonNode.class);
         } catch (IOException e) {
-            LOGGER.error("50003", "½«JSON×Ö·û´®½âÎö³É¶ÔÏóÊ±·¢Éú½âÎöÒì³£,Ô­Òò:IOÒì³£", e);
+            LOGGER.error("50003", "å°†JSONå­—ç¬¦ä¸²è§£ææˆå¯¹è±¡æ—¶å‘ç”Ÿè§£æå¼‚å¸¸,åŸå› :IOå¼‚å¸¸", e);
         }
         return null;
     }

@@ -35,11 +35,11 @@ public class ApplicationConsole implements Runnable {
     public void run() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("ÊäÈë: q|exit:ÍË³ö³ÌĞò. help: ²é¿´°ïÖú!");
+            System.out.println("è¾“å…¥: q|exit:é€€å‡ºç¨‹åº. help: æŸ¥çœ‹å¸®åŠ©!");
 
             String read = scanner.nextLine();
 
-            // ·şÎñÆ÷¹Ø±ÕexitÍË³öÊ±£¬´¦ÀíÊÂ¼ş
+            // æœåŠ¡å™¨å…³é—­exité€€å‡ºæ—¶ï¼Œå¤„ç†äº‹ä»¶
             if ("q".equals(read) || "exit".equals(read)) {
                 scanner.close();
                 System.exit(0);
@@ -49,8 +49,8 @@ public class ApplicationConsole implements Runnable {
             if ("help".equals(read)) {
                 StringBuilder sb = new StringBuilder();
                 sb.append("Commands:\n");
-                sb.append("stats: ²é¿´µ±Ç°·şÎñÆ÷Í³¼ÆĞÅÏ¢");
-                sb.append("print role <id>: ´òÓ¡½ÇÉ«ĞÅÏ¢");
+                sb.append("stats: æŸ¥çœ‹å½“å‰æœåŠ¡å™¨ç»Ÿè®¡ä¿¡æ¯");
+                sb.append("print role <id>: æ‰“å°è§’è‰²ä¿¡æ¯");
                 System.out.println();
             }
 

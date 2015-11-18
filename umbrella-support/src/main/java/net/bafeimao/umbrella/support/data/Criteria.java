@@ -128,12 +128,12 @@ public class Criteria {
             return true;
         }
 
-        // ÒÔÏÂ²Ù×÷Ö»ÄÜÓ¦ÓÃÔÚStringÀàĞÍÉÏ
+        // ä»¥ä¸‹æ“ä½œåªèƒ½åº”ç”¨åœ¨Stringç±»å‹ä¸Š
         if (op == FilterOperator.CONTAINS || op == FilterOperator.STARTS_WITH || op == FilterOperator.ENDS_WITH) {
             return clazz.equals(String.class);
         }
 
-        // ÒÔÏÂ²Ù×÷Ö»ÄÜÓ¦ÓÃÔÚÊıÖµÀàĞÍÖĞ
+        // ä»¥ä¸‹æ“ä½œåªèƒ½åº”ç”¨åœ¨æ•°å€¼ç±»å‹ä¸­
         if (op == FilterOperator.GT || op == FilterOperator.GTE || op == FilterOperator.LT || op == FilterOperator.LTE) {
             return clazz.equals(Double.class) || clazz.equals(double.class)
                     || clazz.equals(Float.class) || clazz.equals(float.class)

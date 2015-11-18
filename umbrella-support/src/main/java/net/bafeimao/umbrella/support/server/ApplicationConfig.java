@@ -42,7 +42,7 @@ public class ApplicationConfig extends PropertiesConfiguration {
             String fileName = ApplicationConfig.class.getResource(configPath).getFile();
             this.load(fileName);
         } catch (Exception e) {
-            LOGGER.error("加载配置文件出错:{}", e);
+            LOGGER.error("鍔犺浇閰嶇疆鏂囦欢鍑洪敊:{}", e);
         }
     }
 
