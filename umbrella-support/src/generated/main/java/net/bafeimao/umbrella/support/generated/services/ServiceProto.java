@@ -948,8 +948,7 @@ public final class ServiceProto {
       "et.bafeimao.umbrella.support.generated.s" +
       "ervices.HelloRequest\032<.net.bafeimao.umbr" +
       "ella.support.generated.services.HelloRep" +
-      "ly\"\000B@\n0net.bafeimao.umbrella.support.ge" +
-      "nerated.servicesB\014ServiceProtob\006proto3"
+      "ly\"\000B\016B\014ServiceProtob\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

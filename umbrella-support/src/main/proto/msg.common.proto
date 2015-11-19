@@ -4,7 +4,7 @@ syntax = "proto3";
 
 package net.bafeimao.umbrella.support.generated;
 
-option java_package = "net.bafeimao.umbrella.support.generated";
+// option java_package = "net.bafeimao.umbrella.support.generated";
 
 option java_outer_classname = "CommonProto";
 
@@ -16,49 +16,14 @@ message Packet {
 	bytes content = 3;
 }
 
-message Test1 {
-	int32 a = 1;
-	string b = 2;
-	bytes c = 3;
-	Test2 d = 4;
-	repeated int32 e = 5 [packed = false];
-	int32 f = 6;
-
-	message Test2 {
-		int32 a = 1;
-	}
-}
-
-message Test3 {
-	map<string, int32> projects = 3;
-}
-
-//message ErrorStatus {
-//	string message = 1;
-//	repeated Any details = 2;
-//}
-
 enum MessageType {
 	KEEP_ALIVE = 0x00000000;
 	NOTIFICATION =0x00000001;
-	LOGIN_REQUEST = 0x00001002;
-}
+ }
 
 message KeepAlive {
 }
 
 message Notification {
 	string text = 1;
-}
-
-message LoginRequest {
-	uint64 uid = 1;
-}
-
-message Request {
-	bytes data = 1;
-}
-
-message Response {
-	bytes data = 1;
 }

@@ -172,6 +172,14 @@ subprojects {
         generatedFilesBaseDir = "$projectDir/src/generated"
     }
 
+    sourceSets {
+        main {
+            java {
+                srcDirs 'src/main/java','src/generated/main/java','src/generated/main/grpc'
+            }
+        }
+    }
+
     // 显示当前项目下所有用于 compile 的 jar.
     task listJars(description: 'Displays all compile jars.') << {
         configurations.compile.each { File file -> println '    ' + file.name }

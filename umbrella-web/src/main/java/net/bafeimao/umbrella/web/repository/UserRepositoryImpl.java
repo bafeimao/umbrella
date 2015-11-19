@@ -18,7 +18,6 @@ package net.bafeimao.umbrella.web.repository;
 
 import net.bafeimao.umbrella.support.repository.hibernate.HibernateRepositoryImpl;
 import net.bafeimao.umbrella.web.domain.User;
-
 import org.springframework.stereotype.Repository;
 
 @Repository

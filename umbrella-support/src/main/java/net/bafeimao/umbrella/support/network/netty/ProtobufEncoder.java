@@ -20,7 +20,6 @@ import com.google.protobuf.MessageLiteOrBuilder;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
 import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
-import net.bafeimao.umbrella.support.network.PacketWrapper;
 
 import java.util.List;
 

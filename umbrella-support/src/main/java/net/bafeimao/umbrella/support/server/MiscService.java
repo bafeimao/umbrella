@@ -17,7 +17,10 @@
 package net.bafeimao.umbrella.support.server;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import net.bafeimao.umbrella.support.generated.CommonProto.*;
+import net.bafeimao.umbrella.support.generated.CommonProto.KeepAlive;
+import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
+import net.bafeimao.umbrella.support.generated.CommonProto.Notification;
+import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,15 +32,6 @@ import org.slf4j.LoggerFactory;
  */
 public class MiscService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultServerHandler.class);
-
-    @Accept(MessageType.LOGIN_REQUEST)
-    public void login(Packet packet) throws InvalidProtocolBufferException {
-        LOGGER.info("handle login request...");
-
-        LoginRequest request = LoginRequest.parseFrom(packet.getContent().toByteArray());
-
-        // TODO login logic goes here
-    }
 
     @Accept(MessageType.KEEP_ALIVE)
     public void keepAlive(Packet packet) throws InvalidProtocolBufferException {

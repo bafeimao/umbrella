@@ -16,10 +16,10 @@
 
 package net.bafeimao.umbrella.web.interceptor;
 
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 public class SecurityCheckingHandlerInterceptor extends HandlerInterceptorAdapter {
 

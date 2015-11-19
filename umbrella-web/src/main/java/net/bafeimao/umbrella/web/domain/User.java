@@ -16,7 +16,11 @@
 
 package net.bafeimao.umbrella.web.domain;
 
-import java.util.Date;
+import com.google.common.base.Objects;
+import net.bafeimao.umbrella.support.domain.NamedEntity;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,13 +29,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import net.bafeimao.umbrella.support.domain.NamedEntity;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import com.google.common.base.Objects;
+import java.util.Date;
 
 @Entity
 @Table(name = "ccn_users")

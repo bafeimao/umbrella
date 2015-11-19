@@ -14,22 +14,18 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support.test;
+package net.bafeimao.umbrella.servers.world.test;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
-import net.bafeimao.umbrella.support.generated.CommonProto;
+import net.bafeimao.umbrella.servers.generated.TestProto.MyMap;
+import net.bafeimao.umbrella.servers.generated.TestProto.Test1;
 import net.bafeimao.umbrella.support.generated.CommonProto.KeepAlive;
 import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
 import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
-import net.bafeimao.umbrella.support.generated.CommonProto.Test1;
-import net.bafeimao.umbrella.support.util.JsonUtil;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -39,7 +35,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author gukaitong
  * @since 1.0
  */
-public class MiscTests {
+public class ProtobufMessageTests {
     @Test
     public void test1() {
 
@@ -67,12 +63,17 @@ public class MiscTests {
     }
 
     @Test
-    public void testProtobufMapField() {
-        Map<String, Integer> map1 = new HashMap<String,Integer>();
+    public void testMapTypeMessage() {
+        Map<String, Integer> map1 = new HashMap<String, Integer>();
         map1.put("project1", 2015);
-        CommonProto.Test3 test3 = CommonProto.Test3.newBuilder().putAllProjects(map1).build();
-        Map<String, Integer> map2 = test3.getProjects();
+        MyMap myMap = MyMap.newBuilder().putAllProjects(map1).build();
+        Map<String, Integer> map2 = myMap.getProjects();
         System.out.println(map2);
+    }
+
+    @Test
+    public void testOneOfTypeMessage() {
+
     }
 
     @Test
@@ -98,23 +99,5 @@ public class MiscTests {
         System.out.println(packet);
 
 //        Notification.Builder builder2 = Notification.newBuilder().setData(builder1);
-    }
-
-    @Test
-    public void test12() {
-        String json = "[[1000002,500,100],[1000003,10,101],[1000004,100,-1]]";
-
-        List<List<Integer>> elements = JsonUtil.toBean(json, new TypeReference<List<List<Integer>>>() {
-        });
-        for (List<Integer> element : elements) {
-            System.out.println(element);
-        }
-
-        List<List<Integer>> elements1 = JsonUtil.toBean(json, ArrayList.class);
-        for (List<Integer> element : elements1) {
-            System.out.println(element);
-        }
-
-        System.out.println(elements);
     }
 }

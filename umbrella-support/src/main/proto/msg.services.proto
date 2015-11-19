@@ -1,9 +1,11 @@
 syntax = "proto3";
 
-option java_package = "net.bafeimao.umbrella.support.generated.services";
+package net.bafeimao.umbrella.support.generated.services;
+
+// option java_package = "net.bafeimao.umbrella.support.generated.services";
+
 option java_outer_classname = "ServiceProto";
 
-package net.bafeimao.umbrella.support.generated.services;
 
 // The greeter services definition.
 service Greeter {

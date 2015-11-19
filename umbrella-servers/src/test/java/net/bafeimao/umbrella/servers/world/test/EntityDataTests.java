@@ -33,7 +33,7 @@ public class EntityDataTests {
     @Test
     public void test1() {
         ExcelEntityParser entityParser = new ExcelEntityParser();
-        List<SelectEvent> list = entityParser.parse(SelectEvent.class, "D:\\workspace\\ScriptData\\四魂之旅事件配置.xls", "选择事件");
+        List<SelectEvent> list = entityParser.parse(SelectEvent.class, "D:\\workspace\\ScriptData\\.xls", "aaaaa");
         System.out.println(list);
     }
 }

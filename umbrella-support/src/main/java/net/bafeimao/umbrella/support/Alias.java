@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support.util;
+package net.bafeimao.umbrella.support;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
