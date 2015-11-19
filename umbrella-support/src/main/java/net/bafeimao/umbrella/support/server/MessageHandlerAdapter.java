@@ -16,8 +16,11 @@
 
 package net.bafeimao.umbrella.support.server;
 
-import com.google.protobuf.InvalidProtocolBufferException;
 import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Method;
 
 /**
  * Created by gukaitong(29283212@qq.com) on 2015/11/19.
@@ -25,6 +28,23 @@ import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
  * @author gukaitong
  * @since 1.0
  */
-public interface MessageHandler {
-    void handle(Packet packet) throws InvalidProtocolBufferException;
+public class MessageHandlerAdapter implements MessageHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultServerHandler.class);
+
+    private Object delegate;
+    private Method handleMethod;
+
+    public MessageHandlerAdapter(Object delegate, Method method) {
+        this.delegate = delegate;
+        this.handleMethod = method;
+    }
+
+    @Override
+    public void handle(Packet packet) {
+        try {
+            handleMethod.invoke(delegate, packet);
+        } catch (Exception e) {
+            LOGGER.error("{}", e);
+        }
+    }
 }

@@ -16,15 +16,18 @@
 
 package net.bafeimao.umbrella.support.server;
 
-import com.google.protobuf.InvalidProtocolBufferException;
-import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
+import java.lang.reflect.Method;
 
 /**
- * Created by gukaitong(29283212@qq.com) on 2015/11/19.
+ * Created by gukaitong(29283212@qq.com) on 2015/11/10.
  *
  * @author gukaitong
  * @since 1.0
  */
-public interface MessageHandler {
-    void handle(Packet packet) throws InvalidProtocolBufferException;
+public class SimpleMessageHandler {
+    private Method delegate;
+
+    public void handle() {
+
+    }
 }

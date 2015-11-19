@@ -18,31 +18,24 @@ package net.bafeimao.umbrella.support.server;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 public class DefaultServerHandler extends SimpleChannelInboundHandler<Packet> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultServerHandler.class);
+    private MessageDispatcher messageDispatcher = new MessageDispatcher();
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, Packet packet) throws Exception {
-//        long currentTime = System.currentTimeMillis();
-//
-//        LocalTimes.Builder builder = LocalTimes.newBuilder();
-//        for (Location l: locations.getLocationList()) {
-//            TimeZone tz = TimeZone.getTimeZone(
-//                    toString(l.getContinent()) + '/' + l.getCity());
-//            Calendar calendar = getInstance(tz);
-//            calendar.setTimeInMillis(currentTime);
-//
-//            builder.addLocalTime(LocalTime.newBuilder().
-//                    setYear(calendar.get(YEAR)).
-//                    setMonth(calendar.get(MONTH) + 1).
-//                    setDayOfMonth(calendar.get(DAY_OF_MONTH)).
-//                    setDayOfWeek(DayOfWeek.valueOf(calendar.get(DAY_OF_WEEK))).
-//                    setHour(calendar.get(HOUR_OF_DAY)).
-//                    setMinute(calendar.get(MINUTE)).
-//                    setSecond(calendar.get(SECOND)).build());
-//        }
-//
-//        ctx.write(builder.build());
+        LOGGER.info("Handling message: {} [type:{}]", packet, packet.getType());
+
+        try {
+            messageDispatcher.dispatch(packet);
+        } catch (Exception e) {
+            LOGGER.error("{}", e);
+        }
     }
 
     @Override
@@ -52,11 +45,12 @@ public class DefaultServerHandler extends SimpleChannelInboundHandler<Packet> {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        cause.printStackTrace();
+        if (cause instanceof IOException) {
+            LOGGER.error("Client disconnected, id: {}, remote: {}", ctx.channel().id(), ctx.channel().remoteAddress());
+        } else {
+            LOGGER.error("{}", cause);
+        }
+
         ctx.close();
     }
-
-//    private static String toString(Continent c) {
-//        return c.name().charAt(0) + c.name().toLowerCase().substring(1);
-//    }
 }

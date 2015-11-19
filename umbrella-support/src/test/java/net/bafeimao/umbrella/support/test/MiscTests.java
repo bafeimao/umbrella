@@ -90,10 +90,10 @@ public class MiscTests {
         packetBuilder.setType(MessageType.KEEP_ALIVE);
 
         KeepAlive.Builder keepAliveBuilder = KeepAlive.newBuilder();
-        packetBuilder.setMessage(keepAliveBuilder.build().toByteString());
+        packetBuilder.setContent(keepAliveBuilder.build().toByteString());
 
-        ByteString data = packetBuilder.build().getMessage();
-        packetBuilder.setMessage(data);
+        ByteString data = packetBuilder.build().getContent();
+        packetBuilder.setContent(data);
         Packet packet = packetBuilder.build();
         System.out.println(packet);
 

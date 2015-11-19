@@ -16,7 +16,9 @@
 
 package net.bafeimao.umbrella.servers.world.test;
 
-import net.bafeimao.umbrella.support.generated.CommonProto.*;
+import net.bafeimao.umbrella.support.generated.CommonProto.KeepAlive;
+import net.bafeimao.umbrella.support.generated.CommonProto.LoginRequest;
+import net.bafeimao.umbrella.support.generated.CommonProto.Notification;
 import net.bafeimao.umbrella.support.network.netty.SimpleSocketClient;
 import org.junit.After;
 import org.junit.Before;
@@ -44,7 +46,16 @@ public class ClientTests {
         LoginRequest.Builder builder = LoginRequest.newBuilder();
         builder.setUid(1L);
         socketClient.write(builder);
-        TimeUnit.SECONDS.sleep(1000);
+    }
+
+    @Test
+    public void testKeepAlive() throws InterruptedException {
+        socketClient.write(KeepAlive.getDefaultInstance());
+    }
+
+    @Test
+    public void testNotification() throws InterruptedException {
+        socketClient.write(Notification.newBuilder().setText("hello"));
     }
 
     @After

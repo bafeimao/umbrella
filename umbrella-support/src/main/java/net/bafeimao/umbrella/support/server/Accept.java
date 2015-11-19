@@ -16,8 +16,9 @@
 
 package net.bafeimao.umbrella.support.server;
 
-import com.google.protobuf.InvalidProtocolBufferException;
-import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
+import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
+
+import java.lang.annotation.*;
 
 /**
  * Created by gukaitong(29283212@qq.com) on 2015/11/19.
@@ -25,6 +26,9 @@ import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
  * @author gukaitong
  * @since 1.0
  */
-public interface MessageHandler {
-    void handle(Packet packet) throws InvalidProtocolBufferException;
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface Accept {
+    MessageType value();
 }

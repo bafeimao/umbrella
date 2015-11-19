@@ -198,7 +198,7 @@ project(":umbrella-support") {
 
                 'commons-io:commons-io:2.4',
                 'javax.persistence:persistence-api:1.0.2',
-                'io.netty:netty-all:4.0.33.Final',
+//                'io.netty:netty-all:4.0.33.Final',
                 'io.grpc:grpc-all:0.9.0',
                 'com.esotericsoftware.reflectasm:reflectasm:1.09',
                 'redis.clients:jedis:2.7.3',

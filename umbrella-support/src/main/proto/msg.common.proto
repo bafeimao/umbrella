@@ -13,7 +13,7 @@ option optimize_for = SPEED;
 message Packet {
 	MessageType type = 1;
 	uint64 sequence = 2;
-	bytes message = 3;
+	bytes content = 3;
 }
 
 message Test1 {
@@ -40,10 +40,15 @@ message Test3 {
 
 enum MessageType {
 	KEEP_ALIVE = 0x00000000;
-	LOGIN_REQUEST = 0x00001001;
+	NOTIFICATION =0x00000001;
+	LOGIN_REQUEST = 0x00001002;
 }
 
 message KeepAlive {
+}
+
+message Notification {
+	string text = 1;
 }
 
 message LoginRequest {
@@ -55,9 +60,5 @@ message Request {
 }
 
 message Response {
-	bytes data = 1;
-}
-
-message Notification {
 	bytes data = 1;
 }

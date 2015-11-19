@@ -16,8 +16,16 @@
 
 package net.bafeimao.umbrella.support.server;
 
+import com.google.common.base.Preconditions;
+import com.google.protobuf.InvalidProtocolBufferException;
+import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
+import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by gukaitong(29283212@qq.com) on 2015/11/10.
@@ -25,14 +33,37 @@ import java.lang.reflect.Method;
  * @author gukaitong
  * @since 1.0
  */
-public class MessageDispatcher {
+public class MessageDispatcher<T> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultServerHandler.class);
 
-    public Method getDispatcher(int type) {
-        try {
-            return this.getClass().getMethod("aaa");
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+    private Map<MessageType, MessageHandler> messageTypeHandlerMap = new HashMap<MessageType, MessageHandler>();
+    private MiscService miscService = new MiscService();
+
+    {
+        Method[] methods = MiscService.class.getDeclaredMethods();
+        for (Method method : methods) {
+            if (method.isAnnotationPresent(Accept.class)) {
+                Accept annotation = method.getAnnotation(Accept.class);
+                MessageHandler handler = new MessageHandlerAdapter(miscService, method);
+                messageTypeHandlerMap.put(annotation.value(), handler);
+            }
         }
-        return null;
+    }
+
+    public MessageHandler getHandler(MessageType messageType) {
+        Preconditions.checkNotNull(messageType, "messageType");
+
+        return messageTypeHandlerMap.get(messageType);
+    }
+
+    public void dispatch(Packet message) {
+        if (message != null) {
+            try {
+                MessageHandler handler = getHandler(message.getType());
+                handler.handle(message);
+            } catch (InvalidProtocolBufferException e) {
+                LOGGER.error("{}", e);
+            }
+        }
     }
 }

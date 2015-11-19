@@ -18,9 +18,13 @@ public final class CommonProto {
      */
     KEEP_ALIVE(0, 0),
     /**
-     * <code>LOGIN_REQUEST = 4097;</code>
+     * <code>NOTIFICATION = 1;</code>
      */
-    LOGIN_REQUEST(1, 4097),
+    NOTIFICATION(1, 1),
+    /**
+     * <code>LOGIN_REQUEST = 4098;</code>
+     */
+    LOGIN_REQUEST(2, 4098),
     UNRECOGNIZED(-1, -1),
     ;
 
@@ -29,9 +33,13 @@ public final class CommonProto {
      */
     public static final int KEEP_ALIVE_VALUE = 0;
     /**
-     * <code>LOGIN_REQUEST = 4097;</code>
+     * <code>NOTIFICATION = 1;</code>
      */
-    public static final int LOGIN_REQUEST_VALUE = 4097;
+    public static final int NOTIFICATION_VALUE = 1;
+    /**
+     * <code>LOGIN_REQUEST = 4098;</code>
+     */
+    public static final int LOGIN_REQUEST_VALUE = 4098;
 
 
     public final int getNumber() {
@@ -45,7 +53,8 @@ public final class CommonProto {
     public static MessageType valueOf(int value) {
       switch (value) {
         case 0: return KEEP_ALIVE;
-        case 4097: return LOGIN_REQUEST;
+        case 1: return NOTIFICATION;
+        case 4098: return LOGIN_REQUEST;
         default: return null;
       }
     }
@@ -119,9 +128,9 @@ public final class CommonProto {
     long getSequence();
 
     /**
-     * <code>optional bytes message = 3;</code>
+     * <code>optional bytes content = 3;</code>
      */
-    com.google.protobuf.ByteString getMessage();
+    com.google.protobuf.ByteString getContent();
   }
   /**
    * Protobuf type {@code net.bafeimao.umbrella.support.generated.Packet}
@@ -137,7 +146,7 @@ public final class CommonProto {
     private Packet() {
       type_ = 0;
       sequence_ = 0L;
-      message_ = com.google.protobuf.ByteString.EMPTY;
+      content_ = com.google.protobuf.ByteString.EMPTY;
     }
 
     @java.lang.Override
@@ -177,7 +186,7 @@ public final class CommonProto {
             }
             case 26: {
 
-              message_ = input.readBytes();
+              content_ = input.readBytes();
               break;
             }
           }
@@ -229,13 +238,13 @@ public final class CommonProto {
       return sequence_;
     }
 
-    public static final int MESSAGE_FIELD_NUMBER = 3;
-    private com.google.protobuf.ByteString message_;
+    public static final int CONTENT_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString content_;
     /**
-     * <code>optional bytes message = 3;</code>
+     * <code>optional bytes content = 3;</code>
      */
-    public com.google.protobuf.ByteString getMessage() {
-      return message_;
+    public com.google.protobuf.ByteString getContent() {
+      return content_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -256,8 +265,8 @@ public final class CommonProto {
       if (sequence_ != 0L) {
         output.writeUInt64(2, sequence_);
       }
-      if (!message_.isEmpty()) {
-        output.writeBytes(3, message_);
+      if (!content_.isEmpty()) {
+        output.writeBytes(3, content_);
       }
     }
 
@@ -274,9 +283,9 @@ public final class CommonProto {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(2, sequence_);
       }
-      if (!message_.isEmpty()) {
+      if (!content_.isEmpty()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, message_);
+          .computeBytesSize(3, content_);
       }
       memoizedSize = size;
       return size;
@@ -393,7 +402,7 @@ public final class CommonProto {
 
         sequence_ = 0L;
 
-        message_ = com.google.protobuf.ByteString.EMPTY;
+        content_ = com.google.protobuf.ByteString.EMPTY;
 
         return this;
       }
@@ -419,7 +428,7 @@ public final class CommonProto {
         net.bafeimao.umbrella.support.generated.CommonProto.Packet result = new net.bafeimao.umbrella.support.generated.CommonProto.Packet(this);
         result.type_ = type_;
         result.sequence_ = sequence_;
-        result.message_ = message_;
+        result.content_ = content_;
         onBuilt();
         return result;
       }
@@ -441,8 +450,8 @@ public final class CommonProto {
         if (other.getSequence() != 0L) {
           setSequence(other.getSequence());
         }
-        if (other.getMessage() != com.google.protobuf.ByteString.EMPTY) {
-          setMessage(other.getMessage());
+        if (other.getContent() != com.google.protobuf.ByteString.EMPTY) {
+          setContent(other.getContent());
         }
         onChanged();
         return this;
@@ -540,31 +549,31 @@ public final class CommonProto {
         return this;
       }
 
-      private com.google.protobuf.ByteString message_ = com.google.protobuf.ByteString.EMPTY;
+      private com.google.protobuf.ByteString content_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>optional bytes message = 3;</code>
+       * <code>optional bytes content = 3;</code>
        */
-      public com.google.protobuf.ByteString getMessage() {
-        return message_;
+      public com.google.protobuf.ByteString getContent() {
+        return content_;
       }
       /**
-       * <code>optional bytes message = 3;</code>
+       * <code>optional bytes content = 3;</code>
        */
-      public Builder setMessage(com.google.protobuf.ByteString value) {
+      public Builder setContent(com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        message_ = value;
+        content_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional bytes message = 3;</code>
+       * <code>optional bytes content = 3;</code>
        */
-      public Builder clearMessage() {
+      public Builder clearContent() {
         
-        message_ = getDefaultInstance().getMessage();
+        content_ = getDefaultInstance().getContent();
         onChanged();
         return this;
       }
@@ -2757,6 +2766,455 @@ public final class CommonProto {
 
   }
 
+  public interface NotificationOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:net.bafeimao.umbrella.support.generated.Notification)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>optional string text = 1;</code>
+     */
+    java.lang.String getText();
+    /**
+     * <code>optional string text = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getTextBytes();
+  }
+  /**
+   * Protobuf type {@code net.bafeimao.umbrella.support.generated.Notification}
+   */
+  public  static final class Notification extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:net.bafeimao.umbrella.support.generated.Notification)
+      NotificationOrBuilder {
+    // Use Notification.newBuilder() to construct.
+    private Notification(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private Notification() {
+      text_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private Notification(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              String s = input.readStringRequireUtf8();
+
+              text_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw new RuntimeException(e.setUnfinishedMessage(this));
+      } catch (java.io.IOException e) {
+        throw new RuntimeException(
+            new com.google.protobuf.InvalidProtocolBufferException(
+                e.getMessage()).setUnfinishedMessage(this));
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return net.bafeimao.umbrella.support.generated.CommonProto.internal_static_net_bafeimao_umbrella_support_generated_Notification_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return net.bafeimao.umbrella.support.generated.CommonProto.internal_static_net_bafeimao_umbrella_support_generated_Notification_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              net.bafeimao.umbrella.support.generated.CommonProto.Notification.class, net.bafeimao.umbrella.support.generated.CommonProto.Notification.Builder.class);
+    }
+
+    public static final int TEXT_FIELD_NUMBER = 1;
+    private volatile java.lang.Object text_;
+    /**
+     * <code>optional string text = 1;</code>
+     */
+    public java.lang.String getText() {
+      java.lang.Object ref = text_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        text_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string text = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTextBytes() {
+      java.lang.Object ref = text_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        text_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getTextBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 1, text_);
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getTextBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, text_);
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(net.bafeimao.umbrella.support.generated.CommonProto.Notification prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code net.bafeimao.umbrella.support.generated.Notification}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:net.bafeimao.umbrella.support.generated.Notification)
+        net.bafeimao.umbrella.support.generated.CommonProto.NotificationOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return net.bafeimao.umbrella.support.generated.CommonProto.internal_static_net_bafeimao_umbrella_support_generated_Notification_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return net.bafeimao.umbrella.support.generated.CommonProto.internal_static_net_bafeimao_umbrella_support_generated_Notification_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                net.bafeimao.umbrella.support.generated.CommonProto.Notification.class, net.bafeimao.umbrella.support.generated.CommonProto.Notification.Builder.class);
+      }
+
+      // Construct using net.bafeimao.umbrella.support.generated.CommonProto.Notification.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        text_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return net.bafeimao.umbrella.support.generated.CommonProto.internal_static_net_bafeimao_umbrella_support_generated_Notification_descriptor;
+      }
+
+      public net.bafeimao.umbrella.support.generated.CommonProto.Notification getDefaultInstanceForType() {
+        return net.bafeimao.umbrella.support.generated.CommonProto.Notification.getDefaultInstance();
+      }
+
+      public net.bafeimao.umbrella.support.generated.CommonProto.Notification build() {
+        net.bafeimao.umbrella.support.generated.CommonProto.Notification result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public net.bafeimao.umbrella.support.generated.CommonProto.Notification buildPartial() {
+        net.bafeimao.umbrella.support.generated.CommonProto.Notification result = new net.bafeimao.umbrella.support.generated.CommonProto.Notification(this);
+        result.text_ = text_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof net.bafeimao.umbrella.support.generated.CommonProto.Notification) {
+          return mergeFrom((net.bafeimao.umbrella.support.generated.CommonProto.Notification)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(net.bafeimao.umbrella.support.generated.CommonProto.Notification other) {
+        if (other == net.bafeimao.umbrella.support.generated.CommonProto.Notification.getDefaultInstance()) return this;
+        if (!other.getText().isEmpty()) {
+          text_ = other.text_;
+          onChanged();
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        net.bafeimao.umbrella.support.generated.CommonProto.Notification parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (net.bafeimao.umbrella.support.generated.CommonProto.Notification) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object text_ = "";
+      /**
+       * <code>optional string text = 1;</code>
+       */
+      public java.lang.String getText() {
+        java.lang.Object ref = text_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          text_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string text = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTextBytes() {
+        java.lang.Object ref = text_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          text_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string text = 1;</code>
+       */
+      public Builder setText(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        text_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string text = 1;</code>
+       */
+      public Builder clearText() {
+        
+        text_ = getDefaultInstance().getText();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string text = 1;</code>
+       */
+      public Builder setTextBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        text_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:net.bafeimao.umbrella.support.generated.Notification)
+    }
+
+    // @@protoc_insertion_point(class_scope:net.bafeimao.umbrella.support.generated.Notification)
+    private static final net.bafeimao.umbrella.support.generated.CommonProto.Notification DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new net.bafeimao.umbrella.support.generated.CommonProto.Notification();
+    }
+
+    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<Notification>
+        PARSER = new com.google.protobuf.AbstractParser<Notification>() {
+      public Notification parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        try {
+          return new Notification(input, extensionRegistry);
+        } catch (RuntimeException e) {
+          if (e.getCause() instanceof
+              com.google.protobuf.InvalidProtocolBufferException) {
+            throw (com.google.protobuf.InvalidProtocolBufferException)
+                e.getCause();
+          }
+          throw e;
+        }
+      }
+    };
+
+    public static com.google.protobuf.Parser<Notification> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Notification> getParserForType() {
+      return PARSER;
+    }
+
+    public net.bafeimao.umbrella.support.generated.CommonProto.Notification getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface LoginRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:net.bafeimao.umbrella.support.generated.LoginRequest)
       com.google.protobuf.MessageOrBuilder {
@@ -3888,384 +4346,6 @@ public final class CommonProto {
 
   }
 
-  public interface NotificationOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:net.bafeimao.umbrella.support.generated.Notification)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>optional bytes data = 1;</code>
-     */
-    com.google.protobuf.ByteString getData();
-  }
-  /**
-   * Protobuf type {@code net.bafeimao.umbrella.support.generated.Notification}
-   */
-  public  static final class Notification extends
-      com.google.protobuf.GeneratedMessage implements
-      // @@protoc_insertion_point(message_implements:net.bafeimao.umbrella.support.generated.Notification)
-      NotificationOrBuilder {
-    // Use Notification.newBuilder() to construct.
-    private Notification(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-    }
-    private Notification() {
-      data_ = com.google.protobuf.ByteString.EMPTY;
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
-    }
-    private Notification(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
-      this();
-      int mutable_bitField0_ = 0;
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!input.skipField(tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-
-              data_ = input.readBytes();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw new RuntimeException(e.setUnfinishedMessage(this));
-      } catch (java.io.IOException e) {
-        throw new RuntimeException(
-            new com.google.protobuf.InvalidProtocolBufferException(
-                e.getMessage()).setUnfinishedMessage(this));
-      } finally {
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return net.bafeimao.umbrella.support.generated.CommonProto.internal_static_net_bafeimao_umbrella_support_generated_Notification_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return net.bafeimao.umbrella.support.generated.CommonProto.internal_static_net_bafeimao_umbrella_support_generated_Notification_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              net.bafeimao.umbrella.support.generated.CommonProto.Notification.class, net.bafeimao.umbrella.support.generated.CommonProto.Notification.Builder.class);
-    }
-
-    public static final int DATA_FIELD_NUMBER = 1;
-    private com.google.protobuf.ByteString data_;
-    /**
-     * <code>optional bytes data = 1;</code>
-     */
-    public com.google.protobuf.ByteString getData() {
-      return data_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (!data_.isEmpty()) {
-        output.writeBytes(1, data_);
-      }
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (!data_.isEmpty()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, data_);
-      }
-      memoizedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(net.bafeimao.umbrella.support.generated.CommonProto.Notification prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code net.bafeimao.umbrella.support.generated.Notification}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:net.bafeimao.umbrella.support.generated.Notification)
-        net.bafeimao.umbrella.support.generated.CommonProto.NotificationOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return net.bafeimao.umbrella.support.generated.CommonProto.internal_static_net_bafeimao_umbrella_support_generated_Notification_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return net.bafeimao.umbrella.support.generated.CommonProto.internal_static_net_bafeimao_umbrella_support_generated_Notification_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                net.bafeimao.umbrella.support.generated.CommonProto.Notification.class, net.bafeimao.umbrella.support.generated.CommonProto.Notification.Builder.class);
-      }
-
-      // Construct using net.bafeimao.umbrella.support.generated.CommonProto.Notification.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        data_ = com.google.protobuf.ByteString.EMPTY;
-
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return net.bafeimao.umbrella.support.generated.CommonProto.internal_static_net_bafeimao_umbrella_support_generated_Notification_descriptor;
-      }
-
-      public net.bafeimao.umbrella.support.generated.CommonProto.Notification getDefaultInstanceForType() {
-        return net.bafeimao.umbrella.support.generated.CommonProto.Notification.getDefaultInstance();
-      }
-
-      public net.bafeimao.umbrella.support.generated.CommonProto.Notification build() {
-        net.bafeimao.umbrella.support.generated.CommonProto.Notification result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public net.bafeimao.umbrella.support.generated.CommonProto.Notification buildPartial() {
-        net.bafeimao.umbrella.support.generated.CommonProto.Notification result = new net.bafeimao.umbrella.support.generated.CommonProto.Notification(this);
-        result.data_ = data_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof net.bafeimao.umbrella.support.generated.CommonProto.Notification) {
-          return mergeFrom((net.bafeimao.umbrella.support.generated.CommonProto.Notification)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(net.bafeimao.umbrella.support.generated.CommonProto.Notification other) {
-        if (other == net.bafeimao.umbrella.support.generated.CommonProto.Notification.getDefaultInstance()) return this;
-        if (other.getData() != com.google.protobuf.ByteString.EMPTY) {
-          setData(other.getData());
-        }
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        net.bafeimao.umbrella.support.generated.CommonProto.Notification parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (net.bafeimao.umbrella.support.generated.CommonProto.Notification) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>optional bytes data = 1;</code>
-       */
-      public com.google.protobuf.ByteString getData() {
-        return data_;
-      }
-      /**
-       * <code>optional bytes data = 1;</code>
-       */
-      public Builder setData(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        data_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bytes data = 1;</code>
-       */
-      public Builder clearData() {
-        
-        data_ = getDefaultInstance().getData();
-        onChanged();
-        return this;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return this;
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return this;
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:net.bafeimao.umbrella.support.generated.Notification)
-    }
-
-    // @@protoc_insertion_point(class_scope:net.bafeimao.umbrella.support.generated.Notification)
-    private static final net.bafeimao.umbrella.support.generated.CommonProto.Notification DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new net.bafeimao.umbrella.support.generated.CommonProto.Notification();
-    }
-
-    public static net.bafeimao.umbrella.support.generated.CommonProto.Notification getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<Notification>
-        PARSER = new com.google.protobuf.AbstractParser<Notification>() {
-      public Notification parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        try {
-          return new Notification(input, extensionRegistry);
-        } catch (RuntimeException e) {
-          if (e.getCause() instanceof
-              com.google.protobuf.InvalidProtocolBufferException) {
-            throw (com.google.protobuf.InvalidProtocolBufferException)
-                e.getCause();
-          }
-          throw e;
-        }
-      }
-    };
-
-    public static com.google.protobuf.Parser<Notification> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<Notification> getParserForType() {
-      return PARSER;
-    }
-
-    public net.bafeimao.umbrella.support.generated.CommonProto.Notification getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_net_bafeimao_umbrella_support_generated_Packet_descriptor;
   private static
@@ -4297,6 +4377,11 @@ public final class CommonProto {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_net_bafeimao_umbrella_support_generated_KeepAlive_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_net_bafeimao_umbrella_support_generated_Notification_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_net_bafeimao_umbrella_support_generated_Notification_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_net_bafeimao_umbrella_support_generated_LoginRequest_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -4311,11 +4396,6 @@ public final class CommonProto {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_net_bafeimao_umbrella_support_generated_Response_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_net_bafeimao_umbrella_support_generated_Notification_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_net_bafeimao_umbrella_support_generated_Notification_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -4328,21 +4408,22 @@ public final class CommonProto {
       "\n\020msg.common.proto\022\'net.bafeimao.umbrell" +
       "a.support.generated\"o\n\006Packet\022B\n\004type\030\001 " +
       "\001(\01624.net.bafeimao.umbrella.support.gene" +
-      "rated.MessageType\022\020\n\010sequence\030\002 \001(\004\022\017\n\007m" +
-      "essage\030\003 \001(\014\"\227\001\n\005Test1\022\t\n\001a\030\001 \001(\005\022\t\n\001b\030\002" +
+      "rated.MessageType\022\020\n\010sequence\030\002 \001(\004\022\017\n\007c" +
+      "ontent\030\003 \001(\014\"\227\001\n\005Test1\022\t\n\001a\030\001 \001(\005\022\t\n\001b\030\002" +
       " \001(\t\022\t\n\001c\030\003 \001(\014\022?\n\001d\030\004 \001(\01324.net.bafeima" +
       "o.umbrella.support.generated.Test1.Test2" +
       "\022\r\n\001e\030\005 \003(\005B\002\020\000\022\t\n\001f\030\006 \001(\005\032\022\n\005Test2\022\t\n\001a" +
       "\030\001 \001(\005\"\210\001\n\005Test3\022N\n\010projects\030\003 \003(\0132<.net" +
       ".bafeimao.umbrella.support.generated.Tes",
       "t3.ProjectsEntry\032/\n\rProjectsEntry\022\013\n\003key" +
-      "\030\001 \001(\t\022\r\n\005value\030\002 \001(\005:\0028\001\"\013\n\tKeepAlive\"\033" +
-      "\n\014LoginRequest\022\013\n\003uid\030\001 \001(\004\"\027\n\007Request\022\014" +
-      "\n\004data\030\001 \001(\014\"\030\n\010Response\022\014\n\004data\030\001 \001(\014\"\034" +
-      "\n\014Notification\022\014\n\004data\030\001 \001(\014*1\n\013MessageT" +
-      "ype\022\016\n\nKEEP_ALIVE\020\000\022\022\n\rLOGIN_REQUEST\020\201 B" +
-      "8\n\'net.bafeimao.umbrella.support.generat" +
-      "edB\013CommonProtoH\001b\006proto3"
+      "\030\001 \001(\t\022\r\n\005value\030\002 \001(\005:\0028\001\"\013\n\tKeepAlive\"\034" +
+      "\n\014Notification\022\014\n\004text\030\001 \001(\t\"\033\n\014LoginReq" +
+      "uest\022\013\n\003uid\030\001 \001(\004\"\027\n\007Request\022\014\n\004data\030\001 \001" +
+      "(\014\"\030\n\010Response\022\014\n\004data\030\001 \001(\014*C\n\013MessageT" +
+      "ype\022\016\n\nKEEP_ALIVE\020\000\022\020\n\014NOTIFICATION\020\001\022\022\n" +
+      "\rLOGIN_REQUEST\020\202 B8\n\'net.bafeimao.umbrel" +
+      "la.support.generatedB\013CommonProtoH\001b\006pro" +
+      "to3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4361,7 +4442,7 @@ public final class CommonProto {
     internal_static_net_bafeimao_umbrella_support_generated_Packet_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_net_bafeimao_umbrella_support_generated_Packet_descriptor,
-        new java.lang.String[] { "Type", "Sequence", "Message", });
+        new java.lang.String[] { "Type", "Sequence", "Content", });
     internal_static_net_bafeimao_umbrella_support_generated_Test1_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_net_bafeimao_umbrella_support_generated_Test1_fieldAccessorTable = new
@@ -4392,29 +4473,29 @@ public final class CommonProto {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_net_bafeimao_umbrella_support_generated_KeepAlive_descriptor,
         new java.lang.String[] { });
-    internal_static_net_bafeimao_umbrella_support_generated_LoginRequest_descriptor =
+    internal_static_net_bafeimao_umbrella_support_generated_Notification_descriptor =
       getDescriptor().getMessageTypes().get(4);
+    internal_static_net_bafeimao_umbrella_support_generated_Notification_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_net_bafeimao_umbrella_support_generated_Notification_descriptor,
+        new java.lang.String[] { "Text", });
+    internal_static_net_bafeimao_umbrella_support_generated_LoginRequest_descriptor =
+      getDescriptor().getMessageTypes().get(5);
     internal_static_net_bafeimao_umbrella_support_generated_LoginRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_net_bafeimao_umbrella_support_generated_LoginRequest_descriptor,
         new java.lang.String[] { "Uid", });
     internal_static_net_bafeimao_umbrella_support_generated_Request_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_net_bafeimao_umbrella_support_generated_Request_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_net_bafeimao_umbrella_support_generated_Request_descriptor,
         new java.lang.String[] { "Data", });
     internal_static_net_bafeimao_umbrella_support_generated_Response_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_net_bafeimao_umbrella_support_generated_Response_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_net_bafeimao_umbrella_support_generated_Response_descriptor,
-        new java.lang.String[] { "Data", });
-    internal_static_net_bafeimao_umbrella_support_generated_Notification_descriptor =
-      getDescriptor().getMessageTypes().get(7);
-    internal_static_net_bafeimao_umbrella_support_generated_Notification_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_net_bafeimao_umbrella_support_generated_Notification_descriptor,
         new java.lang.String[] { "Data", });
   }
 
