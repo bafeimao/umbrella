@@ -72,8 +72,9 @@ public class ProtobufMessageTests {
     }
 
     @Test
-    public void testOneOfTypeMessage() {
-
+    public void test11() {
+        Packet packet;
+        Packet.Builder builder;
     }
 
     @Test
