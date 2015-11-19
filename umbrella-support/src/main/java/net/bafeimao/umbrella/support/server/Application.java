@@ -141,22 +141,21 @@ public class Application {
 
             LOGGER.info("Socket server started, Listening on {}", port);
 
-//            future.sync().channel().closeFuture().sync();
+            serverManager.register(this.getServerInfo());
+
+            LOGGER.info("Adding shutdown hook");
+            Runtime.getRuntime().addShutdownHook(new Thread() {
+                @Override
+                public void run() {
+                    serverManager.unregister(Application.this.getServerInfo());
+                }
+            });
+
             future.sync().channel().closeFuture().sync();
         } finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
-
-        serverManager.register(this.getServerInfo());
-
-        LOGGER.info("Adding shutdown hook");
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                serverManager.unregister(Application.this.getServerInfo());
-            }
-        });
     }
 
     public ServerInfo getServerInfo() {
