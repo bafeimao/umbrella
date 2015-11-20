@@ -45,7 +45,27 @@ public class PacketWrapper {
         }
     }
 
-    public static Packet.Builder wrap(MessageLiteOrBuilder message) {
+    public static Packet wrap(MessageLiteOrBuilder message) {
+        if (message instanceof Packet) {
+            return ((Packet) message);
+        }
+
+        if (message instanceof Packet.Builder) {
+            return ((Packet.Builder) message).build();
+        }
+
+        ByteString bytes = toByteString(message);
+
+        Packet.Builder builder = Packet.newBuilder();
+        builder.setSequence(SEQUENCE.incrementAndGet());
+        MessageType messageType = getMessageType(message);
+        builder.setType(messageType);
+        builder.setContent(bytes);
+
+        return builder.build();
+    }
+
+    public static Packet.Builder wrapBuilder(MessageLiteOrBuilder message) {
         if (message instanceof Packet) {
             return ((Packet) message).toBuilder();
         }

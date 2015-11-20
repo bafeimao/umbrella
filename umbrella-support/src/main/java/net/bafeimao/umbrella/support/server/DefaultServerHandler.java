@@ -32,7 +32,7 @@ public class DefaultServerHandler extends SimpleChannelInboundHandler<Packet> {
         LOGGER.info("Handling message: {} [type:{}]", packet, packet.getType());
 
         try {
-            messageDispatcher.dispatch(packet);
+            messageDispatcher.dispatch(ctx, packet);
         } catch (Exception e) {
             LOGGER.error("{}", e);
         }

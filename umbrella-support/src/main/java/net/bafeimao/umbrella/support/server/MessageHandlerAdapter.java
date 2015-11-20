@@ -16,6 +16,7 @@
 
 package net.bafeimao.umbrella.support.server;
 
+import io.netty.channel.ChannelHandlerContext;
 import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,9 +41,9 @@ public class MessageHandlerAdapter implements MessageHandler {
     }
 
     @Override
-    public void handle(Packet packet) {
+    public void handle(ChannelHandlerContext ctx, Packet packet) {
         try {
-            handleMethod.invoke(delegate, packet);
+            handleMethod.invoke(delegate, ctx, packet);
         } catch (Exception e) {
             LOGGER.error("{}", e);
         }

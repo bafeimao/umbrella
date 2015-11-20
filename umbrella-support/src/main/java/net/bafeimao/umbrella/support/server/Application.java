@@ -33,6 +33,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
+import java.util.Iterator;
+
 //import io.netty.handler.codec.protobuf.ProtobufEncoder;
 
 /**
@@ -69,6 +71,18 @@ public class Application {
             if (config.isRpcServerEnabled()) {
                 this.startRpcServer();
             }
+
+            serverManager.register(this.getServerInfo());
+
+            LOGGER.info("Adding shutdown hook");
+            Runtime.getRuntime().addShutdownHook(new Thread() {
+                @Override
+                public void run() {
+                    System.err.println("*** shutting down application since JVM is shutting down");
+                    Application.this.stop();
+                    System.err.println("*** Application was shut down");
+                }
+            });
         } catch (Exception e) {
             LOGGER.error("{}", e);
             System.exit(0);
@@ -76,7 +90,12 @@ public class Application {
     }
 
     private void printConfig() {
-        LOGGER.info("Application configurations:\n{}", config);
+        LOGGER.info("Application configurations:");
+
+        for (Iterator<String> iterator = config.getKeys(); iterator.hasNext(); ) {
+            String key = iterator.next();
+            LOGGER.debug("{}：{}", key, config.getProperty(key));
+        }
     }
 
     public ApplicationConfig getConfig() {
@@ -106,56 +125,54 @@ public class Application {
     }
 
     private void startRpcServer() {
-        LOGGER.info("Starting RPC server ...");
+        LOGGER.info("RPC server is starting ...");
 
-        LOGGER.info("The rpc server was started successfully!");
+        LOGGER.info("RPC server started!");
     }
 
-    public void startSocketServer() throws InterruptedException {
-        LOGGER.info("Starting socket server");
+    private void startSocketServer() throws InterruptedException {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                LOGGER.info("Socket server is starting ...");
 
-        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
-        try {
-            ServerBootstrap b = new ServerBootstrap();
-            b.group(bossGroup, workerGroup)
-                    .channel(NioServerSocketChannel.class)
-                    .handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new ChannelInitializer() {
-                        @Override
-                        protected void initChannel(Channel ch) throws Exception {
-                            ChannelPipeline p = ch.pipeline();
+                EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+                EventLoopGroup workerGroup = new NioEventLoopGroup();
+                try {
+                    ServerBootstrap b = new ServerBootstrap();
+                    b.group(bossGroup, workerGroup)
+                            .channel(NioServerSocketChannel.class)
+                            .handler(new LoggingHandler(LogLevel.INFO))
+                            .childHandler(new ChannelInitializer() {
+                                @Override
+                                protected void initChannel(Channel ch) throws Exception {
+                                    ChannelPipeline p = ch.pipeline();
 
-                            p.addLast(new ProtobufVarint32FrameDecoder());
-                            p.addLast(new ProtobufDecoder(Packet.getDefaultInstance()));
+                                    p.addLast(new ProtobufVarint32FrameDecoder());
+                                    p.addLast(new ProtobufDecoder(Packet.getDefaultInstance()));
 
-                            p.addLast(new ProtobufVarint32LengthFieldPrepender());
-                            p.addLast(new ProtobufEncoder());
+                                    p.addLast(new ProtobufVarint32LengthFieldPrepender());
+                                    p.addLast(new ProtobufEncoder());
 
-                            p.addLast(new DefaultServerHandler());
-                        }
-                    });
+                                    p.addLast(new DefaultServerHandler());
+                                }
+                            });
 
-            int port = getServerInfo().getPort();
-            ChannelFuture future = b.bind(port);
+                    int port = getServerInfo().getPort();
+                    ChannelFuture future = b.bind(port);
 
-            LOGGER.info("Socket server started, Listening on {}", port);
+                    LOGGER.info("Socket server started, Listening on {}", port);
 
-            serverManager.register(this.getServerInfo());
-
-            LOGGER.info("Adding shutdown hook");
-            Runtime.getRuntime().addShutdownHook(new Thread() {
-                @Override
-                public void run() {
-                    serverManager.unregister(Application.this.getServerInfo());
+                    future.sync().channel().closeFuture().sync();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    bossGroup.shutdownGracefully();
+                    workerGroup.shutdownGracefully();
                 }
-            });
 
-            future.sync().channel().closeFuture().sync();
-        } finally {
-            bossGroup.shutdownGracefully();
-            workerGroup.shutdownGracefully();
-        }
+            }
+        }, "socket-server-bootstrap").start();
     }
 
     public ServerInfo getServerInfo() {

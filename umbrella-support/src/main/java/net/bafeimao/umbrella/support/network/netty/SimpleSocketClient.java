@@ -16,6 +16,7 @@
 
 package net.bafeimao.umbrella.support.network.netty;
 
+import com.google.common.math.IntMath;
 import com.google.protobuf.MessageLiteOrBuilder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -26,6 +27,12 @@ import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by gukaitong(29283212@qq.com) on 2015/11/12.
@@ -34,9 +41,16 @@ import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
  * @since 1.0
  */
 public class SimpleSocketClient {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleSocketClient.class);
+
     private String host;
     private int port;
     private Channel channel;
+    private EventLoopGroup group;
+    private boolean connected = false;
+    private int retryTimes = 0;
+    private int maxRetryTimes = 10;
+    private List<Packet> messages = new ArrayList<Packet>();
 
     public SimpleSocketClient(String host, int port) {
         this.host = host;
@@ -47,30 +61,65 @@ public class SimpleSocketClient {
         this("localhost", port);
     }
 
-    public Channel connect() {
-        EventLoopGroup group = new NioEventLoopGroup();
-        try {
-            Bootstrap b = new Bootstrap();
-            b.group(group).channel(NioSocketChannel.class).handler(new ClientChannelInitializer());
+    public SimpleSocketClient connect() {
+        group = new NioEventLoopGroup();
 
-            // Make a new connection.
-            this.channel = b.connect(host, port).sync().channel();
+        do {
+            try {
+                Bootstrap b = new Bootstrap();
+                b.group(group).channel(NioSocketChannel.class).handler(new ClientChannelInitializer());
+                this.channel = b.connect(host, port).sync().channel();
 
-            ClientHandler handler = channel.pipeline().get(ClientHandler.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            //group.shutdownGracefully();
+                this.setConnected();
+            } catch (Exception e) {
+                LOGGER.error("{}", e.getMessage());
+            }
+
+            if (!connected) {
+                try {
+                    TimeUnit.SECONDS.sleep(Math.min(60, IntMath.pow(2, retryTimes)));
+                } catch (InterruptedException ignored) {
+                }
+
+                LOGGER.info("Retrying to connect to server ... [{}]", retryTimes);
+            }
+
+        } while (!connected && retryTimes++ <= maxRetryTimes);
+
+        if (!connected) {
+            LOGGER.info("Failed to connect.");
         }
 
-        return this.channel;
+        return this;
+    }
+
+    private void setConnected() {
+        this.connected = true;
+        retryTimes = 0;
+    }
+
+    public Channel getChannel() {
+        return channel;
+    }
+
+    public void disconnect() {
+        group.shutdownGracefully();
+        this.connected = false;
+        retryTimes = 0;
     }
 
     public void write(MessageLiteOrBuilder message) {
+        if (!connected) {
+            this.connect(); // 发送数据时自动连接
+        }
         channel.writeAndFlush(message);
     }
 
-    class ClientChannelInitializer extends ChannelInitializer<SocketChannel> {
+    public List<Packet> getMessages() {
+        return messages;
+    }
+
+    private final class ClientChannelInitializer extends ChannelInitializer<SocketChannel> {
         @Override
         protected void initChannel(SocketChannel ch) throws Exception {
             ChannelPipeline p = ch.pipeline();
@@ -85,10 +134,10 @@ public class SimpleSocketClient {
         }
     }
 
-    class ClientHandler extends SimpleChannelInboundHandler<Packet> {
+    private final class ClientHandler extends SimpleChannelInboundHandler<Packet> {
         @Override
         protected void channelRead0(ChannelHandlerContext ctx, Packet msg) throws Exception {
-
+            messages.add(msg);
         }
     }
 }

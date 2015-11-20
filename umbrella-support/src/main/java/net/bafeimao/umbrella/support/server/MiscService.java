@@ -17,6 +17,7 @@
 package net.bafeimao.umbrella.support.server;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import io.netty.channel.ChannelHandlerContext;
 import net.bafeimao.umbrella.support.generated.CommonProto.KeepAlive;
 import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
 import net.bafeimao.umbrella.support.generated.CommonProto.Notification;
@@ -43,13 +44,9 @@ public class MiscService {
     }
 
     @Accept(MessageType.NOTIFICATION)
-    public void notification(Packet packet) throws InvalidProtocolBufferException {
+    public void notification(ChannelHandlerContext ctx, Packet packet) throws InvalidProtocolBufferException {
         LOGGER.info("handle notification from client...");
 
-        Notification notification = Notification.parseFrom(packet.getContent().toByteArray());
-
-        LOGGER.info("Notification133311: {}", notification.getText());
-
-        // TODO keep alive logic goes here
+        ctx.write(Notification.newBuilder().setText("pong"));
     }
 }

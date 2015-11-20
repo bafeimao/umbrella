@@ -38,6 +38,10 @@ public class ClientTests {
     @Before
     public void setup() {
         socketClient = new SimpleSocketClient(3301);
+    }
+
+    @Test
+    public void testConnect() {
         socketClient.connect();
     }
 
@@ -55,11 +59,15 @@ public class ClientTests {
 
     @Test
     public void testNotification() throws InterruptedException {
-        socketClient.write(Notification.newBuilder().setText("hello"));
+        for (int i = 0; i < 100; i++) {
+            socketClient.write(Notification.newBuilder().setText("ping"));
+        }
+        System.out.println(socketClient.getMessages());
     }
 
     @After
     public void destroy() throws InterruptedException {
-        TimeUnit.SECONDS.sleep(1000);
+        TimeUnit.SECONDS.sleep(100);
+        socketClient.disconnect();
     }
 }

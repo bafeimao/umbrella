@@ -18,6 +18,7 @@ package net.bafeimao.umbrella.support.server;
 
 import com.google.common.base.Preconditions;
 import com.google.protobuf.InvalidProtocolBufferException;
+import io.netty.channel.ChannelHandlerContext;
 import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
 import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
 import org.slf4j.Logger;
@@ -56,11 +57,11 @@ public class MessageDispatcher<T> {
         return messageTypeHandlerMap.get(messageType);
     }
 
-    public void dispatch(Packet message) {
+    public void dispatch(ChannelHandlerContext ctx, Packet message) {
         if (message != null) {
             try {
                 MessageHandler handler = getHandler(message.getType());
-                handler.handle(message);
+                handler.handle(ctx, message);
             } catch (InvalidProtocolBufferException e) {
                 LOGGER.error("{}", e);
             }

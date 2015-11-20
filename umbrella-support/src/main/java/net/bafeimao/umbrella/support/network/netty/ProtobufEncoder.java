@@ -43,7 +43,9 @@ public class ProtobufEncoder extends MessageToMessageEncoder<MessageLiteOrBuilde
 //            out.add(wrappedBuffer(((MessageLite.Builder) msg).build().toByteArray()));
 //        }
 
-        Packet.Builder builder = PacketWrapper.wrap(msg);
-        out.add(wrappedBuffer(builder.build().toByteArray()));
+        Packet packet = PacketWrapper.wrap(msg);
+        if (packet != null) {
+            out.add(wrappedBuffer(packet.toByteArray()));
+        }
     }
 }

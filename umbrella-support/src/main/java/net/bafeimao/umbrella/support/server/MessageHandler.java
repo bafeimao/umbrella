@@ -17,6 +17,7 @@
 package net.bafeimao.umbrella.support.server;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import io.netty.channel.ChannelHandlerContext;
 import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
 
 /**
@@ -26,5 +27,5 @@ import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
  * @since 1.0
  */
 public interface MessageHandler {
-    void handle(Packet packet) throws InvalidProtocolBufferException;
+    void handle(ChannelHandlerContext ctx, Packet packet) throws InvalidProtocolBufferException;
 }
