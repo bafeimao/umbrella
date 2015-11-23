@@ -29,13 +29,15 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
 import net.bafeimao.umbrella.support.network.netty.ProtobufEncoder;
+import net.bafeimao.umbrella.support.server.handler.DefaultServerHandler;
+import net.bafeimao.umbrella.support.server.handler.ProtocolStatsHandler;
+import net.bafeimao.umbrella.support.server.message.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
+import java.lang.reflect.Method;
 import java.util.Iterator;
-
-//import io.netty.handler.codec.protobuf.ProtobufEncoder;
 
 /**
  * Created by bafeimao on 2015/11/2.
@@ -136,6 +138,30 @@ public class Application {
             public void run() {
                 LOGGER.info("Socket server is starting ...");
 
+                // 声明一个MessageDispatcher对象,该对象用于分发消息到具体的handler
+                PacketMessageDispatcher dispatcher = new PacketMessageDispatcher();
+
+                // 为dispatcher注册handler
+                MiscService miscService = new MiscService();
+                Method[] methods = MiscService.class.getDeclaredMethods();
+                for (Method method : methods) {
+                    if (method.isAnnotationPresent(Accept.class)) {
+                        Accept annotation = method.getAnnotation(Accept.class);
+                        MessageHandler handler = new MessageHandlerAdapter<Packet>(miscService, method);
+                         dispatcher.registerHandler(annotation.value(), handler);
+                    }
+                }
+
+                // TODO 搜索实现了MessageHandler接口并且带有@Accept注解的的所有的类
+
+                // TODO 将以下代码换成自动搜索并自动添加到handler查找表中
+                Accept annotation = KeepAliveMessageHandler.class.getAnnotation(Accept.class);
+                if (annotation != null) {
+                    dispatcher.registerHandler(annotation.value(), new KeepAliveMessageHandler());
+                }
+
+                final DefaultServerHandler defaultServerHandler = new DefaultServerHandler(dispatcher);
+
                 EventLoopGroup bossGroup = new NioEventLoopGroup(1);
                 EventLoopGroup workerGroup = new NioEventLoopGroup();
                 try {
@@ -154,7 +180,8 @@ public class Application {
                                     p.addLast(new ProtobufVarint32LengthFieldPrepender());
                                     p.addLast(new ProtobufEncoder());
 
-                                    p.addLast(new DefaultServerHandler());
+                                    p.addLast(new ProtocolStatsHandler());
+                                    p.addLast(defaultServerHandler);
                                 }
                             });
 

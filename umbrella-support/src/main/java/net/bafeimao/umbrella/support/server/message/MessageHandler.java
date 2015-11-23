@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support.server;
+package net.bafeimao.umbrella.support.server.message;
 
 /**
- * Created by gukaitong(29283212@qq.com) on 2015/11/10.
+ * Created by gukaitong(29283212@qq.com) on 2015/11/19.
  *
  * @author gukaitong
  * @since 1.0
  */
-public class SessionManager {
-
+public interface MessageHandler<T> {
+    void handle(HandlerContext ctx, T message) throws
+            MessageHandlerInvocationException, MessageHandlerExecutionException;
 }
