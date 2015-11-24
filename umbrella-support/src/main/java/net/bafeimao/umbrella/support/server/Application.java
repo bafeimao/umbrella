@@ -27,6 +27,7 @@ import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
 import net.bafeimao.umbrella.support.network.netty.ProtobufEncoder;
 import org.slf4j.Logger;
@@ -154,16 +155,19 @@ public class Application {
                                     p.addLast(new ProtobufVarint32LengthFieldPrepender());
                                     p.addLast(new ProtobufEncoder());
 
+                                    p.addLast(new IdleStateHandler(10, 4, 20));
+//                                    p.addLast( new ChannelTrafficShapingHandler(new HashedWheelTimer()));
                                     p.addLast(new DefaultServerHandler());
                                 }
                             });
 
                     int port = getServerInfo().getPort();
-                    ChannelFuture future = b.bind(port);
+                    ChannelFuture future = b.bind(port).sync();
 
                     LOGGER.info("Socket server started, Listening on {}", port);
 
-                    future.sync().channel().closeFuture().sync();
+                    // 阻塞直到关闭
+                    future.channel().closeFuture().sync();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {

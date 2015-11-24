@@ -17,6 +17,8 @@ package net.bafeimao.umbrella.support.server;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.timeout.IdleState;
+import io.netty.handler.timeout.IdleStateEvent;
 import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +31,7 @@ public class DefaultServerHandler extends SimpleChannelInboundHandler<Packet> {
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, Packet packet) throws Exception {
-        LOGGER.info("Handling message: {} [type:{}]", packet, packet.getType());
+        LOGGER.info("RECEIVED: {} [type:{}]", packet, packet.getType());
 
         try {
             messageDispatcher.dispatch(ctx, packet);
@@ -52,5 +54,23 @@ public class DefaultServerHandler extends SimpleChannelInboundHandler<Packet> {
         }
 
         ctx.close();
+    }
+
+    @Override
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        if (evt instanceof IdleStateEvent) {
+            IdleStateEvent e = (IdleStateEvent) evt;
+            if (e.state() == IdleState.READER_IDLE) {
+                LOGGER.info("READER_IDLE");
+//                ctx.close(); // 断开客户端的连接
+            } else if (e.state() == IdleState.WRITER_IDLE) {
+                LOGGER.info("WRITER_IDLE");
+            } else if (e.state() == IdleState.ALL_IDLE) {
+                LOGGER.info("ALL_IDLE");
+                //                ctx.close(); // 断开客户端的连接
+            }
+        }
+
+        super.userEventTriggered(ctx, evt);
     }
 }

@@ -63,7 +63,7 @@ public class ClientTests {
             socketClient.write(Notification.newBuilder().setText("ping"));
         }
         System.out.println(socketClient.getMessages());
-    }
+}
 
     @After
     public void destroy() throws InterruptedException {
