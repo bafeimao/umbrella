@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support.server;
+package net.bafeimao.umbrella.support.server.message;
 
 import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
 
@@ -26,7 +26,7 @@ import java.lang.annotation.*;
  * @author gukaitong
  * @since 1.0
  */
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Accept {

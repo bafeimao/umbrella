@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support.server;
+package net.bafeimao.umbrella.support.server.session;
 
 /**
  * Created by gukaitong(29283212@qq.com) on 2015/11/10.
@@ -22,12 +22,34 @@ package net.bafeimao.umbrella.support.server;
  * @author gukaitong
  * @since 1.0
  */
-public interface Session {
-    void write(Object message);
+public class SessionImpl implements Session {
+    private long uid;
+    private long serverId;
+    private long id;
+    private long creationTime;
+    private long lastReadTime;
+    private long lastWriteTime;
+    private SessionStats stats;
+    private boolean statsEnabled = false;
 
-    void close();
+    @Override
+    public void write(Object message) {
 
-    void setStatsEnabled();
+    }
 
-    SessionStats stats();
+    @Override
+    public void close() {
+
+    }
+
+    @Override
+    public void setStatsEnabled() {
+        this.statsEnabled = true;
+        stats = new SessionStats();
+    }
+
+    @Override
+    public SessionStats stats() {
+        return stats;
+    }
 }

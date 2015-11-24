@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support.server;
-
-import java.lang.reflect.Method;
+package net.bafeimao.umbrella.support.server.session;
 
 /**
  * Created by gukaitong(29283212@qq.com) on 2015/11/10.
@@ -24,10 +22,6 @@ import java.lang.reflect.Method;
  * @author gukaitong
  * @since 1.0
  */
-public class SimpleMessageHandler {
-    private Method delegate;
+public class SessionManager {
 
-    public void handle() {
-
-    }
 }

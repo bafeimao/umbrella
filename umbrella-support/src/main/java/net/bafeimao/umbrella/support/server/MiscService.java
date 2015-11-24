@@ -16,12 +16,12 @@
 
 package net.bafeimao.umbrella.support.server;
 
-import com.google.protobuf.InvalidProtocolBufferException;
-import io.netty.channel.ChannelHandlerContext;
-import net.bafeimao.umbrella.support.generated.CommonProto.KeepAlive;
 import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
 import net.bafeimao.umbrella.support.generated.CommonProto.Notification;
 import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
+import net.bafeimao.umbrella.support.server.handler.DefaultServerHandler;
+import net.bafeimao.umbrella.support.server.message.Accept;
+import net.bafeimao.umbrella.support.server.message.HandlerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,16 +35,17 @@ public class MiscService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultServerHandler.class);
 
     @Accept(MessageType.KEEP_ALIVE)
-    public void keepAlive(Packet packet) throws InvalidProtocolBufferException {
+    public void keepAlive(HandlerContext ctx, Packet packet) throws Exception {
         LOGGER.info("handle keep alive...");
 
-        KeepAlive keepAlive = KeepAlive.parseFrom(packet.getContent().toByteArray());
+            // KeepAlive keepAlive = KeepAlive.parseFrom(packet.getContent().toByteArray());
 
-        // TODO keep alive logic goes here
-    }
+        // DO nothing here
+
+     }
 
     @Accept(MessageType.NOTIFICATION)
-    public void notification(ChannelHandlerContext ctx, Packet packet) throws InvalidProtocolBufferException {
+    public void notification(HandlerContext ctx, Packet packet) throws Exception{
         LOGGER.info("handle notification from client...");
 
         ctx.write(Notification.newBuilder().setText("pong"));
