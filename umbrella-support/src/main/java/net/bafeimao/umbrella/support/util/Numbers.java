@@ -43,7 +43,7 @@ public class Numbers {
         } else if (clazz.equals(Short.class)) {
             result = Shorts.compare((Short) a, (Short) b);
         } else if (clazz.equals(Byte.class)) {
-            result = result = Shorts.compare((Short) a, (Short) b);
+            result = Shorts.compare((Short) a, (Short) b);
         }
 
         return result;

@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support.util;
+package net.bafeimao.umbrella.support.util.json;
 
-public abstract class JsonProcessException extends RuntimeException {
-	private static final long serialVersionUID = -2245049475652136445L;
+public class JsonSerializeException extends JsonProcessException {
+	private static final long serialVersionUID = 3837584243921004990L;
 	
-	public JsonProcessException() {}
+	public JsonSerializeException() {}
 	
-	public JsonProcessException(String message) {
+	public JsonSerializeException(String message) {
 		super(message);
 	}
 	
-	public JsonProcessException(String message, Throwable cause) {
+	public JsonSerializeException(String message, Throwable cause) {
 		super(message, cause);
 	}
 }

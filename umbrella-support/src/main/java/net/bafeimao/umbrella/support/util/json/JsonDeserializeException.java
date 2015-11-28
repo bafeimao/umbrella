@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support.util;
+package net.bafeimao.umbrella.support.util.json;
 
 public class JsonDeserializeException extends JsonProcessException {
 	private static final long serialVersionUID = -8497185424604801275L;

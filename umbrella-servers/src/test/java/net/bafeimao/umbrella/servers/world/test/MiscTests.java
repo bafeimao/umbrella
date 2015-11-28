@@ -17,7 +17,7 @@
 package net.bafeimao.umbrella.servers.world.test;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import net.bafeimao.umbrella.support.util.JsonUtil;
+import net.bafeimao.umbrella.support.util.json.JsonUtil;
 import org.junit.Test;
 
 import java.util.ArrayList;
