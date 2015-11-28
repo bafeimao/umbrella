@@ -50,29 +50,11 @@ public class ApplicationConfig extends PropertiesConfiguration {
      * Prints configurations
      */
     public void print() {
-        LOGGER.info("Configurations:");
+        LOGGER.info("Application Configurations:");
 
-        StringBuilder sb = new StringBuilder();
-        try {
-            for (Iterator<String> iterator = this.getKeys(); iterator.hasNext(); ) {
-                String key = iterator.next();
-                sb.append(String.format("%s => %s\n", key, getProperty(key)));
-            }
-
-            System.out.println(sb.toString());
-
-        } catch (Exception e) {
-            LOGGER.error("{}", e);
-        }
-    }
-
-    public boolean isRpcServerEnabled() {
-        String rpcEnabled = getString("server.rpcEnabled", "false");
-        try {
-            return Boolean.parseBoolean(rpcEnabled);
-        } catch (Exception e) {
-            LOGGER.error("{}", e);
-            return false;
+        for (Iterator<String> iterator = this.getKeys(); iterator.hasNext(); ) {
+            String key = iterator.next();
+            LOGGER.debug("{}：{}", key, this.getProperty(key));
         }
     }
 

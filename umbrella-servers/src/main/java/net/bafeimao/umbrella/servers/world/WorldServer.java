@@ -16,7 +16,11 @@
 
 package net.bafeimao.umbrella.servers.world;
 
-import org.springframework.context.ApplicationContext;
+import io.netty.handler.logging.LogLevel;
+import net.bafeimao.umbrella.support.server.Application;
+import net.bafeimao.umbrella.support.server.Server;
+import net.bafeimao.umbrella.support.server.ServerInfo;
+import net.bafeimao.umbrella.support.server.SocketServerBuilder;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -25,9 +29,24 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author gukaitong
  * @since 1.0
  */
-public class WorldServer {
+public class WorldServer extends Application implements Server{
 
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("world/context.xml");
+        new ClassPathXmlApplicationContext("world/context.xml");
+    }
+
+    @Override
+    public void onStarting() {
+        ServerInfo serverInfo = getServerInfo();
+
+        // 启动Socket服务
+        SocketServerBuilder.newBuilder()
+                .forAddress(serverInfo.getHost(), serverInfo.getPort())
+                .handlerPackageScan("net.bafeimao.umbrella")
+                .setEventLoopThreads(1, Runtime.getRuntime().availableProcessors() * 2)
+                .setLogLevel(LogLevel.INFO)
+                .build().start();
+
+        // 启动RPC服务
     }
 }

@@ -48,4 +48,11 @@ public class MiscTests {
 
         System.out.println(elements);
     }
+
+    @Test
+    public void test1() {
+        Package pkg = Package.getPackage("net");
+        Package.getPackages();
+        System.out.println(pkg);
+    }
 }

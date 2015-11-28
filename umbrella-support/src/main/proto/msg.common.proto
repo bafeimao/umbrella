@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-//import "any.proto";
+// import "google/protobuf/any.proto";
 
 package net.bafeimao.umbrella.support.generated;
 
@@ -14,16 +14,24 @@ message Packet {
 	MessageType type = 1;
 	uint64 sequence = 2;
 	bytes content = 3;
+	uint32 error = 4;
+	string errorText = 5;
 }
 
 enum MessageType {
 	KEEP_ALIVE = 0x00000000;
 	NOTIFICATION =0x00000001;
- }
+}
 
 message KeepAlive {
 }
 
 message Notification {
 	string text = 1;
+}
+
+enum ErrorCode {
+	UNKNOWN = 0x00000000;
+	SERVER_UNAVAILABLE = 10001;
+	SERVER_INTERNAL_ERROR = 10002;
 }

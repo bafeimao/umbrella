@@ -11,8 +11,7 @@ public class JsonMessageHandlerAdapter extends MessageHandlerAdapter<Object[]> {
     }
 
     @Override
-    public void handle(HandlerContext ctx, Object[] message)
-            throws MessageHandlerInvocationException, MessageHandlerExecutionException {
+    public void handle(HandlerContext ctx, Object[] message) throws HandlerExecutionException {
         int messageType = (Integer) message[0];
         Object[] content = (Object[]) message[1];
         super.handle(ctx, content);

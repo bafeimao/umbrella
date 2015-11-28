@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support.server;
+package net.bafeimao.umbrella.servers.world.handler;
 
 import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
 import net.bafeimao.umbrella.support.generated.CommonProto.Notification;
 import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
-import net.bafeimao.umbrella.support.server.handler.DefaultServerHandler;
 import net.bafeimao.umbrella.support.server.message.Accept;
 import net.bafeimao.umbrella.support.server.message.HandlerContext;
 import org.slf4j.Logger;
@@ -31,18 +30,8 @@ import org.slf4j.LoggerFactory;
  * @author gukaitong
  * @since 1.0
  */
-public class MiscService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultServerHandler.class);
-
-    @Accept(MessageType.KEEP_ALIVE)
-    public void keepAlive(HandlerContext ctx, Packet packet) throws Exception {
-        LOGGER.info("handle keep alive...");
-
-            // KeepAlive keepAlive = KeepAlive.parseFrom(packet.getContent().toByteArray());
-
-        // DO nothing here
-
-     }
+public class MiscMessageService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MiscMessageService.class);
 
     @Accept(MessageType.NOTIFICATION)
     public void notification(HandlerContext ctx, Packet packet) throws Exception{

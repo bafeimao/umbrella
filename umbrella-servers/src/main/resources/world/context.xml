@@ -11,7 +11,7 @@
     <import resource="../context-common.xml"/>
     <import resource="../context-hibernate.xml"/>
 
-    <bean id="app" class="net.bafeimao.umbrella.support.server.Application" init-method="start" destroy-method="stop">
+    <bean id="app" class="net.bafeimao.umbrella.servers.world.WorldServer" init-method="start" destroy-method="stop">
         <property name="configPath" value="/world/server.properties"/>
     </bean>
 </beans>

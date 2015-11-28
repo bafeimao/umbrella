@@ -20,7 +20,6 @@ import net.bafeimao.umbrella.support.server.handler.DefaultServerHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -43,20 +42,16 @@ public class MessageHandlerAdapter<T> implements MessageHandler<T> {
     /**
      * 执行对指定消息的处理
      *
-     * @param ctx 消息执行上下文
+     * @param ctx     消息执行上下文
      * @param message 要处理的消息
-     * @throws MessageHandlerInvocationException 消息处理器调用异常
-     * @throws MessageHandlerExecutionException 消息处理器执行异常
+     * @throws HandlerExecutionException 消息处理器执行异常
      */
     @Override
-    public void handle(HandlerContext ctx, T message) throws
-            MessageHandlerInvocationException, MessageHandlerExecutionException {
+    public void handle(HandlerContext ctx, T message) throws HandlerExecutionException {
         try {
             handleMethod.invoke(delegate, ctx, message);
-        } catch (IllegalAccessException e) {
-            throw new MessageHandlerInvocationException(e);
-        } catch (InvocationTargetException e) {
-            throw new MessageHandlerInvocationException(e);
+        } catch (Exception e) {
+            throw new HandlerExecutionException(e); // Wrap exception
         }
     }
 }

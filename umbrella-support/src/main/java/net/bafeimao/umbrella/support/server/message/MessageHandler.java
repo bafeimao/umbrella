@@ -23,6 +23,5 @@ package net.bafeimao.umbrella.support.server.message;
  * @since 1.0
  */
 public interface MessageHandler<T> {
-    void handle(HandlerContext ctx, T message) throws
-            MessageHandlerInvocationException, MessageHandlerExecutionException;
+    void handle(HandlerContext ctx, T message) throws HandlerExecutionException;
 }

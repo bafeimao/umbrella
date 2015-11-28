@@ -100,6 +100,107 @@ public final class CommonProto {
     // @@protoc_insertion_point(enum_scope:net.bafeimao.umbrella.support.generated.MessageType)
   }
 
+  /**
+   * Protobuf enum {@code net.bafeimao.umbrella.support.generated.ErrorCode}
+   */
+  public enum ErrorCode
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>UNKNOWN = 0;</code>
+     */
+    UNKNOWN(0, 0),
+    /**
+     * <code>SERVER_UNAVAILABLE = 10001;</code>
+     */
+    SERVER_UNAVAILABLE(1, 10001),
+    /**
+     * <code>SERVER_INTERNAL_ERROR = 10002;</code>
+     */
+    SERVER_INTERNAL_ERROR(2, 10002),
+    UNRECOGNIZED(-1, -1),
+    ;
+
+    /**
+     * <code>UNKNOWN = 0;</code>
+     */
+    public static final int UNKNOWN_VALUE = 0;
+    /**
+     * <code>SERVER_UNAVAILABLE = 10001;</code>
+     */
+    public static final int SERVER_UNAVAILABLE_VALUE = 10001;
+    /**
+     * <code>SERVER_INTERNAL_ERROR = 10002;</code>
+     */
+    public static final int SERVER_INTERNAL_ERROR_VALUE = 10002;
+
+
+    public final int getNumber() {
+      if (index == -1) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    public static ErrorCode valueOf(int value) {
+      switch (value) {
+        case 0: return UNKNOWN;
+        case 10001: return SERVER_UNAVAILABLE;
+        case 10002: return SERVER_INTERNAL_ERROR;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<ErrorCode>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        ErrorCode> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<ErrorCode>() {
+            public ErrorCode findValueByNumber(int number) {
+              return ErrorCode.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return net.bafeimao.umbrella.support.generated.CommonProto.getDescriptor().getEnumTypes().get(1);
+    }
+
+    private static final ErrorCode[] VALUES = values();
+
+    public static ErrorCode valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private ErrorCode(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:net.bafeimao.umbrella.support.generated.ErrorCode)
+  }
+
   public interface PacketOrBuilder extends
       // @@protoc_insertion_point(interface_extends:net.bafeimao.umbrella.support.generated.Packet)
       com.google.protobuf.MessageOrBuilder {
@@ -122,6 +223,21 @@ public final class CommonProto {
      * <code>optional bytes content = 3;</code>
      */
     com.google.protobuf.ByteString getContent();
+
+    /**
+     * <code>optional uint32 error = 4;</code>
+     */
+    int getError();
+
+    /**
+     * <code>optional string errorText = 5;</code>
+     */
+    java.lang.String getErrorText();
+    /**
+     * <code>optional string errorText = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getErrorTextBytes();
   }
   /**
    * Protobuf type {@code net.bafeimao.umbrella.support.generated.Packet}
@@ -138,6 +254,8 @@ public final class CommonProto {
       type_ = 0;
       sequence_ = 0L;
       content_ = com.google.protobuf.ByteString.EMPTY;
+      error_ = 0;
+      errorText_ = "";
     }
 
     @java.lang.Override
@@ -178,6 +296,17 @@ public final class CommonProto {
             case 26: {
 
               content_ = input.readBytes();
+              break;
+            }
+            case 32: {
+
+              error_ = input.readUInt32();
+              break;
+            }
+            case 42: {
+              String s = input.readStringRequireUtf8();
+
+              errorText_ = s;
               break;
             }
           }
@@ -238,6 +367,49 @@ public final class CommonProto {
       return content_;
     }
 
+    public static final int ERROR_FIELD_NUMBER = 4;
+    private int error_;
+    /**
+     * <code>optional uint32 error = 4;</code>
+     */
+    public int getError() {
+      return error_;
+    }
+
+    public static final int ERRORTEXT_FIELD_NUMBER = 5;
+    private volatile java.lang.Object errorText_;
+    /**
+     * <code>optional string errorText = 5;</code>
+     */
+    public java.lang.String getErrorText() {
+      java.lang.Object ref = errorText_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        errorText_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string errorText = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getErrorTextBytes() {
+      java.lang.Object ref = errorText_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        errorText_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -259,6 +431,12 @@ public final class CommonProto {
       if (!content_.isEmpty()) {
         output.writeBytes(3, content_);
       }
+      if (error_ != 0) {
+        output.writeUInt32(4, error_);
+      }
+      if (!getErrorTextBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 5, errorText_);
+      }
     }
 
     public int getSerializedSize() {
@@ -277,6 +455,13 @@ public final class CommonProto {
       if (!content_.isEmpty()) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, content_);
+      }
+      if (error_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(4, error_);
+      }
+      if (!getErrorTextBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(5, errorText_);
       }
       memoizedSize = size;
       return size;
@@ -395,6 +580,10 @@ public final class CommonProto {
 
         content_ = com.google.protobuf.ByteString.EMPTY;
 
+        error_ = 0;
+
+        errorText_ = "";
+
         return this;
       }
 
@@ -420,6 +609,8 @@ public final class CommonProto {
         result.type_ = type_;
         result.sequence_ = sequence_;
         result.content_ = content_;
+        result.error_ = error_;
+        result.errorText_ = errorText_;
         onBuilt();
         return result;
       }
@@ -443,6 +634,13 @@ public final class CommonProto {
         }
         if (other.getContent() != com.google.protobuf.ByteString.EMPTY) {
           setContent(other.getContent());
+        }
+        if (other.getError() != 0) {
+          setError(other.getError());
+        }
+        if (!other.getErrorText().isEmpty()) {
+          errorText_ = other.errorText_;
+          onChanged();
         }
         onChanged();
         return this;
@@ -565,6 +763,101 @@ public final class CommonProto {
       public Builder clearContent() {
         
         content_ = getDefaultInstance().getContent();
+        onChanged();
+        return this;
+      }
+
+      private int error_ ;
+      /**
+       * <code>optional uint32 error = 4;</code>
+       */
+      public int getError() {
+        return error_;
+      }
+      /**
+       * <code>optional uint32 error = 4;</code>
+       */
+      public Builder setError(int value) {
+        
+        error_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 error = 4;</code>
+       */
+      public Builder clearError() {
+        
+        error_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object errorText_ = "";
+      /**
+       * <code>optional string errorText = 5;</code>
+       */
+      public java.lang.String getErrorText() {
+        java.lang.Object ref = errorText_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          errorText_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string errorText = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getErrorTextBytes() {
+        java.lang.Object ref = errorText_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          errorText_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string errorText = 5;</code>
+       */
+      public Builder setErrorText(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        errorText_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string errorText = 5;</code>
+       */
+      public Builder clearErrorText() {
+        
+        errorText_ = getDefaultInstance().getErrorText();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string errorText = 5;</code>
+       */
+      public Builder setErrorTextBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        errorText_ = value;
         onChanged();
         return this;
       }
@@ -1415,13 +1708,16 @@ public final class CommonProto {
   static {
     java.lang.String[] descriptorData = {
       "\n\020msg.common.proto\022\'net.bafeimao.umbrell" +
-      "a.support.generated\"o\n\006Packet\022B\n\004type\030\001 " +
-      "\001(\01624.net.bafeimao.umbrella.support.gene" +
-      "rated.MessageType\022\020\n\010sequence\030\002 \001(\004\022\017\n\007c" +
-      "ontent\030\003 \001(\014\"\013\n\tKeepAlive\"\034\n\014Notificatio" +
-      "n\022\014\n\004text\030\001 \001(\t*/\n\013MessageType\022\016\n\nKEEP_A" +
-      "LIVE\020\000\022\020\n\014NOTIFICATION\020\001B\017B\013CommonProtoH" +
-      "\001b\006proto3"
+      "a.support.generated\"\221\001\n\006Packet\022B\n\004type\030\001" +
+      " \001(\01624.net.bafeimao.umbrella.support.gen" +
+      "erated.MessageType\022\020\n\010sequence\030\002 \001(\004\022\017\n\007" +
+      "content\030\003 \001(\014\022\r\n\005error\030\004 \001(\r\022\021\n\terrorTex" +
+      "t\030\005 \001(\t\"\013\n\tKeepAlive\"\034\n\014Notification\022\014\n\004" +
+      "text\030\001 \001(\t*/\n\013MessageType\022\016\n\nKEEP_ALIVE\020" +
+      "\000\022\020\n\014NOTIFICATION\020\001*M\n\tErrorCode\022\013\n\007UNKN" +
+      "OWN\020\000\022\027\n\022SERVER_UNAVAILABLE\020\221N\022\032\n\025SERVER" +
+      "_INTERNAL_ERROR\020\222NB\017B\013CommonProtoH\001b\006pro",
+      "to3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1440,7 +1736,7 @@ public final class CommonProto {
     internal_static_net_bafeimao_umbrella_support_generated_Packet_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_net_bafeimao_umbrella_support_generated_Packet_descriptor,
-        new java.lang.String[] { "Type", "Sequence", "Content", });
+        new java.lang.String[] { "Type", "Sequence", "Content", "Error", "ErrorText", });
     internal_static_net_bafeimao_umbrella_support_generated_KeepAlive_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_net_bafeimao_umbrella_support_generated_KeepAlive_fieldAccessorTable = new
