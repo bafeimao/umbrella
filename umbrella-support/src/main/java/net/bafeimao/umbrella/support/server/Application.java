@@ -23,6 +23,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 /**
+ * Abstract application class for game server
+ *
  * Created by bafeimao on 2015/11/2.
  *
  * @author bafeimao
@@ -37,7 +39,7 @@ public class Application {
     private String configPath;
     volatile private int state = 0;
     private ServerManager serverManager = ServerManager.getInstance();
-    private EventBus syncEventBus;
+    private EventBus syncEventBus = new EventBus("global");
 
     public final static int STARTING = 1;
     public final static int STARTED = 2;
@@ -52,10 +54,8 @@ public class Application {
         LOGGER.info("Starting application");
 
         instance = this;
-
+        state = STARTING;
         try {
-            state = STARTING;
-
             this.loadConfig().print();
 
             this.onStarting(); // for extensions hook
@@ -67,18 +67,19 @@ public class Application {
                 @Override
                 public void run() {
                     state = STOPPING;
-
-                    System.err.println("*** shutting down application since JVM is shutting down");
-                    Application.this.stop();
-                    System.err.println("*** Application was shut down");
-
+                    try {
+                        System.err.println("*** shutting down application since JVM is shutting down ***");
+                        Application.this.stop();
+                        System.err.println("*** Application was shut down ***");
+                    }catch (Exception e){
+                        LOGGER.error("应用程序关闭失败,错误信息:{}", e);
+                    }
                     state = STOPPED;
                 }
             });
-
             state = STARTED;
         } catch (Exception e) {
-            LOGGER.error("{}", e);
+            LOGGER.error("应用程序启动失败,错误信息:{}", e);
             System.exit(0);
         }
     }
