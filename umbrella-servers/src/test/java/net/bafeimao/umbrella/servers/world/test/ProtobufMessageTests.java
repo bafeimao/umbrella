@@ -23,6 +23,7 @@ import net.bafeimao.umbrella.servers.generated.TestProto.Test1;
 import net.bafeimao.umbrella.support.generated.CommonProto.KeepAlive;
 import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
 import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -60,6 +61,45 @@ public class ProtobufMessageTests {
 //        ByteString byteString = builder.build().toByteString();
 //        byte[] bytes = builder.build().toByteArray();
 //        System.out.println(builder.build().toByteString());
+    }
+
+    @Test
+    public void testMessageMerge() {
+        Test1.Builder builder1 = Test1.newBuilder();
+        builder1.setA(1);
+        System.out.println(builder1);
+
+        Test1.Builder builder2 = Test1.newBuilder();
+        builder2.setB("hello");
+        System.out.println(builder2);
+
+        Test1.Builder builder3 = builder1.mergeFrom(builder2.build());
+        System.out.println(builder3);
+        Assert.assertEquals(builder1, builder3);
+
+        Test1.Builder builder4 = builder3.clear();
+        System.out.println(builder4);
+        Assert.assertEquals(builder4, builder3);
+    }
+
+    @Test
+    public void testMessageMerge1() {
+        Test1.Builder builder1 = Test1.newBuilder();
+        builder1.setA(1);
+        System.out.println(builder1);
+
+        Test1.Builder builder2 = Test1.newBuilder();
+        builder2.setB("hello");
+        System.out.println(builder2);
+
+        Test1.Builder builder3 = builder1.mergeFrom(builder2.build());
+        System.out.println(builder3);
+        Assert.assertEquals(builder1, builder3);
+    }
+
+    @Test
+    public void test() {
+        Packet.Builder builder = Packet.newBuilder();
     }
 
     @Test

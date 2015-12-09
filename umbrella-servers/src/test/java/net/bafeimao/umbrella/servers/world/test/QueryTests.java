@@ -19,16 +19,11 @@ package net.bafeimao.umbrella.servers.world.test;
 
 import com.esotericsoftware.reflectasm.FieldAccess;
 import com.esotericsoftware.reflectasm.MethodAccess;
-import net.bafeimao.umbrella.servers.world.entity.HeroEntity;
-import net.bafeimao.umbrella.support.data.FilterOperator;
-import net.bafeimao.umbrella.support.data.Query;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,34 +33,34 @@ import java.util.regex.Pattern;
 public class QueryTests {
     @Test
     public void test1() {
-        Query<HeroEntity> query = new Query<HeroEntity>();
-
-        // name = 'xxx'
-        List<?> heros = query.filter("name", "xxx").asList();
-        Assert.assertNotNull(heros);
-
-        // name != 'xxx'
-        heros = query.field("name").neq("xxx").asList();
-        System.out.println(heros);
-
-        // name == 'xxx' and age = 30
-        heros = query.filter("name", "xxx").filter("age", 20).asList();
-        System.out.println(heros);
-        heros = query.filter("name", "xxx").and("age", FilterOperator.EQ, 20).asList();
-        System.out.println(heros);
-        heros = query.filter("name", "xxx").and().field("age").eq(20).asList();
-        System.out.println(heros);
-
-        // name == 'xxx' or age > 10
-        heros = query.filter("name", "xxx").or("age", FilterOperator.GTE, 10).asList();
-        System.out.println(heros);
-        heros = query.filter("name", "xxx").or().field("age").gte(10).asList();
-        System.out.println(heros);
-
-        // offset:1, limit:1
-        heros = query.offset(1).limit(2).asList();
-        heros = query.offset(5).limit(5).asList();
-        heros = query.offset(3).filter("gender", 1).limit(5).asList();
+//        Query<Enemy> query = new Query<Enemy>();
+//
+//        // name = 'xxx'
+//        List<?> heros = query.filter("name", "xxx").asList();
+//        Assert.assertNotNull(heros);
+//
+//        // name != 'xxx'
+//        heros = query.field("name").neq("xxx").asList();
+//        System.out.println(heros);
+//
+//        // name == 'xxx' and age = 30
+//        heros = query.filter("name", "xxx").filter("age", 20).asList();
+//        System.out.println(heros);
+//        heros = query.filter("name", "xxx").and("age", FilterOperator.EQ, 20).asList();
+//        System.out.println(heros);
+//        heros = query.filter("name", "xxx").and().field("age").eq(20).asList();
+//        System.out.println(heros);
+//
+//        // name == 'xxx' or age > 10
+//        heros = query.filter("name", "xxx").or("age", FilterOperator.GTE, 10).asList();
+//        System.out.println(heros);
+//        heros = query.filter("name", "xxx").or().field("age").gte(10).asList();
+//        System.out.println(heros);
+//
+//        // offset:1, limit:1
+//        heros = query.offset(1).limit(2).asList();
+//        heros = query.offset(5).limit(5).asList();
+//        heros = query.offset(3).filter("gender", 1).limit(5).asList();
     }
 
     @Test

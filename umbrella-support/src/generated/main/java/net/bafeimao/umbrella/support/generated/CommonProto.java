@@ -9,7 +9,7 @@ public final class CommonProto {
       com.google.protobuf.ExtensionRegistry registry) {
   }
   /**
-   * Protobuf enum {@code net.bafeimao.umbrella.support.generated.MessageType}
+   * Protobuf enums {@code net.bafeimao.umbrella.support.generated.MessageType}
    */
   public enum MessageType
       implements com.google.protobuf.ProtocolMessageEnum {
@@ -37,7 +37,7 @@ public final class CommonProto {
     public final int getNumber() {
       if (index == -1) {
         throw new java.lang.IllegalArgumentException(
-            "Can't get the number of an unknown enum value.");
+            "Can't get the number of an unknown enums value.");
       }
       return value;
     }
@@ -101,7 +101,7 @@ public final class CommonProto {
   }
 
   /**
-   * Protobuf enum {@code net.bafeimao.umbrella.support.generated.ErrorCode}
+   * Protobuf enums {@code net.bafeimao.umbrella.support.generated.ErrorCode}
    */
   public enum ErrorCode
       implements com.google.protobuf.ProtocolMessageEnum {
@@ -137,7 +137,7 @@ public final class CommonProto {
     public final int getNumber() {
       if (index == -1) {
         throw new java.lang.IllegalArgumentException(
-            "Can't get the number of an unknown enum value.");
+            "Can't get the number of an unknown enums value.");
       }
       return value;
     }

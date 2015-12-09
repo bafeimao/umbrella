@@ -10,15 +10,17 @@ import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
-import net.bafeimao.umbrella.support.network.netty.ProtobufEncoder;
-import net.bafeimao.umbrella.support.server.handler.DefaultServerHandler;
-import net.bafeimao.umbrella.support.server.handler.ProtocolStatsHandler;
+import net.bafeimao.umbrella.support.network.netty.codec.ProtobufEncoder;
+import net.bafeimao.umbrella.support.network.netty.handler.DefaultServerHandler;
+import net.bafeimao.umbrella.support.network.netty.handler.ProtocolStatsHandler;
 import net.bafeimao.umbrella.support.server.message.*;
 import net.bafeimao.umbrella.support.util.ClassUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -123,9 +125,20 @@ public class SocketServerBuilder {
         for (Class<?> clazz : candidates) {
             Object delegate = null;
             try {
-                delegate = clazz.newInstance();
+                int mod = clazz.getModifiers();
+                if (Modifier.isPublic(mod) && !Modifier.isInterface(mod) && !Modifier.isAbstract(mod)) {
+                    Constructor<?> constructor = null;
+                    try {
+                        constructor = clazz.getConstructor();
+                    } catch (NoSuchMethodException ignored) {
+                    }
+
+                    if (constructor != null && Modifier.isPublic(constructor.getModifiers())) {
+                        delegate = clazz.newInstance();
+                    }
+                }
             } catch (Exception ignore) {
-                LOGGER.error("{}", ignore.getMessage());
+                LOGGER.error("Instantiating error: [{}], {}", clazz.getSimpleName(), ignore.getMessage());
             }
 
             if (delegate != null) {

@@ -16,10 +16,9 @@
 
 package net.bafeimao.umbrella.support.server.message;
 
-import net.bafeimao.umbrella.support.server.handler.DefaultServerHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.google.common.base.Objects;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -29,14 +28,15 @@ import java.lang.reflect.Method;
  * @since 1.0
  */
 public class MessageHandlerAdapter<T> implements MessageHandler<T> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultServerHandler.class);
+    // private static final Logger LOGGER = LoggerFactory.getLogger(MessageHandlerAdapter.class);
 
     private Object delegate;
-    private Method handleMethod;
+    private Method method;
 
     public MessageHandlerAdapter(Object delegate, Method method) {
         this.delegate = delegate;
-        this.handleMethod = method;
+        this.method = method;
+        method.setAccessible(true);
     }
 
     /**
@@ -49,9 +49,38 @@ public class MessageHandlerAdapter<T> implements MessageHandler<T> {
     @Override
     public void handle(HandlerContext ctx, T message) throws HandlerExecutionException {
         try {
-            handleMethod.invoke(delegate, ctx, message);
-        } catch (Exception e) {
-            throw new HandlerExecutionException(e); // Wrap exception
+            method.invoke(delegate, ctx, message);
+        } catch (IllegalAccessException e) {
+            throw new Error("方法调用被拒绝，因为方法不可访问:" + delegate, e);
+        } catch (IllegalArgumentException e) {
+            throw new Error("方法调用被拒绝，因为发生了参数异常:" + delegate, e);
+        } catch (InvocationTargetException e) {
+            if (e.getCause() instanceof Error) {
+                throw (Error) e.getCause();
+            }
+            throw new HandlerExecutionException(e);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MessageHandlerAdapter<?> that = (MessageHandlerAdapter<?>) o;
+        return Objects.equal(delegate, that.delegate) &&
+                Objects.equal(method, that.method);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(delegate, method);
+    }
+
+    @Override
+    public String toString() {
+        return "MessageHandlerAdapter{" +
+                "delegate=" + delegate +
+                ", method=" + method +
+                '}';
     }
 }

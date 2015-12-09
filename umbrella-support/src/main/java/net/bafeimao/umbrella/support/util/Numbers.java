@@ -28,9 +28,11 @@ public class Numbers {
             throw new IllegalArgumentException("class type not the same");
         }
 
+        // TODO use instanceof instead
         Class<?> clazz = a.getClass();
 
         int result = 0;
+
 
         if (clazz.equals(Double.class)) {
             result = Doubles.compare((Double) a, (Double) b);

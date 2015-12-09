@@ -9,7 +9,7 @@ public final class ErrorProto {
       com.google.protobuf.ExtensionRegistry registry) {
   }
   /**
-   * Protobuf enum {@code net.bafeimao.umbrella.servers.generated.ErrorCode}
+   * Protobuf enums {@code net.bafeimao.umbrella.servers.generated.ErrorCode}
    */
   public enum ErrorCode
       implements com.google.protobuf.ProtocolMessageEnum {
@@ -45,7 +45,7 @@ public final class ErrorProto {
     public final int getNumber() {
       if (index == -1) {
         throw new java.lang.IllegalArgumentException(
-            "Can't get the number of an unknown enum value.");
+            "Can't get the number of an unknown enums value.");
       }
       return value;
     }

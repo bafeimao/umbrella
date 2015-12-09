@@ -21,11 +21,12 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import net.bafeimao.umbrella.support.generated.CommonProto;
 import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
 import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
-import net.bafeimao.umbrella.support.server.handler.DefaultServerHandler;
+import net.bafeimao.umbrella.support.network.netty.handler.DefaultServerHandler;
 import net.bafeimao.umbrella.support.util.Errors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,11 +39,12 @@ import java.util.Map;
  */
 public class PacketMessageDispatcher implements MessageDispatcher<Packet> {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultServerHandler.class);
-    private Map<Object, MessageHandler> handlerMap = new HashMap<Object, MessageHandler>();
+    private Map<Object, MessageHandler> handlersByType = new HashMap<Object, MessageHandler>();
 
+    @Nullable
     private MessageHandler getHandler(MessageType messageType) {
         Preconditions.checkNotNull(messageType, "messageType");
-        return handlerMap.get(messageType);
+        return handlersByType.get(messageType);
     }
 
     @Override
@@ -76,6 +78,6 @@ public class PacketMessageDispatcher implements MessageDispatcher<Packet> {
 
     @Override
     public void registerHandler(Object key, MessageHandler<Packet> handler) {
-        this.handlerMap.put(key, handler);
+        this.handlersByType.put(key, handler);
     }
 }

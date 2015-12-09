@@ -23,7 +23,7 @@ import net.bafeimao.umbrella.support.generated.CommonProto;
 import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
 import net.bafeimao.umbrella.support.generated.CommonProto.Notification;
 import net.bafeimao.umbrella.support.generated.CommonProto.PacketOrBuilder;
-import net.bafeimao.umbrella.support.network.netty.PacketWrapper;
+import net.bafeimao.umbrella.support.network.netty.message.PacketWrapper;
 import org.junit.Test;
 
 import java.util.HashMap;
