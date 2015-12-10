@@ -23,9 +23,10 @@ import net.bafeimao.umbrella.servers.world.entity.Enemy;
 import net.bafeimao.umbrella.servers.world.entity.Enemy_;
 import net.bafeimao.umbrella.servers.world.entity.enums.Quality;
 import net.bafeimao.umbrella.support.data.entity.EntityManager;
+import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.List;
+import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
 
 import static com.googlecode.cqengine.query.QueryFactory.*;
@@ -38,24 +39,49 @@ import static com.googlecode.cqengine.query.QueryFactory.*;
  */
 public class DataEntityTests {
     @Test
-    public void testGetEnemies() throws ExecutionException {
+    public void testGetAllEnemies() throws ExecutionException {
         EntityManager manager = new EntityManager();
         IndexedCollection<Enemy> enemies = manager.get(Enemy.class);
 
-        System.out.println(enemies);
+        Assert.assertTrue(enemies.size() > 0);
 
-        Enemy enemy = enemies.iterator().next();
-
-        System.out.println(enemy);
-        List<Integer> skills = enemy.getSkills();
-        System.out.println(skills);
+        System.out.println(enemies.size());
     }
 
     @Test
-    public void testGetEnemiesByQuery() throws ExecutionException {
+    public void testGetEnemyById() throws ExecutionException {
         EntityManager manager = new EntityManager();
         IndexedCollection<Enemy> enemies = manager.get(Enemy.class);
-        System.out.println(enemies.size());
+        Query<Enemy> query = equal(Enemy_.ID, 10010101L);
+        ResultSet<Enemy> resultSet = enemies.retrieve(query);
+
+        Assert.assertTrue(resultSet.size() == 1);
+
+        Enemy enemy = resultSet.iterator().next();
+        System.out.println(enemy);
+    }
+
+    @Test
+    public void testGetEnemyByNameStartsWith() throws ExecutionException {
+        EntityManager manager = new EntityManager();
+        IndexedCollection<Enemy> enemies = manager.get(Enemy.class);
+        Query<Enemy> query = startsWith(Enemy_.NAME, "骷髅弓兵");
+        ResultSet<Enemy> resultSet = enemies.retrieve(query);
+
+        Assert.assertTrue(resultSet.size() > 0);
+
+        // 打印出所有的满足条件的检索记录
+        for (Iterator<Enemy> iterator = resultSet.iterator(); iterator.hasNext(); ) {
+            System.out.println(iterator.next());
+        }
+
+        System.out.println(resultSet.size());
+    }
+
+    @Test
+    public void testGetEnemiesByCriterias() throws ExecutionException {
+        EntityManager manager = new EntityManager();
+        IndexedCollection<Enemy> enemies = manager.get(Enemy.class);
 
         Query<Enemy> query = and(greaterThan(Enemy_.GRADE, 3), equal(Enemy_.QUALITY, Quality.WHITE));
         ResultSet<Enemy> retrieved = enemies.retrieve(query);
