@@ -16,7 +16,7 @@
 
 package net.bafeimao.umbrella.support.data.entity;
 
-import net.bafeimao.umbrella.annotation.IgnoreMapping;
+import net.bafeimao.umbrella.annotation.IgnoreParsing;
 
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -35,7 +35,7 @@ public class DataEntity<K extends Serializable> {
         this.id = id;
     }
 
-    @IgnoreMapping
+    @IgnoreParsing
     private LinkedList<DataEntity<?>> collection = new LinkedList<DataEntity<?>>();
 
 //    public DataEntity() {

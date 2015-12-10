@@ -17,7 +17,7 @@
 package net.bafeimao.umbrella.servers.world.entity;
 
 import com.google.common.base.MoreObjects;
-import net.bafeimao.umbrella.annotation.IgnoreMapping;
+import net.bafeimao.umbrella.annotation.IgnoreParsing;
 import net.bafeimao.umbrella.annotation.Index;
 import net.bafeimao.umbrella.annotation.SupportQuery;
 import net.bafeimao.umbrella.servers.world.entity.converter.StringToQualityConverter;
@@ -57,9 +57,9 @@ public class Enemy extends DataEntity<Long> {
     protected float float1;
     protected double double1;
     protected boolean boolean1;
-    @IgnoreMapping
+    @IgnoreParsing
     protected Date date1;
-    @IgnoreMapping
+    @IgnoreParsing
     protected DateTime dateTime1;
     @Index
     protected List<Integer> skills;

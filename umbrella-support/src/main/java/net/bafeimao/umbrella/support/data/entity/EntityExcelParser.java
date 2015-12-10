@@ -18,7 +18,7 @@ package net.bafeimao.umbrella.support.data.entity;
 
 import com.google.common.base.Converter;
 import com.google.common.base.Preconditions;
-import net.bafeimao.umbrella.annotation.IgnoreMapping;
+import net.bafeimao.umbrella.annotation.IgnoreParsing;
 import net.bafeimao.umbrella.annotation.PrintExecutionTime;
 import org.apache.poi.ss.usermodel.*;
 import org.slf4j.Logger;
@@ -97,7 +97,7 @@ public class EntityExcelParser extends AbstractEntityParser {
 
                 E instance = entityClass.newInstance();
                 for (Field field : getEntityFields(entityClass)) {
-                    if (field.isAnnotationPresent(IgnoreMapping.class)) {
+                    if (field.isAnnotationPresent(IgnoreParsing.class)) {
                         continue;
                     }
 
