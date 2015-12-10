@@ -25,6 +25,6 @@ import java.lang.annotation.*;
  * @since 1.0
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
+@Target({ElementType.FIELD})
 @Documented
-public @interface PrintExecutionTime {}
+public @interface IgnoreMapping {}

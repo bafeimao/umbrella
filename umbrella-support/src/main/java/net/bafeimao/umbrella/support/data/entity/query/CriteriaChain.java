@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support.data.query;
+package net.bafeimao.umbrella.support.data.entity.query;
 
 import java.util.LinkedList;
 

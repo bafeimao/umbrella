@@ -17,13 +17,19 @@
 package net.bafeimao.umbrella.servers.world.entity;
 
 import com.google.common.base.MoreObjects;
+import net.bafeimao.umbrella.annotation.IgnoreMapping;
 import net.bafeimao.umbrella.annotation.Index;
 import net.bafeimao.umbrella.annotation.SupportQuery;
-import net.bafeimao.umbrella.servers.world.entity.converter.QualityConverter;
+import net.bafeimao.umbrella.servers.world.entity.converter.StringToQualityConverter;
 import net.bafeimao.umbrella.servers.world.entity.enums.Quality;
 import net.bafeimao.umbrella.support.data.entity.DataEntity;
 import net.bafeimao.umbrella.support.data.entity.ExcelMapping;
-import net.bafeimao.umbrella.support.data.entity.ValueConverter;
+import net.bafeimao.umbrella.support.data.entity.converter.DataConverter;
+import net.bafeimao.umbrella.support.data.entity.converter.JsonToArrayListConverter;
+import org.joda.time.DateTime;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by bafeimao on 2015/10/28.
@@ -34,16 +40,31 @@ public class Enemy extends DataEntity<Long> {
     @Index
     protected String name;
     @Index
-    protected int type;
+    protected byte type;
     @Index
     protected int grade;
     @Index
-    protected int hp;
+    protected long hp;
     @Index
-    @ValueConverter(QualityConverter.class)
+    @DataConverter(StringToQualityConverter.class)
     protected Quality quality;
-//    @Index
-//    protected List<Integer> skills;
+    protected boolean boss;
+
+    protected char char1;
+    protected byte byte1;
+    protected short short1;
+    protected int int1;
+    protected long long1;
+    protected float float1;
+    protected double double1;
+    protected boolean boolean1;
+    @IgnoreMapping
+    protected Date date1;
+    @IgnoreMapping
+    protected DateTime dateTime1;
+    @Index
+    @DataConverter(JsonToArrayListConverter.class)
+    protected List<Integer> skills;
 
     public int getGrade() {
         return grade;
@@ -69,20 +90,12 @@ public class Enemy extends DataEntity<Long> {
         this.quality = quality;
     }
 
-    public int getType() {
-        return type;
+    public List<Integer> getSkills() {
+        return skills;
     }
 
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public int getHp() {
-        return hp;
-    }
-
-    public void setHp(int hp) {
-        this.hp = hp;
+    public void setSkills(List<Integer> skills) {
+        this.skills = skills;
     }
 
     @Override

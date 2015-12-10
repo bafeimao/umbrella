@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support.data.query;
+package net.bafeimao.umbrella.support.data.entity.query;
 
-import net.bafeimao.umbrella.support.data.query.Criteria;
-import net.bafeimao.umbrella.support.data.query.FilterOperator;
+import net.bafeimao.umbrella.support.data.entity.query.Criteria;
+import net.bafeimao.umbrella.support.data.entity.query.FilterOperator;
 
 import java.util.ArrayList;
 import java.util.List;

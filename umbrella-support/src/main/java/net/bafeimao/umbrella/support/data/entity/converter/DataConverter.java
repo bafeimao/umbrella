@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support.data.entity;
+package net.bafeimao.umbrella.support.data.entity.converter;
 
 import com.google.common.base.Converter;
 
@@ -26,6 +26,6 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface ValueConverter {
+public @interface DataConverter {
     Class<? extends Converter<?, ?>> value();
 }

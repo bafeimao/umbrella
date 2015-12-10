@@ -17,8 +17,12 @@
 package net.bafeimao.umbrella.support.data.entity;
 
 import com.google.common.base.Converter;
+import com.google.common.base.Preconditions;
+import net.bafeimao.umbrella.annotation.IgnoreMapping;
 import net.bafeimao.umbrella.annotation.PrintExecutionTime;
+import net.bafeimao.umbrella.support.data.entity.converter.*;
 import org.apache.poi.ss.usermodel.*;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +41,34 @@ public class EntityExcelParser implements EntityParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(EntityExcelParser.class);
     private Map<Class<?>, List<Field>> fieldsByType = new HashMap<Class<?>, List<Field>>();
     private Map<String, Map<String, Integer>> sheetColumnIndexesMap = new HashMap<String, Map<String, Integer>>();
-    private static Map<Class<?>, Converter<Object, ?>> convertersByDataType = new HashMap<Class<?>, Converter<Object, ?>>();
+    private static Map<Class<?>, Converter<?, ?>> convertersByType = new HashMap<Class<?>, Converter<?, ?>>();
+
+    private static void putStringToNumberConverters(Class<?>... types) {
+        for (Class<?> type : types) {
+            convertersByType.put(type, new StringToNumberConverter(type));
+        }
+    }
+
+    static {
+        putStringToNumberConverters(Byte.class, byte.class);
+        putStringToNumberConverters(Short.class, short.class);
+        putStringToNumberConverters(Integer.class, int.class);
+        putStringToNumberConverters(Long.class, long.class);
+        putStringToNumberConverters(Float.class, float.class);
+        putStringToNumberConverters(Double.class, double.class);
+
+        // char
+        convertersByType.put(Character.class, new StringToCharConverter());
+        convertersByType.put(char.class, new StringToCharConverter());
+
+        // boolean
+        convertersByType.put(Boolean.class, new StringToBooleanConverter());
+        convertersByType.put(boolean.class, new StringToBooleanConverter());
+
+        // datetime
+        convertersByType.put(Date.class, new StringToDateConverter());
+        convertersByType.put(DateTime.class, new StringToDateTimeConverter());
+    }
 
     /**
      * 从指定路径的Excel文件中读取第一个Sheet并将每一行数据都转换为相应的对象实例,对象类型由参数clazz决定
@@ -64,7 +95,7 @@ public class EntityExcelParser implements EntityParser {
 
                 // 第一行默认是标题栏，所有不符合的都会被忽略
                 if (sheet.getRow(0) != null) {
-                    entities = tryParse(entityClass, sheet);
+                    entities = parse0(entityClass, sheet);
                 }
             }
         } catch (Exception e) {
@@ -82,33 +113,53 @@ public class EntityExcelParser implements EntityParser {
     }
 
     @Override
-    public void registerConverter(Class<?> dataType, Converter<Object, ?> converter) {
-        this.convertersByDataType.put(dataType, converter);
+    public void registerConverter(Class<?> dataType, Converter<?, ?> converter) {
+        this.convertersByType.put(dataType, converter);
     }
 
-    private <E> LinkedList<E> tryParse(Class<E> entityClass, Sheet sheet) throws EntityParseException {
+    private <E> LinkedList<E> parse0(Class<E> entityClass, Sheet sheet) throws EntityParseException {
         LinkedList<E> retList = new LinkedList<E>();
 
         try {
-            List<Field> fields = this.getCachedFieldsByType(entityClass);
-            int lastRowNum = sheet.getLastRowNum();
-
             // 数据行是从第三行开始的，第一行是列名(中文），第二行是列名（英文)
-            for (int rowNum = 3; rowNum < lastRowNum; rowNum++) {
-                int colNum;
+            for (int rowNum = 2; rowNum <= sheet.getLastRowNum(); rowNum++) {
+                LOGGER.info("Parsing {} with data row #{} ...", entityClass.getSimpleName(), rowNum + 1);
+
                 E instance = entityClass.newInstance();
-                for (Field field : fields) {
+                for (Field field : this.getCachedFieldsByType(entityClass)) {
+                    if (field.isAnnotationPresent(IgnoreMapping.class)) {
+                        continue;
+                    }
+
                     field.setAccessible(true);
 
-                    try {
-                        if ((colNum = getColumnIndex(sheet, field.getName())) != -1) {
-                            Cell cell = sheet.getRow(rowNum).getCell(colNum);
-                            if (cell != null) {
-                                setFieldValue(instance, field, cell);
+                    int colNum = getColumnIndex(sheet, field.getName());
+                    if (colNum != -1) {
+                        Cell cell = sheet.getRow(rowNum).getCell(colNum);
+                        if (cell != null) {
+                            try {
+                                String cellValue = this.getCellValue(cell);
+
+                                LOGGER.debug("Assigning {}.{} = {} ({}))", entityClass.getSimpleName()
+                                        , field.getName(), cellValue, field.getType().getSimpleName());
+
+                                this.assignFieldValue(instance, field, cellValue);
+                            } catch (IllegalAccessException e) {
+                                LOGGER.error("{}", e);
+                            } catch (IllegalArgumentException e) {
+                                LOGGER.error("{}", e);
+                            } catch (NullPointerException e) {
+                                LOGGER.error("{}", e);
+                            } catch (ExceptionInInitializerError e) {
+                                LOGGER.error("{}", e);
+                            } catch (Exception e) {
+                                throw new EntityParseException("为字段：("
+                                        + "name:" + field.getName()
+//                                        + ", type:" + fieldType.getSimpleName()
+//                                        + ", value:" + cellValue
+                                        + ", entity:" + instance.getClass().getSimpleName() + ")设值时发生异常:" + e.getMessage(), e);
                             }
                         }
-                    } catch (Exception e) {
-                        throw new EntityParseException("字段设值时发生异常:");
                     }
                 }
                 retList.add(instance);
@@ -120,40 +171,54 @@ public class EntityExcelParser implements EntityParser {
         return retList;
     }
 
-    private void setFieldValue(Object instance, Field field, Cell cell) throws EntityParseException {
+    private void assignFieldValue(Object instance, Field field, String cellValue) throws Exception {
+        Object fieldValue = null;
+
+        if (field.getType().equals(String.class)) {
+            fieldValue = cellValue;
+        } else {
+            Converter<String, ?> converter = getConverter(field);
+
+            if (converter == null) {
+                throw new Exception(String.format("No converter found for field : s%' with type :'s%'",
+                        field.getName(), field.getType().getSimpleName()));
+            }
+
+            fieldValue = converter.convert(cellValue);
+        }
+
+        field.set(instance, fieldValue);
+    }
+
+    private Converter<String, ?> getConverter(Field field) {
         Class<?> fieldType = field.getType();
 
         if (field.getName().equals("id")) {  // TODO 需要重构相关实现，这里是权宜之计
             fieldType = Long.class;
         }
 
-        Object cellValue = getCellValue(cell);
+        Converter<?, ?> converter = convertersByType.get(fieldType);
 
-        LOGGER.debug("field:[{}, {}, {}]", field.getName(), cellValue, fieldType.getSimpleName());
-
-        Converter<Object, ?> converter = convertersByDataType.get(fieldType);
-        if (converter != null) {
+        if (converter == null && field.isAnnotationPresent(DataConverter.class)) {
+            DataConverter anno = field.getAnnotation(DataConverter.class);
+            Class<?> converterClass = anno.value();
             try {
-                field.set(instance, converter.convert(cellValue));
-            } catch (Exception e) {
-                throw new EntityParseException("为字段：("
-                        + "name:" + field.getName()
-                        + ", type:" + fieldType.getSimpleName()
-                        + ", value:" + cellValue
-                        + ", entity:" + instance.getClass().getSimpleName() + ")设值时发生异常:" + e.getMessage(), e);
+                converter = (Converter<?, ?>) converterClass.newInstance();
+                convertersByType.put(field.getType(), converter);
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
             }
-        } else {
-            throw new EntityParseException("无法为类型:'" + fieldType.getSimpleName() + "'找不到数据转换器");
         }
+
+        return (Converter<String, ?>) converter;
     }
 
-    private Object getCellValue(Cell cell) {
-        if (cell == null) {
-            throw new IllegalArgumentException("cell should not be null.");
-        }
+    private String getCellValue(Cell cell) {
+        Preconditions.checkNotNull("cell");
 
         Object retVal = null;
-
         switch (cell.getCellType()) {
             case Cell.CELL_TYPE_FORMULA:
                 // Get the type of Formula
@@ -183,8 +248,7 @@ public class EntityExcelParser implements EntityParser {
             default:
                 retVal = null;
         }
-
-        return retVal;
+        return retVal == null ? null : retVal.toString();
     }
 
     private List<Field> getCachedFieldsByType(Class<?> entityClass) {

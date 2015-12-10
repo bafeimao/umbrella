@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support.data.query;
+package net.bafeimao.umbrella.support.data.entity.query;
 
 import com.google.common.base.Objects;
 import net.bafeimao.umbrella.support.util.Numbers;

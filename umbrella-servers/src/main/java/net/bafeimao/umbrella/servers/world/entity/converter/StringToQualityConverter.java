@@ -17,41 +17,45 @@
 package net.bafeimao.umbrella.servers.world.entity.converter;
 
 import com.google.common.base.Converter;
+import com.google.common.primitives.Doubles;
 import net.bafeimao.umbrella.servers.world.entity.enums.Quality;
+
+import javax.annotation.Nullable;
 
 /**
  * Created by gukaitong(29283212@qq.com) on 2015/12/9.
+ * <p/>
+ * 将指定的字符串值转换为指定的枚举类型值
+ * <p/>
+ * 如果要转换的值时数值类型，那么就用值比较，反之，使用枚举名称比较（不区分大小写）
  *
  * @author gukaitong
  * @since 1.0
  */
-public class QualityConverter extends Converter<Object, Quality> {
+public class StringToQualityConverter extends Converter<String, Quality> {
     @Override
-    protected Quality doForward(Object o) {
-        try {
-            int val = 0;
-
-            if (o instanceof Double) {
-                val = ((Double) o).intValue();
-            } else if (o instanceof Float) {
-                val = ((Float) o).intValue();
-            } else if (o instanceof String) {
-                val = Integer.parseInt((String) o);
-            }
-
+    @Nullable
+    protected Quality doForward(String s) {
+        Double d = Doubles.tryParse(s);
+        if (d != null) {
+            int val = d.intValue();
             for (Quality element : Quality.values()) {
                 if (element.getValue() == val) {
                     return element;
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            for (Quality element : Quality.values()) {
+                if (s.equalsIgnoreCase(element.toString())) {
+                    return element;
+                }
+            }
         }
         return null;
     }
 
     @Override
-    protected Object doBackward(Quality quality) {
-        return quality.getValue();
+    protected String doBackward(Quality quality) {
+        return quality == null ? null : quality.toString();
     }
 }

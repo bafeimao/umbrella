@@ -20,9 +20,6 @@ import com.googlecode.cqengine.IndexedCollection;
 import com.googlecode.cqengine.attribute.Attribute;
 import com.googlecode.cqengine.attribute.SimpleAttribute;
 import com.googlecode.cqengine.attribute.SimpleNullableAttribute;
-import com.googlecode.cqengine.index.hash.HashIndex;
-import com.googlecode.cqengine.index.navigable.NavigableIndex;
-import com.googlecode.cqengine.index.radixreversed.ReversedRadixTreeIndex;
 import com.googlecode.cqengine.query.option.QueryOptions;
 import net.bafeimao.umbrella.servers.world.entity.enums.Quality;
 
@@ -32,9 +29,9 @@ import net.bafeimao.umbrella.servers.world.entity.enums.Quality;
 public class Enemy_ extends Enemy {
 
     public static void resolveIndexesFor(IndexedCollection<Enemy> collection) {
-        collection.addIndex(NavigableIndex.onAttribute(Enemy_.ID));
-        collection.addIndex(ReversedRadixTreeIndex.onAttribute(Enemy_.NAME));
-        collection.addIndex(HashIndex.onAttribute(Enemy_.GRADE));
+//        collection.addIndex(NavigableIndex.onAttribute(Enemy_.ID));
+//        collection.addIndex(ReversedRadixTreeIndex.onAttribute(Enemy_.NAME));
+//        collection.addIndex(HashIndex.onAttribute(Enemy_.GRADE));
     }
 
     /**
@@ -46,12 +43,12 @@ public class Enemy_ extends Enemy {
         public String getValue(Enemy enemy, QueryOptions queryOptions) { return enemy.name; }
     };
 
-    /**
-     * CQEngine attribute for accessing field {@code Enemy.type}.
-     */
-    public static final Attribute<Enemy, Integer> TYPE = new SimpleAttribute<Enemy, Integer>("TYPE") {
-        public Integer getValue(Enemy enemy, QueryOptions queryOptions) { return enemy.type; }
-    };
+//    /**
+//     * CQEngine attribute for accessing field {@code Enemy.type}.
+//     */
+//    public static final Attribute<Enemy, Integer> TYPE = new SimpleAttribute<Enemy, Integer>("TYPE") {
+//        public Integer getValue(Enemy enemy, QueryOptions queryOptions) { return enemy.type; }
+//    };
 
     /**
      * CQEngine attribute for accessing field {@code Enemy.grade}.

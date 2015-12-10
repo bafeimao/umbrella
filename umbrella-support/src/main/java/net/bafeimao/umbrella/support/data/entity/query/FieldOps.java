@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.support.data.query;
+package net.bafeimao.umbrella.support.data.entity.query;
 
 /**
  * Created by Administrator on 2015/10/28.

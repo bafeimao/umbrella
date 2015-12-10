@@ -26,5 +26,5 @@ import java.util.LinkedList;
 public interface EntityParser {
     <E> LinkedList<E> parse(Class<E> clazz) throws EntityParseException;
 
-    void registerConverter(Class<?> dataType, Converter<Object, ?> converter);
+    void registerConverter(Class<?> dataType, Converter<?, ?> converter);
 }

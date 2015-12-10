@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.servers.world.entity.converter;
+package net.bafeimao.umbrella.support.data.entity.converter;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Converter;
-import net.bafeimao.umbrella.support.util.json.JsonUtil;
+import com.google.common.base.Strings;
 
-import java.util.List;
+import javax.annotation.Nullable;
+import java.util.Date;
 
 /**
  * Created by gukaitong(29283212@qq.com) on 2015/12/9.
@@ -28,17 +28,21 @@ import java.util.List;
  * @author gukaitong
  * @since 1.0
  */
-public class GenericArrayListConverter<T> extends Converter<Object, List> {
+public class StringToDateConverter extends Converter<String, Date> {
+    @SuppressWarnings("deprecation")
     @Override
-    protected List doForward(Object o) {
-        if (o != null) {
-            return JsonUtil.toBean(o.toString(), new TypeReference<List<T>>() {});
+    protected Date doForward(String s) {
+        if (!Strings.isNullOrEmpty(s)) {
+            // TODO 使用Joda库来解决此类问题
+//            return new DateTime(s).toDate();
+            return new Date(s);
         }
         return null;
     }
 
     @Override
-    protected Object doBackward(List ts) {
-        return null;
+    @Nullable
+    protected String doBackward(Date value) {
+        return value == null ? null : value.toString();
     }
 }

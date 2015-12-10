@@ -14,17 +14,32 @@
  * limitations under the License.
  */
 
-package net.bafeimao.umbrella.annotation;
+package net.bafeimao.umbrella.support.data.entity.converter;
 
-import java.lang.annotation.*;
+import com.google.api.client.repackaged.com.google.common.base.Strings;
+import com.google.common.base.Converter;
+
+import javax.annotation.Nullable;
 
 /**
- * Created by gukaitong(29283212@qq.com) on 2015/12/7.
+ * Created by gukaitong(29283212@qq.com) on 2015/12/9.
  *
  * @author gukaitong
  * @since 1.0
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
-@Documented
-public @interface PrintExecutionTime {}
+public class StringToCharConverter extends Converter<String, Character> {
+    @Override
+    @Nullable
+    protected Character doForward(String s) {
+        if (!Strings.isNullOrEmpty(s)) {
+            return s.toCharArray()[0];
+        }
+        return null;
+    }
+
+    @Override
+    @Nullable
+    protected String doBackward(Character value) {
+        return value == null ? null : value.toString();
+    }
+}
