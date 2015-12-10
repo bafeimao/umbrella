@@ -20,9 +20,7 @@ import com.google.common.base.Converter;
 import com.google.common.base.Preconditions;
 import net.bafeimao.umbrella.annotation.IgnoreMapping;
 import net.bafeimao.umbrella.annotation.PrintExecutionTime;
-import net.bafeimao.umbrella.support.data.entity.converter.*;
 import org.apache.poi.ss.usermodel.*;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,38 +35,9 @@ import java.util.*;
  *
  * @author bafeimao
  */
-public class EntityExcelParser implements EntityParser {
+public class EntityExcelParser extends AbstractEntityParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(EntityExcelParser.class);
-    private Map<Class<?>, List<Field>> fieldsByType = new HashMap<Class<?>, List<Field>>();
     private Map<String, Map<String, Integer>> sheetColumnIndexesMap = new HashMap<String, Map<String, Integer>>();
-    private static Map<Class<?>, Converter<?, ?>> convertersByType = new HashMap<Class<?>, Converter<?, ?>>();
-
-    private static void putStringToNumberConverters(Class<?>... types) {
-        for (Class<?> type : types) {
-            convertersByType.put(type, new StringToNumberConverter(type));
-        }
-    }
-
-    static {
-        putStringToNumberConverters(Byte.class, byte.class);
-        putStringToNumberConverters(Short.class, short.class);
-        putStringToNumberConverters(Integer.class, int.class);
-        putStringToNumberConverters(Long.class, long.class);
-        putStringToNumberConverters(Float.class, float.class);
-        putStringToNumberConverters(Double.class, double.class);
-
-        // char
-        convertersByType.put(Character.class, new StringToCharConverter());
-        convertersByType.put(char.class, new StringToCharConverter());
-
-        // boolean
-        convertersByType.put(Boolean.class, new StringToBooleanConverter());
-        convertersByType.put(boolean.class, new StringToBooleanConverter());
-
-        // datetime
-        convertersByType.put(Date.class, new StringToDateConverter());
-        convertersByType.put(DateTime.class, new StringToDateTimeConverter());
-    }
 
     /**
      * 从指定路径的Excel文件中读取第一个Sheet并将每一行数据都转换为相应的对象实例,对象类型由参数clazz决定
@@ -77,7 +46,6 @@ public class EntityExcelParser implements EntityParser {
      */
     @Override
     @PrintExecutionTime
-
     public <E> LinkedList<E> parse(Class<E> entityClass) throws EntityParseException {
         LinkedList<E> entities = null;
         InputStream inputStream = null;
@@ -114,7 +82,7 @@ public class EntityExcelParser implements EntityParser {
 
     @Override
     public void registerConverter(Class<?> dataType, Converter<?, ?> converter) {
-        this.convertersByType.put(dataType, converter);
+        convertersByType.put(dataType, converter);
     }
 
     private <E> LinkedList<E> parse0(Class<E> entityClass, Sheet sheet) throws EntityParseException {
@@ -126,7 +94,7 @@ public class EntityExcelParser implements EntityParser {
                 LOGGER.info("Parsing {} with data row #{} ...", entityClass.getSimpleName(), rowNum + 1);
 
                 E instance = entityClass.newInstance();
-                for (Field field : this.getCachedFieldsByType(entityClass)) {
+                for (Field field : getEntityFields(entityClass)) {
                     if (field.isAnnotationPresent(IgnoreMapping.class)) {
                         continue;
                     }
@@ -190,31 +158,6 @@ public class EntityExcelParser implements EntityParser {
         field.set(instance, fieldValue);
     }
 
-    private Converter<String, ?> getConverter(Field field) {
-        Class<?> fieldType = field.getType();
-
-        if (field.getName().equals("id")) {  // TODO 需要重构相关实现，这里是权宜之计
-            fieldType = Long.class;
-        }
-
-        Converter<?, ?> converter = convertersByType.get(fieldType);
-
-        if (converter == null && field.isAnnotationPresent(DataConverter.class)) {
-            DataConverter anno = field.getAnnotation(DataConverter.class);
-            Class<?> converterClass = anno.value();
-            try {
-                converter = (Converter<?, ?>) converterClass.newInstance();
-                convertersByType.put(field.getType(), converter);
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return (Converter<String, ?>) converter;
-    }
-
     private String getCellValue(Cell cell) {
         Preconditions.checkNotNull("cell");
 
@@ -249,25 +192,6 @@ public class EntityExcelParser implements EntityParser {
                 retVal = null;
         }
         return retVal == null ? null : retVal.toString();
-    }
-
-    private List<Field> getCachedFieldsByType(Class<?> entityClass) {
-        List<Field> entityFields = fieldsByType.get(entityClass);
-
-        if (entityFields == null) {
-            entityFields = new ArrayList<Field>();
-            fieldsByType.put(entityClass, entityFields);
-
-            do {
-                // 查找所有的Fields（包括继承的类中的字段）
-                Field[] fields = entityClass.getDeclaredFields();
-                for (Field field : fields) {
-                    entityFields.add(field);
-                }
-            } while ((entityClass = entityClass.getSuperclass()) != null);
-        }
-
-        return entityFields;
     }
 
     private int getColumnIndex(Sheet sheet, String colName) {

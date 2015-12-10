@@ -25,7 +25,6 @@ import net.bafeimao.umbrella.servers.world.entity.enums.Quality;
 import net.bafeimao.umbrella.support.data.entity.DataEntity;
 import net.bafeimao.umbrella.support.data.entity.ExcelMapping;
 import net.bafeimao.umbrella.support.data.entity.converter.DataConverter;
-import net.bafeimao.umbrella.support.data.entity.converter.JsonToArrayListConverter;
 import org.joda.time.DateTime;
 
 import java.util.Date;
@@ -63,7 +62,6 @@ public class Enemy extends DataEntity<Long> {
     @IgnoreMapping
     protected DateTime dateTime1;
     @Index
-    @DataConverter(JsonToArrayListConverter.class)
     protected List<Integer> skills;
 
     public int getGrade() {
