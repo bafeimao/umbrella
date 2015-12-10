@@ -24,7 +24,7 @@ import java.util.LinkedList;
  * Created by bafeimao on 2015/10/30.
  */
 public interface EntityParser {
-    <E> LinkedList<E> parse(Class<E> clazz) throws EntityParseException;
+    <E extends DataEntity<?>> LinkedList<E> parse(Class<E> clazz) throws EntityParseException;
 
     void registerConverter(Class<?> dataType, Converter<?, ?> converter);
 }

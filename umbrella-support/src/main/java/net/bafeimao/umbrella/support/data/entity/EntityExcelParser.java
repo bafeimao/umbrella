@@ -28,7 +28,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * 从Excel中逐行读取数据并将每行都转化为相应的对象
@@ -46,7 +48,7 @@ public class EntityExcelParser extends AbstractEntityParser {
      */
     @Override
     @PrintExecutionTime
-    public <E> LinkedList<E> parse(Class<E> entityClass) throws EntityParseException {
+    public <E extends  DataEntity<?>> LinkedList<E> parse(Class<E> entityClass) throws EntityParseException {
         LinkedList<E> entities = null;
         InputStream inputStream = null;
 
@@ -85,7 +87,7 @@ public class EntityExcelParser extends AbstractEntityParser {
         convertersByType.put(dataType, converter);
     }
 
-    private <E> LinkedList<E> parse0(Class<E> entityClass, Sheet sheet) throws EntityParseException {
+    private <E extends DataEntity<?>> LinkedList<E> parse0(Class<E> entityClass, Sheet sheet) throws EntityParseException {
         LinkedList<E> retList = new LinkedList<E>();
 
         try {
@@ -131,6 +133,7 @@ public class EntityExcelParser extends AbstractEntityParser {
                     }
                 }
                 retList.add(instance);
+                instance.setCollection(retList);
             }
         } catch (Exception e) {
             LOGGER.error("{}", e);

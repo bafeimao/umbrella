@@ -19,6 +19,7 @@ package net.bafeimao.umbrella.servers.world.test;
 import com.googlecode.cqengine.IndexedCollection;
 import com.googlecode.cqengine.query.Query;
 import com.googlecode.cqengine.resultset.ResultSet;
+import com.googlecode.cqengine.resultset.common.NonUniqueObjectException;
 import net.bafeimao.umbrella.servers.world.entity.Enemy;
 import net.bafeimao.umbrella.servers.world.entity.Enemy_;
 import net.bafeimao.umbrella.servers.world.entity.enums.Quality;
@@ -38,9 +39,10 @@ import static com.googlecode.cqengine.query.QueryFactory.*;
  * @since 1.0
  */
 public class DataEntityTests {
+    private EntityManager manager = new EntityManager();
+
     @Test
     public void testGetAllEnemies() throws ExecutionException {
-        EntityManager manager = new EntityManager();
         IndexedCollection<Enemy> enemies = manager.get(Enemy.class);
 
         Assert.assertTrue(enemies.size() > 0);
@@ -49,21 +51,44 @@ public class DataEntityTests {
     }
 
     @Test
-    public void testGetEnemyById() throws ExecutionException {
-        EntityManager manager = new EntityManager();
+    public void testGetEnemyByNativeCollection() throws ExecutionException {
+        IndexedCollection<Enemy> enemies = manager.get(Enemy.class);
+
+        Assert.assertTrue(enemies.size() > 0);
+
+        Enemy enemy = enemies.iterator().next();
+        System.out.println(enemy);
+    }
+
+    @Test
+    public void testQueryEnemyById() throws ExecutionException {
         IndexedCollection<Enemy> enemies = manager.get(Enemy.class);
         Query<Enemy> query = equal(Enemy_.ID, 10010101L);
         ResultSet<Enemy> resultSet = enemies.retrieve(query);
 
         Assert.assertTrue(resultSet.size() == 1);
 
-        Enemy enemy = resultSet.iterator().next();
+        Enemy enemy = resultSet.uniqueResult();
+        System.out.println(enemy);
+    }
+
+    /**
+     * 测试当查询返回值有多个的情况下调用uniqueResult()会抛出异常
+     */
+    @Test(expected = NonUniqueObjectException.class)
+    public void testUsageForUniqueResultWithException() throws ExecutionException {
+        IndexedCollection<Enemy> enemies = manager.get(Enemy.class);
+        Query<Enemy> query = greaterThanOrEqualTo(Enemy_.GRADE, 1);
+        ResultSet<Enemy> resultSet = enemies.retrieve(query);
+
+        Assert.assertTrue(resultSet.size() > 1);
+
+        Enemy enemy = resultSet.uniqueResult();
         System.out.println(enemy);
     }
 
     @Test
-    public void testGetEnemyByNameStartsWith() throws ExecutionException {
-        EntityManager manager = new EntityManager();
+    public void testQueryEnemyByStartsWith() throws ExecutionException {
         IndexedCollection<Enemy> enemies = manager.get(Enemy.class);
         Query<Enemy> query = startsWith(Enemy_.NAME, "骷髅弓兵");
         ResultSet<Enemy> resultSet = enemies.retrieve(query);
@@ -79,12 +104,42 @@ public class DataEntityTests {
     }
 
     @Test
-    public void testGetEnemiesByCriterias() throws ExecutionException {
-        EntityManager manager = new EntityManager();
+    public void testQueryEnemyByCompoundCriterias() throws ExecutionException {
         IndexedCollection<Enemy> enemies = manager.get(Enemy.class);
-
         Query<Enemy> query = and(greaterThan(Enemy_.GRADE, 3), equal(Enemy_.QUALITY, Quality.WHITE));
         ResultSet<Enemy> retrieved = enemies.retrieve(query);
         System.out.println(retrieved.size());
     }
+
+    @Test
+    public void testQueryEnemyBySort() throws ExecutionException {
+        IndexedCollection<Enemy> enemies = manager.get(Enemy.class);
+        Query<Enemy> query = greaterThanOrEqualTo(Enemy_.GRADE, 1);
+        ResultSet<Enemy> resultSet = enemies.retrieve(query,
+                queryOptions(orderBy(descending(Enemy_.TYPE), ascending(Enemy_.GRADE))));
+
+        Assert.assertTrue(resultSet.size() > 0);
+
+        // Prints all retrieved enemies
+        for (Iterator<Enemy> iterator = resultSet.iterator(); iterator.hasNext(); ) {
+            System.out.println(iterator.next());
+        }
+    }
+
+    @Test
+    public void testEnemyByNext() throws ExecutionException {
+        IndexedCollection<Enemy> enemies = manager.get(Enemy.class);
+
+        Assert.assertTrue(enemies.size() > 0);
+
+        Enemy enemy = enemies.iterator().next();
+        System.out.println(enemy);
+
+        // 从Enemy关联的Collection中找出下一条记录
+        Enemy nextEnemy = enemy.next();
+
+        System.out.println(nextEnemy);
+    }
+
+
 }

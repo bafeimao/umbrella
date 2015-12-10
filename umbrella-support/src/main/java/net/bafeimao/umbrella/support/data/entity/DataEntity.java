@@ -16,9 +16,10 @@
 
 package net.bafeimao.umbrella.support.data.entity;
 
+import net.bafeimao.umbrella.annotation.IgnoreMapping;
+
 import java.io.Serializable;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by bafeimao on 2015/10/28.
@@ -34,38 +35,39 @@ public class DataEntity<K extends Serializable> {
         this.id = id;
     }
 
-    private LinkedList<DataEntity<K>> collection = new LinkedList<DataEntity<K>>();
+    @IgnoreMapping
+    private LinkedList<DataEntity<?>> collection = new LinkedList<DataEntity<?>>();
 
-    public DataEntity() {
+//    public DataEntity() {
+//    }
+//
+//    public DataEntity(LinkedList<DataEntity<K>> collection) {
+//        this.collection = collection;
+//    }
+
+    public void setCollection(LinkedList<? extends DataEntity<?>> collection) {
+        this.collection.addAll(collection);
     }
 
-    public DataEntity(LinkedList<DataEntity<K>> collection) {
-        this.collection = collection;
+    public <E> E next() {
+        return (E) next(1);
     }
 
-    public List<DataEntity<K>> getCollection() {
-        return collection;
-    }
-
-    public DataEntity<K> next() {
-        return next(1);
-    }
-
-    public DataEntity<K> next(int n) {
+    public <E> E next(int n) {
         if (collection != null) {
             int index = collection.indexOf(this);
             if (index < collection.size() - (n + 1)) {
-                return collection.get(collection.indexOf(this) + n);
+                return (E) collection.get(collection.indexOf(this) + n);
             }
         }
         return null;
     }
 
-    public DataEntity<K> prev() {
+    public <E> E prev() {
         return next(-1);
     }
 
-    public DataEntity<K> prev(int n) {
+    public <E> E prev(int n) {
         return next(-n);
     }
 }
