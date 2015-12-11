@@ -136,9 +136,9 @@ public class DataEntityTests {
         System.out.println(enemy);
 
         // 从Enemy关联的Collection中找出下一条记录
-        Enemy nextEnemy = enemy.next();
+        //Enemy nextEnemy = enemy.next();
 
-        System.out.println(nextEnemy);
+//        System.out.println(nextEnemy);
     }
 
 

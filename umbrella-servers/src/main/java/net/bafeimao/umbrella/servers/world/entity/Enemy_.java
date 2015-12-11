@@ -176,6 +176,6 @@ public class Enemy_ extends Enemy {
     // Note: For best performance:
     // - if this field cannot be null, replace this SimpleNullableAttribute with a SimpleAttribute
     public static final Attribute<Enemy, Long> ID = new SimpleNullableAttribute<Enemy, Long>("ID") {
-        public Long getValue(Enemy enemy, QueryOptions queryOptions) { return enemy.getId(); }
+        public Long getValue(Enemy enemy, QueryOptions queryOptions) { return enemy.id; }
     };
 }

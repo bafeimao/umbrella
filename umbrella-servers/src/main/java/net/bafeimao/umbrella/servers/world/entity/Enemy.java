@@ -35,7 +35,9 @@ import java.util.List;
  */
 @ExcelMapping(file = "enemy.xls", sheet = "enemy")
 @SupportQuery
-public class Enemy extends DataEntity<Long> {
+public class Enemy extends DataEntity {
+    @Index
+    protected Long id;
     @Index
     protected String name;
     @Index

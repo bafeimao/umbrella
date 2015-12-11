@@ -29,7 +29,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by bafeimao on 2015/10/27.
  */
-public class Query<T extends DataEntity<?>> {
+public class Query<T extends DataEntity> {
     private static final Logger LOGGER = LoggerFactory.getLogger(Query.class);
     private final EntityManager entityManager;
     private CriteriaChain criteriaChain;

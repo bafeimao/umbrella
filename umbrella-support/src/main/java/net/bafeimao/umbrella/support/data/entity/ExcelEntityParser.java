@@ -37,8 +37,8 @@ import java.util.Map;
  *
  * @author bafeimao
  */
-public class EntityExcelParser extends AbstractEntityParser {
-    private static final Logger LOGGER = LoggerFactory.getLogger(EntityExcelParser.class);
+public class ExcelEntityParser extends AbstractEntityParser {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExcelEntityParser.class);
     private Map<String, Map<String, Integer>> sheetColumnIndexesMap = new HashMap<String, Map<String, Integer>>();
 
     /**
@@ -48,7 +48,7 @@ public class EntityExcelParser extends AbstractEntityParser {
      */
     @Override
     @PrintExecutionTime
-    public <E extends  DataEntity<?>> LinkedList<E> parse(Class<E> entityClass) throws EntityParseException {
+    public <E extends DataEntity> LinkedList<E> parse(Class<E> entityClass) throws EntityParseException {
         LinkedList<E> entities = null;
         InputStream inputStream = null;
 
@@ -87,7 +87,7 @@ public class EntityExcelParser extends AbstractEntityParser {
         convertersByType.put(dataType, converter);
     }
 
-    private <E extends DataEntity<?>> LinkedList<E> parse0(Class<E> entityClass, Sheet sheet) throws EntityParseException {
+    private <E extends DataEntity> LinkedList<E> parse0(Class<E> entityClass, Sheet sheet) throws EntityParseException {
         LinkedList<E> retList = new LinkedList<E>();
 
         try {
@@ -133,7 +133,6 @@ public class EntityExcelParser extends AbstractEntityParser {
                     }
                 }
                 retList.add(instance);
-                instance.setCollection(retList);
             }
         } catch (Exception e) {
             LOGGER.error("{}", e);

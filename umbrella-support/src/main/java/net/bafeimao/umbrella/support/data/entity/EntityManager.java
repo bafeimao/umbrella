@@ -31,8 +31,8 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by gukaitong(29283212@qq.com) on 2015/10/28.
  */
-public class EntityManager<T extends DataEntity<?>> {
-    private final EntityParser parser = new EntityExcelParser();
+public class EntityManager<T extends DataEntity> {
+    private final EntityParser parser = new ExcelEntityParser();
 
     private final LoadingCache<Class<T>, IndexedCollection<T>> cache = CacheBuilder.newBuilder().build(
             new CacheLoader<Class<T>, IndexedCollection<T>>() {

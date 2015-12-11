@@ -16,23 +16,20 @@
 
 package net.bafeimao.umbrella.support.data.entity.query;
 
-import net.bafeimao.umbrella.support.data.entity.query.Criteria;
-import net.bafeimao.umbrella.support.data.entity.query.FilterOperator;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by bafeimao on 2015/10/29.
  */
-public class ComposedCriteria extends Criteria {
+public class CompoundCriteria extends Criteria {
     private List<Criteria> criterias = new ArrayList<Criteria>();
 
-    public ComposedCriteria(String property, FilterOperator operator, Object value) {
+    public CompoundCriteria(String property, FilterOperator operator, Object value) {
         super(property, operator, value);
     }
 
-    public ComposedCriteria(String property, FilterOperator operator, Object value, boolean or) {
+    public CompoundCriteria(String property, FilterOperator operator, Object value, boolean or) {
         super(property, operator, value, or);
     }
 
