@@ -9,7 +9,7 @@ public final class CommonProto {
       com.google.protobuf.ExtensionRegistry registry) {
   }
   /**
-   * Protobuf enums {@code net.bafeimao.umbrella.support.generated.MessageType}
+   * Protobuf enum {@code net.bafeimao.umbrella.support.generated.MessageType}
    */
   public enum MessageType
       implements com.google.protobuf.ProtocolMessageEnum {
@@ -21,6 +21,10 @@ public final class CommonProto {
      * <code>NOTIFICATION = 1;</code>
      */
     NOTIFICATION(1, 1),
+    /**
+     * <code>LOGIN_REQUEST = 2;</code>
+     */
+    LOGIN_REQUEST(2, 2),
     UNRECOGNIZED(-1, -1),
     ;
 
@@ -32,12 +36,16 @@ public final class CommonProto {
      * <code>NOTIFICATION = 1;</code>
      */
     public static final int NOTIFICATION_VALUE = 1;
+    /**
+     * <code>LOGIN_REQUEST = 2;</code>
+     */
+    public static final int LOGIN_REQUEST_VALUE = 2;
 
 
     public final int getNumber() {
       if (index == -1) {
         throw new java.lang.IllegalArgumentException(
-            "Can't get the number of an unknown enums value.");
+            "Can't get the number of an unknown enum value.");
       }
       return value;
     }
@@ -46,6 +54,7 @@ public final class CommonProto {
       switch (value) {
         case 0: return KEEP_ALIVE;
         case 1: return NOTIFICATION;
+        case 2: return LOGIN_REQUEST;
         default: return null;
       }
     }
@@ -101,7 +110,7 @@ public final class CommonProto {
   }
 
   /**
-   * Protobuf enums {@code net.bafeimao.umbrella.support.generated.ErrorCode}
+   * Protobuf enum {@code net.bafeimao.umbrella.support.generated.ErrorCode}
    */
   public enum ErrorCode
       implements com.google.protobuf.ProtocolMessageEnum {
@@ -137,7 +146,7 @@ public final class CommonProto {
     public final int getNumber() {
       if (index == -1) {
         throw new java.lang.IllegalArgumentException(
-            "Can't get the number of an unknown enums value.");
+            "Can't get the number of an unknown enum value.");
       }
       return value;
     }
@@ -1713,11 +1722,11 @@ public final class CommonProto {
       "erated.MessageType\022\020\n\010sequence\030\002 \001(\004\022\017\n\007" +
       "content\030\003 \001(\014\022\r\n\005error\030\004 \001(\r\022\021\n\terrorTex" +
       "t\030\005 \001(\t\"\013\n\tKeepAlive\"\034\n\014Notification\022\014\n\004" +
-      "text\030\001 \001(\t*/\n\013MessageType\022\016\n\nKEEP_ALIVE\020" +
-      "\000\022\020\n\014NOTIFICATION\020\001*M\n\tErrorCode\022\013\n\007UNKN" +
-      "OWN\020\000\022\027\n\022SERVER_UNAVAILABLE\020\221N\022\032\n\025SERVER" +
-      "_INTERNAL_ERROR\020\222NB\017B\013CommonProtoH\001b\006pro",
-      "to3"
+      "text\030\001 \001(\t*B\n\013MessageType\022\016\n\nKEEP_ALIVE\020" +
+      "\000\022\020\n\014NOTIFICATION\020\001\022\021\n\rLOGIN_REQUEST\020\002*M" +
+      "\n\tErrorCode\022\013\n\007UNKNOWN\020\000\022\027\n\022SERVER_UNAVA" +
+      "ILABLE\020\221N\022\032\n\025SERVER_INTERNAL_ERROR\020\222NB\017B",
+      "\013CommonProtoH\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

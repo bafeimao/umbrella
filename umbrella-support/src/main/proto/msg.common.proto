@@ -21,6 +21,7 @@ message Packet {
 enum MessageType {
 	KEEP_ALIVE = 0x00000000;
 	NOTIFICATION =0x00000001;
+	LOGIN_REQUEST = 0x00000002;
 }
 
 message KeepAlive {

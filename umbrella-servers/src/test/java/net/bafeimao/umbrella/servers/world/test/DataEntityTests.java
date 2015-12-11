@@ -16,6 +16,7 @@
 
 package net.bafeimao.umbrella.servers.world.test;
 
+import com.google.common.collect.Iterators;
 import com.googlecode.cqengine.IndexedCollection;
 import com.googlecode.cqengine.query.Query;
 import com.googlecode.cqengine.resultset.ResultSet;
@@ -41,27 +42,11 @@ import static com.googlecode.cqengine.query.QueryFactory.*;
 public class DataEntityTests {
     private EntityManager manager = new EntityManager();
 
+    /**
+     * 按单个条件检索
+     */
     @Test
-    public void testGetAllEnemies() throws ExecutionException {
-        IndexedCollection<Enemy> enemies = manager.get(Enemy.class);
-
-        Assert.assertTrue(enemies.size() > 0);
-
-        System.out.println(enemies.size());
-    }
-
-    @Test
-    public void testGetEnemyByNativeCollection() throws ExecutionException {
-        IndexedCollection<Enemy> enemies = manager.get(Enemy.class);
-
-        Assert.assertTrue(enemies.size() > 0);
-
-        Enemy enemy = enemies.iterator().next();
-        System.out.println(enemy);
-    }
-
-    @Test
-    public void testQueryEnemyById() throws ExecutionException {
+    public void testUniqueResult() throws ExecutionException {
         IndexedCollection<Enemy> enemies = manager.get(Enemy.class);
         Query<Enemy> query = equal(Enemy_.ID, 10010101L);
         ResultSet<Enemy> resultSet = enemies.retrieve(query);
@@ -76,7 +61,7 @@ public class DataEntityTests {
      * 测试当查询返回值有多个的情况下调用uniqueResult()会抛出异常
      */
     @Test(expected = NonUniqueObjectException.class)
-    public void testUsageForUniqueResultWithException() throws ExecutionException {
+    public void testUniqueResultWithException() throws ExecutionException {
         IndexedCollection<Enemy> enemies = manager.get(Enemy.class);
         Query<Enemy> query = greaterThanOrEqualTo(Enemy_.GRADE, 1);
         ResultSet<Enemy> resultSet = enemies.retrieve(query);
@@ -87,8 +72,11 @@ public class DataEntityTests {
         System.out.println(enemy);
     }
 
+    /**
+     * StartsWith检索
+     */
     @Test
-    public void testQueryEnemyByStartsWith() throws ExecutionException {
+    public void testQueryByStartsWith() throws ExecutionException {
         IndexedCollection<Enemy> enemies = manager.get(Enemy.class);
         Query<Enemy> query = startsWith(Enemy_.NAME, "骷髅弓兵");
         ResultSet<Enemy> resultSet = enemies.retrieve(query);
@@ -103,20 +91,26 @@ public class DataEntityTests {
         System.out.println(resultSet.size());
     }
 
+    /**
+     * 组合多个条件检索
+     */
     @Test
-    public void testQueryEnemyByCompoundCriterias() throws ExecutionException {
-        IndexedCollection<Enemy> enemies = manager.get(Enemy.class);
+    public void testQueryByCompoundCriterias() throws ExecutionException {
         Query<Enemy> query = and(greaterThan(Enemy_.GRADE, 3), equal(Enemy_.QUALITY, Quality.WHITE));
-        ResultSet<Enemy> retrieved = enemies.retrieve(query);
+        ResultSet<Enemy> retrieved = manager.get(Enemy.class).retrieve(query);
         System.out.println(retrieved.size());
     }
 
+    /**
+     * 检索然后枚举打印出所有查询结果
+     */
     @Test
-    public void testQueryEnemyBySort() throws ExecutionException {
-        IndexedCollection<Enemy> enemies = manager.get(Enemy.class);
-        Query<Enemy> query = greaterThanOrEqualTo(Enemy_.GRADE, 1);
-        ResultSet<Enemy> resultSet = enemies.retrieve(query,
+    public void testQueryAndIterate() throws ExecutionException {
+        ResultSet<Enemy> resultSet = manager.get(Enemy.class).retrieve(
+                greaterThanOrEqualTo(Enemy_.GRADE, 1),
                 queryOptions(orderBy(descending(Enemy_.TYPE), ascending(Enemy_.GRADE))));
+
+        System.out.println(resultSet.size());
 
         Assert.assertTrue(resultSet.size() > 0);
 
@@ -126,20 +120,89 @@ public class DataEntityTests {
         }
     }
 
+    /**
+     * 检索并按多个字段排序
+     */
     @Test
-    public void testEnemyByNext() throws ExecutionException {
+    public void testQueryBySort() throws ExecutionException {
+        ResultSet<Enemy> resultSet = manager.get(Enemy.class).retrieve(
+                greaterThanOrEqualTo(Enemy_.GRADE, 1),
+                queryOptions(orderBy(descending(Enemy_.TYPE), ascending(Enemy_.GRADE))));
+
+        System.out.println(resultSet.size());
+    }
+
+    /**
+     * in查询
+     */
+    @Test
+    public void testQueryByIn() throws ExecutionException {
+        ResultSet<Enemy> enemies = manager.get(Enemy.class).retrieve(in(Enemy_.GRADE, 1, 2, 3));
+        System.out.println(enemies.size());
+    }
+
+    /**
+     * 对枚举型字段进行in查询
+     */
+    @Test
+    public void testQueryByIn2() throws ExecutionException {
+        ResultSet<Enemy> enemies = manager.get(Enemy.class).retrieve(in(Enemy_.QUALITY, Quality.GREEN, Quality.ORGANGE));
+        System.out.println(enemies.size());
+    }
+
+    /**
+     * 对枚举型字段进行in查询
+     */
+    @Test
+    public void testQueryByEqualOnList() throws ExecutionException {
+        ResultSet<Enemy> enemies = manager.get(Enemy.class).retrieve(equal(Enemy_.SKILLS, 200001002));
+        System.out.println(enemies.size());
+    }
+
+    /**
+     * has操作（is not null)
+     */
+    @Test
+    public void testQueryByHas() throws ExecutionException {
+        ResultSet<Enemy> enemies = manager.get(Enemy.class).retrieve(has(Enemy_.NAME));
+        System.out.println(enemies.size());
+    }
+
+    /**
+     * has操作（is null)
+     */
+    @Test
+    public void testQueryByNotHas() throws ExecutionException {
+        ResultSet<Enemy> enemies = manager.get(Enemy.class).retrieve(not(has(Enemy_.NAME)));
+        System.out.println(enemies.size());
+    }
+
+    /**
+     * 使用原生枚举器对IndexedCollection进行枚举
+     */
+    @Test
+    public void testQueryThenIterateNative() throws ExecutionException {
         IndexedCollection<Enemy> enemies = manager.get(Enemy.class);
 
         Assert.assertTrue(enemies.size() > 0);
 
         Enemy enemy = enemies.iterator().next();
         System.out.println(enemy);
-
-        // 从Enemy关联的Collection中找出下一条记录
-        //Enemy nextEnemy = enemy.next();
-
-//        System.out.println(nextEnemy);
     }
 
+    @Test
+    public void testQueryThenIterate() throws ExecutionException {
+        ResultSet<Enemy> resultSet = manager.get(Enemy.class).retrieve(
+                greaterThanOrEqualTo(Enemy_.GRADE, 5), queryOptions(orderBy(ascending(Enemy_.GRADE))));
 
+        Iterator<Enemy> iterator = resultSet.iterator();
+
+        // 取到gradle=5的Enemy
+        Enemy enemy5 = iterator.next();
+        System.out.println(enemy5);
+
+        // 取到gradle=10的Enemy
+        Enemy enemy10 = Iterators.get(iterator, 4);
+        System.out.println(enemy10);
+    }
 }
