@@ -10,11 +10,15 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by ktgu on 15/11/28.
  */
-public class KeepAliveMessageHandler implements MessageHandler<Packet> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(KeepAliveMessageHandler.class);
+public class KeepAliveHandler implements MessageHandler<Packet> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(KeepAliveHandler.class);
 
     @Override
     public void handle(HandlerContext ctx, Packet message) throws HandlerExecutionException {
         // NOOP
+    }
+
+    public int getMessageType() {
+        return 0;
     }
 }

@@ -21,7 +21,7 @@ import com.googlecode.cqengine.attribute.Attribute;
 import com.googlecode.cqengine.attribute.MultiValueNullableAttribute;
 import com.googlecode.cqengine.attribute.SimpleAttribute;
 import com.googlecode.cqengine.attribute.SimpleNullableAttribute;
-import com.googlecode.cqengine.index.navigable.NavigableIndex;
+import com.googlecode.cqengine.index.hash.HashIndex;
 import com.googlecode.cqengine.query.option.QueryOptions;
 import net.bafeimao.umbrella.servers.world.entity.enums.Quality;
 import org.joda.time.DateTime;
@@ -34,9 +34,9 @@ import java.util.Date;
 public class Enemy_ extends Enemy {
 
     public static void resolveIndexesFor(IndexedCollection<Enemy> collection) {
-        collection.addIndex(NavigableIndex.onAttribute(Enemy_.ID));
+//        collection.addIndex(NavigableIndex.onAttribute(Enemy_.ID));
 //        collection.addIndex(ReversedRadixTreeIndex.onAttribute(Enemy_.NAME));
-//        collection.addIndex(HashIndex.onAttribute(Enemy_.GRADE));
+        collection.addIndex(HashIndex.onAttribute(Enemy_.GRADE));
     }
 
     /**
