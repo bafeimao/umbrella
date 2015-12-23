@@ -28,10 +28,10 @@ import javax.annotation.Nullable;
  * @since 1.0
  */
 public class StringToNumberConverter extends Converter<String, Number> {
-    private Class<?> expectedType;
+    private Class<?> resultType;
 
     public StringToNumberConverter(Class<?> expectedType) {
-        this.expectedType = expectedType;
+        this.resultType = expectedType;
     }
 
     public static void main(String[] args) {
@@ -58,15 +58,15 @@ public class StringToNumberConverter extends Converter<String, Number> {
             d = 0d;
         }
 
-        if (expectedType == Byte.class || expectedType == byte.class) {
+        if (resultType == Byte.class || resultType == byte.class) {
             return Byte.valueOf(d.byteValue());
-        } else if (expectedType == Short.class || expectedType == short.class) {
+        } else if (resultType == Short.class || resultType == short.class) {
             return Short.valueOf(d.shortValue());
-        } else if (expectedType == Integer.class || expectedType == int.class) {
+        } else if (resultType == Integer.class || resultType == int.class) {
             return Integer.valueOf(d.intValue());
-        } else if (expectedType == Long.class || expectedType == long.class) {
+        } else if (resultType == Long.class || resultType == long.class) {
             return Long.valueOf(d.longValue());
-        } else if (expectedType == Float.class || expectedType == float.class) {
+        } else if (resultType == Float.class || resultType == float.class) {
             return Float.valueOf(d.floatValue());
         }
 
