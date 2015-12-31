@@ -2,9 +2,9 @@ syntax = "proto3";
 
 // import "google/protobuf/any.proto";
 
-package net.bafeimao.umbrella.support.generated;
+package Inuyasha.Generated;
 
-// option java_package = "net.bafeimao.umbrella.support.generated";
+option java_package = "net.bafeimao.umbrella.generated";
 
 option java_outer_classname = "CommonProto";
 
@@ -13,26 +13,39 @@ option optimize_for = SPEED;
 message Packet {
 	MessageType type = 1;
 	uint64 sequence = 2;
-	bytes content = 3;
+	bytes data = 3;
 	uint32 error = 4;
 	string errorText = 5;
 }
 
 enum MessageType {
-	KEEP_ALIVE = 0x00000000;
-	NOTIFICATION =0x00000001;
-	LOGIN_REQUEST = 0x00000002;
+ 	KEEP_ALIVE = 0;
+	NOTIFICATION =1;
+	LOGIN_REQUEST = 2;
+	LOGIN_RESPONSE = 3;
+	SERVER_LIST_REQUEST = 4;
+    SERVER_LIST_RESPONSE = 5;
 }
 
-message KeepAlive {
-}
+message KeepAlive {}
 
 message Notification {
 	string text = 1;
 }
 
 enum ErrorCode {
-	UNKNOWN = 0x00000000;
+	UNKNOWN = 0;
 	SERVER_UNAVAILABLE = 10001;
 	SERVER_INTERNAL_ERROR = 10002;
+}
+
+message ServerInfo {
+	string name = 1;
+	string host = 2;
+	string port = 3;
+}
+message ServerListRequest {}
+
+message ServerListResponse {
+	repeated ServerInfo server_list = 1;
 }

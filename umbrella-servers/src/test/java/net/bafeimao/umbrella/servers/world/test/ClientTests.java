@@ -17,8 +17,8 @@
 package net.bafeimao.umbrella.servers.world.test;
 
 import net.bafeimao.umbrella.servers.generated.AccountProto.LoginRequest;
-import net.bafeimao.umbrella.support.generated.CommonProto.KeepAlive;
-import net.bafeimao.umbrella.support.generated.CommonProto.Notification;
+import net.bafeimao.umbrella.generated.CommonProto.KeepAlive;
+import net.bafeimao.umbrella.generated.CommonProto.Notification;
 import net.bafeimao.umbrella.support.network.netty.SimpleSocketClient;
 import org.junit.After;
 import org.junit.Before;
@@ -63,7 +63,7 @@ public class ClientTests {
             socketClient.write(Notification.newBuilder().setText("ping"));
         }
         System.out.println(socketClient.getMessages());
-}
+    }
 
     @After
     public void destroy() throws InterruptedException {

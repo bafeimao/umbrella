@@ -20,8 +20,8 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.Descriptors.EnumValueDescriptor;
 import com.google.protobuf.MessageLite;
 import com.google.protobuf.MessageLiteOrBuilder;
-import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
-import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
+import net.bafeimao.umbrella.generated.CommonProto.MessageType;
+import net.bafeimao.umbrella.generated.CommonProto.Packet;
 
 import java.util.HashMap;
 import java.util.List;
@@ -60,7 +60,7 @@ public class PacketWrapper {
         builder.setSequence(SEQUENCE.incrementAndGet());
         MessageType messageType = getMessageType(message);
         builder.setType(messageType);
-        builder.setContent(bytes);
+        builder.setData(bytes);
 
         return builder.build();
     }
@@ -80,7 +80,7 @@ public class PacketWrapper {
         builder.setSequence(SEQUENCE.incrementAndGet());
         MessageType messageType = getMessageType(message);
         builder.setType(messageType);
-        builder.setContent(bytes);
+        builder.setData(bytes);
 
         return builder;
     }

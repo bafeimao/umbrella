@@ -18,9 +18,9 @@ package net.bafeimao.umbrella.support.server.message;
 
 import com.google.common.base.Preconditions;
 import com.google.protobuf.InvalidProtocolBufferException;
-import net.bafeimao.umbrella.support.generated.CommonProto;
-import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
-import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
+import net.bafeimao.umbrella.generated.CommonProto;
+import net.bafeimao.umbrella.generated.CommonProto.MessageType;
+import net.bafeimao.umbrella.generated.CommonProto.Packet;
 import net.bafeimao.umbrella.support.network.netty.handler.DefaultServerHandler;
 import net.bafeimao.umbrella.support.util.Errors;
 import org.slf4j.Logger;

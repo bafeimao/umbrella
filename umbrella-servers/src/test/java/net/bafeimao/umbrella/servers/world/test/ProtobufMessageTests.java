@@ -20,9 +20,9 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import net.bafeimao.umbrella.servers.generated.TestProto.MyMap;
 import net.bafeimao.umbrella.servers.generated.TestProto.Test1;
-import net.bafeimao.umbrella.support.generated.CommonProto.KeepAlive;
-import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
-import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
+import net.bafeimao.umbrella.generated.CommonProto.KeepAlive;
+import net.bafeimao.umbrella.generated.CommonProto.MessageType;
+import net.bafeimao.umbrella.generated.CommonProto.Packet;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -132,10 +132,10 @@ public class ProtobufMessageTests {
         packetBuilder.setType(MessageType.KEEP_ALIVE);
 
         KeepAlive.Builder keepAliveBuilder = KeepAlive.newBuilder();
-        packetBuilder.setContent(keepAliveBuilder.build().toByteString());
+        packetBuilder.setData(keepAliveBuilder.build().toByteString());
 
-        ByteString data = packetBuilder.build().getContent();
-        packetBuilder.setContent(data);
+        ByteString data = packetBuilder.build().getData();
+        packetBuilder.setData(data);
         Packet packet = packetBuilder.build();
         System.out.println(packet);
 

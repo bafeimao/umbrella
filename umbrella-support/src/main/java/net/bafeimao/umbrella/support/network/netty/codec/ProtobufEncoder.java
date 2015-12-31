@@ -19,7 +19,7 @@ package net.bafeimao.umbrella.support.network.netty.codec;
 import com.google.protobuf.MessageLiteOrBuilder;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
-import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
+import net.bafeimao.umbrella.generated.CommonProto.Packet;
 import net.bafeimao.umbrella.support.network.netty.message.PacketWrapper;
 
 import java.util.List;

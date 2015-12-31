@@ -20,9 +20,9 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.AttributeKey;
-import net.bafeimao.umbrella.support.generated.CommonProto.ErrorCode;
-import net.bafeimao.umbrella.support.generated.CommonProto.Notification;
-import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
+import net.bafeimao.umbrella.generated.CommonProto.ErrorCode;
+import net.bafeimao.umbrella.generated.CommonProto.Notification;
+import net.bafeimao.umbrella.generated.CommonProto.Packet;
 import net.bafeimao.umbrella.support.server.Application;
 import net.bafeimao.umbrella.support.server.message.HandlerContext;
 import net.bafeimao.umbrella.support.server.message.MessageDispatcher;
@@ -34,7 +34,7 @@ import java.io.IOException;
 public class DefaultServerHandler extends SimpleChannelInboundHandler<Packet> {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultServerHandler.class);
     private MessageDispatcher<Packet> messageDispatcher;
-    private AttributeKey<HandlerContext> key = AttributeKey.newInstance("neutral_context");
+    private static AttributeKey<HandlerContext> key = AttributeKey.newInstance("neutral_context");
 
     public DefaultServerHandler(MessageDispatcher<Packet> dispatcher) {
         messageDispatcher = dispatcher;
@@ -44,7 +44,7 @@ public class DefaultServerHandler extends SimpleChannelInboundHandler<Packet> {
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
         if (Application.getInstance().getState() != Application.STARTED) {
             Packet.Builder builder = Packet.newBuilder();
-            builder.setContent(Notification.newBuilder().setText("服务器还没有启动好").build().toByteString());
+            builder.setData(Notification.newBuilder().setText("服务器还没有启动好").build().toByteString());
             ctx.write(builder);
         } else {
             super.channelRegistered(ctx);

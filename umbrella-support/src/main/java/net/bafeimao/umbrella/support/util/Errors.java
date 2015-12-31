@@ -1,7 +1,7 @@
 package net.bafeimao.umbrella.support.util;
 
-import net.bafeimao.umbrella.support.generated.CommonProto.ErrorCode;
-import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
+import net.bafeimao.umbrella.generated.CommonProto.ErrorCode;
+import net.bafeimao.umbrella.generated.CommonProto.Packet;
 import net.bafeimao.umbrella.support.server.message.HandlerContext;
 
 /**

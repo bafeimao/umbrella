@@ -16,10 +16,10 @@
 
 package net.bafeimao.umbrella.servers.world.handler;
 
-import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
-import net.bafeimao.umbrella.support.generated.CommonProto.Notification;
-import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
-import net.bafeimao.umbrella.support.server.message.Accept;
+import net.bafeimao.umbrella.generated.CommonProto.MessageType;
+import net.bafeimao.umbrella.generated.CommonProto.Notification;
+import net.bafeimao.umbrella.generated.CommonProto.Packet;
+import net.bafeimao.umbrella.support.server.message.Listen;
 import net.bafeimao.umbrella.support.server.message.HandlerContext;
 import net.bafeimao.umbrella.support.server.message.HandlerExecutionException;
 import org.slf4j.Logger;
@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 public class MiscMessageService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MiscMessageService.class);
 
-    @Accept(MessageType.NOTIFICATION)
+    @Listen(MessageType.NOTIFICATION)
     public void notification(HandlerContext ctx, Packet packet) throws HandlerExecutionException {
         LOGGER.info("handle notification from client...");
 

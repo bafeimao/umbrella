@@ -43,7 +43,7 @@ public class EntityManager<T extends DataEntity> {
                     IndexedCollection<T> collection = new ConcurrentIndexedCollection<T>();
                     collection.addAll(entities);
 
-                    this.resolveIndexes(entityClass, collection);
+                    // this.resolveIndexes(entityClass, collection);
 
                     return collection;
                 }

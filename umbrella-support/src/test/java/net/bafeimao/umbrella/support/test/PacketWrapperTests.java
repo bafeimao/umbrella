@@ -19,10 +19,10 @@ package net.bafeimao.umbrella.support.test;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Descriptors.Descriptor;
 import com.google.protobuf.Descriptors.EnumValueDescriptor;
-import net.bafeimao.umbrella.support.generated.CommonProto;
-import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
-import net.bafeimao.umbrella.support.generated.CommonProto.Notification;
-import net.bafeimao.umbrella.support.generated.CommonProto.PacketOrBuilder;
+import net.bafeimao.umbrella.generated.CommonProto;
+import net.bafeimao.umbrella.generated.CommonProto.MessageType;
+import net.bafeimao.umbrella.generated.CommonProto.Notification;
+import net.bafeimao.umbrella.generated.CommonProto.PacketOrBuilder;
 import net.bafeimao.umbrella.support.network.netty.message.PacketWrapper;
 import org.junit.Test;
 

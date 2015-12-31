@@ -22,6 +22,7 @@ import com.google.common.base.Strings;
 import net.bafeimao.umbrella.support.util.json.JsonUtil;
 
 import javax.annotation.Nullable;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,26 +32,34 @@ import java.util.List;
  * @author gukaitong
  * @since 1.0
  */
-public class JsonToArrayListConverter extends Converter<String, List<?>> {
+public class JsonToObjectConverter<T> extends Converter<String, Object> {
 
-    private TypeReference typeReference;
+    private Class<T> resultType;
 
-    public JsonToArrayListConverter(TypeReference<?> typeReference) {
-        this.typeReference = typeReference;
+    public JsonToObjectConverter() {
+        this.resultType = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
     @Override
     @Nullable
-    protected List<?> doForward(String s) {
+    protected T doForward(String s) {
         if (!Strings.isNullOrEmpty(s)) {
-            return JsonUtil.toBean(s, ArrayList.class);
+            return JsonUtil.toBean(s, resultType);
         }
         return null;
     }
 
     @Override
     @Nullable
-    protected String doBackward(List<?> list) {
-        return JsonUtil.toJson(list);
+    protected String doBackward(Object object) {
+        return JsonUtil.toJson(object);
+    }
+
+    public static void main(String[] args) {
+        JsonToObjectConverter converter = new JsonToObjectConverter<Integer>();
+
+
+        Object m = converter.doForward("10");
+        System.out.println(m);
     }
 }

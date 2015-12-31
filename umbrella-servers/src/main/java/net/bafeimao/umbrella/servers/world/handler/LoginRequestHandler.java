@@ -1,7 +1,7 @@
 package net.bafeimao.umbrella.servers.world.handler;
 
-import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
-import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
+import net.bafeimao.umbrella.generated.CommonProto.MessageType;
+import net.bafeimao.umbrella.generated.CommonProto.Packet;
 import net.bafeimao.umbrella.support.server.message.DelegatedMessageHandler;
 import net.bafeimao.umbrella.support.server.message.HandlerContext;
 import net.bafeimao.umbrella.support.server.message.HandlerExecutionException;

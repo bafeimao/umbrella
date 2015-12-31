@@ -16,6 +16,7 @@
 
 package net.bafeimao.umbrella.support.data.entity;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Converter;
 import net.bafeimao.umbrella.support.data.entity.converter.*;
 import org.joda.time.DateTime;
@@ -64,7 +65,8 @@ public abstract class AbstractEntityParser implements EntityParser {
         convertersByType.put(Date.class, new StringToDateConverter());
         convertersByType.put(DateTime.class, new StringToDateTimeConverter());
 
-        convertersByType.put(List.class, new JsonToArrayListConverter());
+        convertersByType.put(List.class, new JsonToArrayListConverter(new TypeReference<Object>() {
+        }));
     }
 
     public AbstractEntityParser() {

@@ -54,7 +54,7 @@ public class ExcelEntityParser extends AbstractEntityParser {
 
         try {
             ExcelMapping mapping = entityClass.getAnnotation(ExcelMapping.class);
-            String fileName = "D:\\" + mapping.file();
+            String fileName = "e:\\" + mapping.file();
             String sheetName = mapping.sheet();
 
             inputStream = new FileInputStream(fileName); // 实例化一个FileInputStream用于读取Excel文件内容流
@@ -93,7 +93,7 @@ public class ExcelEntityParser extends AbstractEntityParser {
         try {
             // 数据行是从第三行开始的，第一行是列名(中文），第二行是列名（英文)
             for (int rowNum = 2; rowNum <= sheet.getLastRowNum(); rowNum++) {
-                LOGGER.info("Parsing {} with data row #{} ...", entityClass.getSimpleName(), rowNum + 1);
+                // LOGGER.info("Parsing {} with data row #{} ...", entityClass.getSimpleName(), rowNum + 1);
 
                 E instance = entityClass.newInstance();
                 for (Field field : getEntityFields(entityClass)) {
@@ -110,8 +110,8 @@ public class ExcelEntityParser extends AbstractEntityParser {
                             try {
                                 String cellValue = this.getCellValue(cell);
 
-                                LOGGER.debug("Assigning {}.{} = {} ({}))", entityClass.getSimpleName()
-                                        , field.getName(), cellValue, field.getType().getSimpleName());
+//                                LOGGER.debug("Assigning {}.{} = {} ({}))", entityClass.getSimpleName()
+//                                        , field.getName(), cellValue, field.getType().getSimpleName());
 
                                 this.assignFieldValue(instance, field, cellValue);
                             } catch (IllegalAccessException e) {

@@ -21,6 +21,7 @@ import com.googlecode.cqengine.IndexedCollection;
 import com.googlecode.cqengine.query.Query;
 import com.googlecode.cqengine.resultset.ResultSet;
 import com.googlecode.cqengine.resultset.common.NonUniqueObjectException;
+import net.bafeimao.umbrella.servers.generated.AccountProto;
 import net.bafeimao.umbrella.servers.world.entity.Enemy;
 import net.bafeimao.umbrella.servers.world.entity.Enemy_;
 import net.bafeimao.umbrella.servers.world.entity.enums.Quality;
@@ -89,6 +90,10 @@ public class DataEntityTests {
         }
 
         System.out.println(resultSet.size());
+    }
+
+    @Test
+    public void test1() {
     }
 
     /**

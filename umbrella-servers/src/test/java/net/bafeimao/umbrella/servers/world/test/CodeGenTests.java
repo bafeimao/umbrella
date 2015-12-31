@@ -18,7 +18,7 @@ package net.bafeimao.umbrella.servers.world.test;
 
 import net.bafeimao.umbrella.servers.world.handler.LoginRequestHandler;
 import net.bafeimao.umbrella.servers.world.handler.RoleMessageService;
-import net.bafeimao.umbrella.support.generated.CommonProto.MessageType;
+import net.bafeimao.umbrella.generated.CommonProto.MessageType;
 import net.bafeimao.umbrella.support.server.message.HandlerExecutionException;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;

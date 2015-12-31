@@ -9,7 +9,7 @@ import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
-import net.bafeimao.umbrella.support.generated.CommonProto.Packet;
+import net.bafeimao.umbrella.generated.CommonProto.Packet;
 import net.bafeimao.umbrella.support.network.netty.codec.ProtobufEncoder;
 import net.bafeimao.umbrella.support.network.netty.handler.DefaultServerHandler;
 import net.bafeimao.umbrella.support.network.netty.handler.ProtocolStatsHandler;
@@ -142,15 +142,15 @@ public class SocketServerBuilder {
             }
 
             if (delegate != null) {
-                /** 找出有{@link Accept}注解的并且继承自{@link MessageHandler}的类 */
-                if (clazz.isAnnotationPresent(Accept.class) && clazz.isAssignableFrom(MessageHandler.class)) {
-                    handlersMap.put(clazz.getAnnotation(Accept.class).value(), (MessageHandler<?>) delegate);
+                /** 找出有{@link Listen}注解的并且继承自{@link MessageHandler}的类 */
+                if (clazz.isAnnotationPresent(Listen.class) && clazz.isAssignableFrom(MessageHandler.class)) {
+                    handlersMap.put(clazz.getAnnotation(Listen.class).value(), (MessageHandler<?>) delegate);
                 } else {
                     Method[] methods = clazz.getDeclaredMethods();
                     for (Method method : methods) {
-                        if (method.isAnnotationPresent(Accept.class)) {
+                        if (method.isAnnotationPresent(Listen.class)) {
                             MessageHandler handler = new MessageHandlerAdapter<Packet>(delegate, method);
-                            handlersMap.put(method.getAnnotation(Accept.class).value(), handler);
+                            handlersMap.put(method.getAnnotation(Listen.class).value(), handler);
                         }
                     }
                 }

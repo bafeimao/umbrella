@@ -30,8 +30,8 @@ import javax.annotation.Nullable;
 public class StringToNumberConverter extends Converter<String, Number> {
     private Class<?> resultType;
 
-    public StringToNumberConverter(Class<?> expectedType) {
-        this.resultType = expectedType;
+    public StringToNumberConverter(Class<?> resultType) {
+        this.resultType = resultType;
     }
 
     public static void main(String[] args) {
