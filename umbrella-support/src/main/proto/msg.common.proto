@@ -14,8 +14,6 @@ message Packet {
 	MessageType type = 1;
 	uint64 sequence = 2;
 	bytes data = 3;
-	uint32 error = 4;
-	string errorText = 5;
 }
 
 enum MessageType {
@@ -31,6 +29,11 @@ message KeepAlive {}
 
 message Notification {
 	string text = 1;
+}
+
+message Error {
+	ErrorCode code = 1;
+	string text = 2;
 }
 
 enum ErrorCode {

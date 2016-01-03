@@ -26,6 +26,7 @@ import net.bafeimao.umbrella.generated.CommonProto.Packet;
 import net.bafeimao.umbrella.support.server.Application;
 import net.bafeimao.umbrella.support.server.message.HandlerContext;
 import net.bafeimao.umbrella.support.server.message.MessageDispatcher;
+import net.bafeimao.umbrella.support.util.Errors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,15 +56,16 @@ public class DefaultServerHandler extends SimpleChannelInboundHandler<Packet> {
     public void channelRead0(ChannelHandlerContext ctx, Packet packet) throws Exception {
         LOGGER.info("RECEIVED: {} [type:{}]", packet, packet.getType());
 
-        try {
-            ctx.attr(key).setIfAbsent(new NettyChannelHandlerContext(ctx));
-            HandlerContext context = ctx.attr(key).get();
+        ctx.attr(key).setIfAbsent(new NettyChannelHandlerContext(ctx));
+        HandlerContext context = ctx.attr(key).get();
 
+        try {
             messageDispatcher.dispatch(context, packet);
         } catch (Exception e) {
             LOGGER.error("消息处理时发生未捕获的异常:{}", e);
 
-            ctx.write(packet.toBuilder().setError(ErrorCode.SERVER_INTERNAL_ERROR_VALUE));
+            // ctx.write(packet.toBuilder().setError(ErrorCode.SERVER_INTERNAL_ERROR_VALUE));
+            Errors.sendError(context,packet, ErrorCode.SERVER_INTERNAL_ERROR);
         }
     }
 
